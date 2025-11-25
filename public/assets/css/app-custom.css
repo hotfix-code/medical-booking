@@ -1,0 +1,9 @@
+.btn:hover .lucide.role-card-icon
+{
+    color: white !important;
+}
+
+.datatables-action-buttons i
+{
+    font-size: 1.25rem !important;
+}
