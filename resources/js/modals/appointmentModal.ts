@@ -7,6 +7,7 @@ import flatpickr from "flatpickr";
 import {clearSelect2} from "@/utils/select2.ts";
 import {resetFlatpickr} from "@/utils/flatpickr.ts";
 import { DateTime } from "luxon";
+import { t } from '@/utils/i18n';
 
 type Schedule = {
     id: number;
@@ -20,7 +21,7 @@ export const createAppointmentModal = async () => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new appointment?'),
+        title: Header(t('appointments.modals.create')),
         html: formHtml,
         width: '800px',
         didOpen: async () => {
@@ -34,7 +35,7 @@ export const createAppointmentModal = async () => {
 
             const appointmentTimeSelect = $('#appointment-time-select')
                 .select2({
-                    placeholder: 'Select a time',
+                    placeholder: t('appointments.placeholders.select_time'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -54,7 +55,7 @@ export const createAppointmentModal = async () => {
             const patientSelect = document.getElementById('appointment-patient-select') as HTMLSelectElement;
             $(patientSelect)
                 .select2({
-                    placeholder: 'Select a patient',
+                    placeholder: t('appointments.placeholders.select_patient'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -71,7 +72,7 @@ export const createAppointmentModal = async () => {
 
             const doctorSelect = $('#appointment-doctor-select')
                 .select2({
-                    placeholder: 'Select a doctor',
+                    placeholder: t('appointments.placeholders.select_doctor'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -138,7 +139,7 @@ export const createAppointmentModal = async () => {
             const specialtySelect = document.getElementById('appointment-specialty-select') as HTMLSelectElement;
             $(specialtySelect)
                 .select2({
-                    placeholder: 'Select a doctor',
+                    placeholder: t('appointments.placeholders.select_doctor'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -166,18 +167,18 @@ export const createAppointmentModal = async () => {
             const statusSelect = document.getElementById('appointment-status-select') as HTMLSelectElement;
             $(statusSelect)
                 .select2({
-                    placeholder: 'Select a status',
+                    placeholder: t('appointments.placeholders.select_status'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
                 })
                 .on('select2:select', function (e) {
                     ['pending', 'confirmed'].includes(e.params.data.id)
-                        ? isActiveInput.value = 'Yes'
-                        : isActiveInput.value = 'No';
+                        ? isActiveInput.value = t('common.states.yes')
+                        : isActiveInput.value = t('common.states.no');
                 })
                 .on('select2:unselecting', function () {
-                    isActiveInput.value = 'N/A';
+                    isActiveInput.value = t('common.states.na');
                 });
 
         },
@@ -199,7 +200,7 @@ export const createAppointmentModal = async () => {
 }
 
 export const updateAppointmentModal = async (id: string) => {
-    await LoadingModal('Loading Appointment data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('appointments.resource') }));
     const { data } = await AppointmentService.fetch(id);
     const appointment = data.data;
 
@@ -207,7 +208,7 @@ export const updateAppointmentModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit appointment?'),
+        title: Header(t('appointments.modals.edit')),
         html: formHtml,
         width: '800px',
         didOpen: async () => {
@@ -267,23 +268,23 @@ export const updateAppointmentModal = async (id: string) => {
             if (statusSelect) {
                 $(statusSelect)
                     .select2({
-                        placeholder: 'Select a status',
+                        placeholder: t('appointments.placeholders.select_status'),
                         allowClear: true,
                         dir: 'ltr',
                         dropdownParent: dp,
                     })
                     .on('select2:select', function (e) {
                         ['pending', 'confirmed'].includes(e.params.data.id)
-                            ? isActiveInput.value = 'Yes'
-                            : isActiveInput.value = 'No';
+                            ? isActiveInput.value = t('common.states.yes')
+                            : isActiveInput.value = t('common.states.no');
                     })
                     .on('select2:unselecting', function () {
-                        isActiveInput.value = 'N/A';
+                        isActiveInput.value = t('common.states.na');
                     });
                 statusSelect.value = appointment.status;
             }
 
-            if (isActiveInput) isActiveInput.value = appointment.is_active ? 'Yes' : 'No';
+            if (isActiveInput) isActiveInput.value = appointment.is_active ? t('common.states.yes') : t('common.states.no');
             if (notesInput) notesInput.value = appointment.notes || '';
 
         },
@@ -294,15 +295,15 @@ export const updateAppointmentModal = async (id: string) => {
             });
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deleteAppointmentModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete appointment?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the appointment?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('appointments.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('appointments.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await AppointmentService.delete(id);
             return data;

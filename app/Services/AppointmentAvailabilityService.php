@@ -26,7 +26,7 @@ class AppointmentAvailabilityService
 
             if ($schedules->isEmpty())
             {
-                return AppResponse::success([], 'No schedules found for this day.');
+                return AppResponse::success([], __('appointments.errors.no_schedules'));
             }
 
             $bookedSlots = $this->getBookedSlots($doctorId, $date);
@@ -104,13 +104,13 @@ class AppointmentAvailabilityService
                 return count($room['slots']) > 0;
             });
 
-            return AppResponse::success(array_values($availableSlotsByRoom), 'Available slots retrieved successfully.');
+            return AppResponse::success(array_values($availableSlotsByRoom), __('appointments.flash.slots_retrieved'));
 
         } catch (\Exception $e) {
             report($e);
             return AppResponse::error(
-                ['error' => 'Unable to fetch available slots.'],
-                'An error occurred while retrieving available slots.',
+                ['error' => __('appointments.errors.unable_slots')],
+                __('appointments.errors.slots_error'),
                 500
             );
         }
@@ -131,7 +131,7 @@ class AppointmentAvailabilityService
 
             if ($schedules->isEmpty())
             {
-                return AppResponse::success([], 'No schedules found for this doctor, specialty and day.');
+                return AppResponse::success([], __('appointments.errors.no_schedules_doctor'));
             }
 
             $bookedSlots = $this->getBookedSlots($doctorId, $date);
@@ -211,13 +211,13 @@ class AppointmentAvailabilityService
                 return count($room['slots']) > 0;
             });
 
-            return AppResponse::success(array_values($availableSlotsByRoom), 'Available slots for specialty retrieved successfully.');
+            return AppResponse::success(array_values($availableSlotsByRoom), __('appointments.flash.slots_specialty_retrieved'));
 
         } catch (\Exception $e) {
             report($e);
             return AppResponse::error(
-                ['error' => 'Unable to fetch available slots.'],
-                'An error occurred while retrieving available slots for specialty.',
+                ['error' => __('appointments.errors.unable_slots')],
+                __('appointments.errors.slots_specialty_error'),
                 500
             );
         }
@@ -230,8 +230,8 @@ class AppointmentAvailabilityService
             if ($date <= Carbon::now()->toDateString())
             {
                 return AppResponse::error(
-                    ['error' => 'The date must be in the future.'],
-                    'The date must be in the future.'
+                    ['error' => __('appointments.errors.date_future')],
+                    __('appointments.errors.date_future')
                 );
             }
 
@@ -292,13 +292,13 @@ class AppointmentAvailabilityService
                 'specialties_count' => collect($doctorData['schedules'])->pluck('specialty_id')->unique()->count(),
             ];
 
-            return AppResponse::success($doctorData, 'Doctor complete availability retrieved successfully.');
+            return AppResponse::success($doctorData, __('appointments.flash.availability_retrieved'));
 
         } catch (\Exception $e) {
             report($e);
             return AppResponse::error(
-                ['error' => 'Unable to fetch doctor availability.'],
-                'An error occurred while retrieving doctor availability.',
+                ['error' => __('appointments.errors.unable_availability')],
+                __('appointments.errors.availability_error'),
                 500
             );
         }

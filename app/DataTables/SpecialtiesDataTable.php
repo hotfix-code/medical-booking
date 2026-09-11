@@ -7,25 +7,19 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class SpecialtiesDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder<Specialty> $query Results from query() method.
-     */
+    use TranslatesDataTable;
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return new EloquentDataTable($query)
             ->setRowId('id')
             ->editColumn('description', function (Specialty $specialty) {
-                return $specialty->description ? Str::limit($specialty->description, 50) : 'N/A';
+                return $specialty->description ? Str::limit($specialty->description, 50) : __('common.states.na');
             })
             ->editColumn('created_at', function (Specialty $specialty) {
                 return $specialty->created_at->format('Y-m-d H:ia');
@@ -42,19 +36,11 @@ class SpecialtiesDataTable extends DataTable
             });
     }
 
-    /**
-     * Get the query source of dataTable.
-     *
-     * @return QueryBuilder<Specialty>
-     */
     public function query(Specialty $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
     public function html(): HtmlBuilder
     {
         return $this->builder()
@@ -65,38 +51,25 @@ class SpecialtiesDataTable extends DataTable
             ->selectStyleSingle()
             ->responsive()
             ->autoWidth(false)
-//            ->buttons([
-//                Button::make('excel'),
-//                Button::make('csv'),
-//                Button::make('pdf'),
-//                Button::make('print'),
-//                Button::make('reset'),
-//                Button::make('reload')
-//            ])
-        ;
+            ->language($this->languageOptions());
     }
 
-    /**
-     * Get the dataTable columns definition.
-     */
     public function getColumns(): array
     {
         return [
-            Column::make('name'),
-            Column::make('description'),
-            Column::make('created_at')->title('Created'),
-            Column::make('updated_at')->title('Updated'),
+            Column::make('name')->title(__('specialties.columns.name')),
+            Column::make('description')->title(__('specialties.columns.description')),
+            Column::make('created_at')->title(__('datatables.columns.created_at')),
+            Column::make('updated_at')->title(__('datatables.columns.updated_at')),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->title(__('datatables.columns.action'))
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
-    /**
-     * Get the filename for export.
-     */
     protected function filename(): string
     {
         return 'Specialties_' . date('YmdHis');

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Enums\Role as RoleEnum;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\HasPermissionChecks;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
 class RolePolicy
 {
@@ -18,29 +18,17 @@ class RolePolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'role.view',
-            'You do not have permission to fetch roles.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'role.view');
     }
 
     public function rolePermissionsSelected(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            ['role.view', 'permission.view'],
-            'You do not have permission to fetch roles.'
-        );
+        return $this->allowIfHasRoleOrCan($user, ['role.view', 'permission.view']);
     }
 
     public function rolePermissionsUpdate(User $user, Role $role): Response
     {
-        $hasPermission = $this->allowIfHasRoleOrCan(
-            $user,
-            ['role.edit', 'permission.edit'],
-            'You do not have permission to update roles.'
-        );
+        $hasPermission = $this->allowIfHasRoleOrCan($user, ['role.edit', 'permission.edit']);
 
         if (!$hasPermission->allowed())
         {
@@ -49,7 +37,7 @@ class RolePolicy
 
         if ($role->name === 'super-admin')
         {
-            return Response::deny('You can not edit permissions of the super administrator.');
+            return Response::deny(__('roles.errors.cannot_edit_super_admin_permissions'));
         }
 
         return Response::allow();
@@ -57,29 +45,21 @@ class RolePolicy
 
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'role.create',
-            'You do not have permission to create roles.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'role.create');
     }
 
     public function update(User $user, Role $role): Response
     {
-        $hasPermission = $this->allowIfHasRoleOrCan(
-            $user,
-            'role.edit',
-            'You do not have permission to edit roles.'
-        );
+        $hasPermission = $this->allowIfHasRoleOrCan($user, 'role.edit');
 
         if (!$hasPermission->allowed())
         {
             return $hasPermission;
         }
 
-        if ($role->name === 'super-admin')
+        if (RoleEnum::isLocked($role->name))
         {
-            return Response::deny('You can not edit the super administrator.');
+            return Response::deny(__('roles.errors.cannot_edit_locked'));
         }
 
         return Response::allow();
@@ -87,20 +67,16 @@ class RolePolicy
 
     public function delete(User $user, Role $role): Response
     {
-        $hasPermission = $this->allowIfHasRoleOrCan(
-            $user,
-            'role.delete',
-            'You do not have permission to delete roles.'
-        );
+        $hasPermission = $this->allowIfHasRoleOrCan($user, 'role.delete');
 
         if (!$hasPermission->allowed())
         {
             return $hasPermission;
         }
 
-        if ($role->name === 'super-admin')
+        if (RoleEnum::isLocked($role->name))
         {
-            return Response::deny('You can not delete the super administrator.');
+            return Response::deny(__('roles.errors.cannot_delete_locked'));
         }
 
         return Response::allow();

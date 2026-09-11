@@ -9,13 +9,13 @@
     <div class="main-content app-content">
         <div class="container-fluid">
             <div class="page-header">
-                <h1 class="page-title my-auto">Patients</h1>
+                <h1 class="page-title my-auto">{{ __('patients.title') }}</h1>
                 <div>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0)">User Management</a>
+                            <a href="javascript:void(0)">{{ __('nav.categories.user_management') }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Patients</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('patients.title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -25,19 +25,19 @@
                         <div class="card-header justify-content-between">
                             <div class="d-flex justify-content-between align-items-baseline w-100">
                                 <div class="card-title">
-                                    Patients Table
+                                    {{ __('patients.table') }}
                                 </div>
                                 @canOrRole('patient.create', 'super-admin')
                                 <div>
-                                    <button class="btn btn-primary" id="add-new-row">Add Patient</button>
+                                    <button class="btn btn-primary" id="add-new-row">{{ __('patients.add') }}</button>
                                 </div>
                                 @endcanOrRole
                             </div>
                             @role('doctor')
                                 <div class="alert-container w-100 my-2">
                                     <div class="alert alert-info alert-dismissible fade show" role="alert">
-                                        <strong>Information:</strong> Only patients with scheduled appointments or assigned to your care are displayed.
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                        <strong>{{ __('common.information') }}:</strong> {{ __('patients.doctor_scope_info') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('common.actions.close') }}">
                                             <i class="bi bi-x"></i>
                                         </button>
                                     </div>

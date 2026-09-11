@@ -32,11 +32,7 @@ class ConsultingRoomPolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'consulting_room.create',
-            'You do not have permission to create consulting rooms.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'consulting_room.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class ConsultingRoomPolicy
      */
     public function update(User $user, ConsultingRoom $consultingRoom): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'consulting_room.edit',
-            'You do not have permission to edit consulting rooms.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'consulting_room.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class ConsultingRoomPolicy
      */
     public function delete(User $user, ConsultingRoom $consultingRoom): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'consulting_room.delete',
-            'You do not have permission to delete consulting rooms.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'consulting_room.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class ConsultingRoomPolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'consulting_room.view',
-            'You do not have permission to fetch consulting rooms.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'consulting_room.view');
     }
 }

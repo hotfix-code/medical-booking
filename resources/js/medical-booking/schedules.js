@@ -4,6 +4,7 @@ import http from "@/utils/http.js";
 import flatpickr from "flatpickr";
 import {lockTimeDropdownInputs} from "@/utils/flatpickr.js";
 import {resetSelect2} from "@/utils/select2.js";
+import { t } from "@/utils/i18n.js";
 
 $(function () {
     "use strict";
@@ -32,7 +33,7 @@ $(function () {
                 const schedule = value.data;
 
                 if (status === 'confirmed') {
-                    SuccessModal('Schedule Updated', 'Schedule updated successfully')
+                    SuccessModal(t('schedules.flash.updated_title'), t('schedules.flash.updated'))
                         .then(() => {
                             calendar.getEventSources().forEach(src => src.remove());
                             calendar.addEventSource({
@@ -47,7 +48,7 @@ $(function () {
                 }
 
                 if (status === 'denied') {
-                    SuccessModal('Schedule Deleted', 'Schedule deleted successfully')
+                    SuccessModal(t('schedules.flash.deleted_title'), t('schedules.flash.deleted'))
                         .then(() => {
                             calendar.getEventSources().forEach(src => src.remove());
                             calendar.addEventSource({
@@ -68,7 +69,7 @@ $(function () {
 
     const consultingRoomSelect = $('#schedule-consulting-room-input')
         .select2({
-            placeholder: 'Select a consulting room',
+            placeholder: t('schedules.placeholders.select_consulting_room'),
             allowClear: true,
             dir: 'ltr',
         })
@@ -86,20 +87,20 @@ $(function () {
 
     const specialtyDoctorSelect = $('#schedule-specialty-select')
         .select2({
-            placeholder: "Select a specialty",
+            placeholder: t('schedules.placeholders.select_specialty'),
             allowClear: true,
             dir: "ltr",
         });
 
     const scheduleDoctorSelect = $('#schedule-doctor-select')
         .select2({
-            placeholder: "Select a doctor",
+            placeholder: t('schedules.placeholders.select_doctor'),
             allowClear: true,
             dir: "ltr",
         });
 
     const scheduleWeekdaySelect = $('#schedule-weekday-select').select2({
-        placeholder: "Select a weekday",
+        placeholder: t('schedules.placeholders.select_weekday'),
         allowClear: true,
         dir: "ltr",
     });
@@ -142,7 +143,7 @@ $(function () {
             if (status === 'dismissed') return;
             const schedule = value.data;
             const roomId = schedule.consulting_room.id;
-            SuccessModal('Schedule Created', 'Schedule created successfully')
+            SuccessModal(t('schedules.flash.created_title'), t('schedules.flash.created'))
                 .then(() => {
                     resetSelect2(specialtyDoctorSelect, scheduleDoctorSelect, scheduleWeekdaySelect);
                     calendar.getEventSources().forEach(src => src.remove());
@@ -159,11 +160,11 @@ $(function () {
     function adaptScheduleData(apiData = []) {
         return apiData.map(s => ({
             id: s.id,
-            groupId: s.groupId,              // opcional
+            groupId: s.groupId,
             title: s.title,
-            daysOfWeek: s.daysOfWeek,         // [1] ⇒ lunes
+            daysOfWeek: s.daysOfWeek, // [1] ⇒ Monday
             startTime: s.startTime.slice(0, 5), // "12:00"
-            endTime: s.endTime.slice(0, 5),   // "16:00"
+            endTime: s.endTime.slice(0, 5), // "16:00"
             color: colorFromUuid(s.groupIdByDoctor),
             textColor: s.textColor ?? undefined,
             description: s.description ?? ''

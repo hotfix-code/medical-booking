@@ -11,27 +11,19 @@ class ConsultingRoomService
     public function create(array $data): JsonResponse
     {
         $consultingRoom = ConsultingRoom::create($data);
-        return AppResponse::success($consultingRoom, 'Consulting Room created successfully.');
+        return AppResponse::success($consultingRoom, __('consulting_rooms.flash.created'));
     }
 
     public function update(ConsultingRoom $consultingRoom, array $data): JsonResponse
     {
         $consultingRoom->update($data);
-        return AppResponse::success($consultingRoom, 'Consulting Room updated successfully.');
+        return AppResponse::success($consultingRoom, __('consulting_rooms.flash.updated'));
     }
 
     public function delete(ConsultingRoom $consultingRoom): JsonResponse
     {
-        // Add any relationship checks here if needed in the future
-        // if ($consultingRoom->appointments()->exists())
-        // {
-        //     return AppResponse::error([
-        //         'appointments' => 'Cannot delete consulting room because it has appointments associated with it.'
-        //     ], status: 422);
-        // }
-
         $consultingRoom->delete();
-        return AppResponse::success($consultingRoom, 'Consulting Room deleted successfully.');
+        return AppResponse::success($consultingRoom, __('consulting_rooms.flash.deleted'));
     }
 
     public function fetch(ConsultingRoom $consultingRoom): JsonResponse

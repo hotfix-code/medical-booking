@@ -6,9 +6,9 @@ type PatientPayload = {
     email: string;
     document_type_id: string;
     document_number: string;
-    gender?: 'male' | 'female' | 'other';
-    birthdate?: string;
-    phone?: string;
+    gender?: 'male' | 'female' | 'other' | null;
+    birthdate?: string | null;
+    phone?: string | null;
     password: string;
     password_confirmation: string;
 };

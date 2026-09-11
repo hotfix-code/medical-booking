@@ -3,41 +3,41 @@
 <template id="patient-modal-template">
     <div class="row">
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-firstname-input" class="form-label">Firstname</label>
+            <label for="patient-firstname-input" class="form-label">{{ __('common.fields.firstname') }}</label>
             <input type="text"
                    class="form-control"
                    id="patient-firstname-input"
-                   placeholder="Firstname">
+                   placeholder="{{ __('common.fields.firstname') }}">
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-lastname-input" class="form-label">Lastname</label>
+            <label for="patient-lastname-input" class="form-label">{{ __('common.fields.lastname') }}</label>
             <input type="text"
                    class="form-control"
                    id="patient-lastname-input"
-                   placeholder="Lastname">
+                   placeholder="{{ __('common.fields.lastname') }}">
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-email-input" class="form-label">Email</label>
+            <label for="patient-email-input" class="form-label">{{ __('common.fields.email') }}</label>
             <input type="email"
                    class="form-control"
                    id="patient-email-input"
-                   placeholder="Email">
+                   placeholder="{{ __('common.fields.email') }}">
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-gender" class="form-label">Gender</label>
+            <label for="patient-gender" class="form-label">{{ __('patients.fields.gender') }}</label>
             <select class="form-control"
                     id="patient-gender-input">
-                <option value="">Select Gender (Optional)</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="">{{ __('patients.placeholders.select_gender') }}</option>
+                <option value="male">{{ __('enums.gender.male') }}</option>
+                <option value="female">{{ __('enums.gender.female') }}</option>
+                <option value="other">{{ __('enums.gender.other') }}</option>
             </select>
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-document-type" class="form-label">Document Type</label>
+            <label for="patient-document-type" class="form-label">{{ __('patients.fields.document_type') }}</label>
             <select class="form-control"
                     id="patient-document-type-input">
-                <option value="">Select Document Type</option>
+                <option value="">{{ __('patients.placeholders.select_document_type') }}</option>
                 @foreach($documentTypes as $documentType)
                     <option value="{{ $documentType->id }}">
                         {{ $documentType->name }}
@@ -46,40 +46,40 @@
             </select>
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-document-number" class="form-label">Document Number</label>
+            <label for="patient-document-number" class="form-label">{{ __('patients.fields.document_number') }}</label>
             <input type="text"
                    class="form-control"
                    id="patient-document-number-input"
-                   placeholder="Document Number">
+                   placeholder="{{ __('patients.fields.document_number') }}">
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-birthdate" class="form-label">Birthdate</label>
+            <label for="patient-birthdate" class="form-label">{{ __('patients.fields.birthdate') }}</label>
             <input type="text"
                    class="form-control"
                    id="patient-birthdate-input"
-                   placeholder="YYYY-MM-DD"
+                   placeholder="{{ __('patients.placeholders.birthdate') }}"
                    readonly>
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-phone" class="form-label">Phone</label>
+            <label for="patient-phone" class="form-label">{{ __('patients.fields.phone') }}</label>
             <input type="text"
                    class="form-control"
                    id="patient-phone-input"
-                   placeholder="Phone (Optional)">
+                   placeholder="{{ __('patients.placeholders.phone_optional') }}">
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-password" class="form-label">Password</label>
+            <label for="patient-password" class="form-label">{{ __('common.fields.password') }}</label>
             <input type="password"
                    class="form-control"
                    id="patient-password-input"
-                   placeholder="Password">
+                   placeholder="{{ __('common.fields.password') }}">
         </div>
         <div class="col-md-6 text-start mb-4">
-            <label for="patient-password-confirmation" class="form-label">Confirm Password</label>
+            <label for="patient-password-confirmation" class="form-label">{{ __('common.fields.password_confirmation') }}</label>
             <input type="password"
                    class="form-control"
                    id="patient-password-confirmation-input"
-                   placeholder="Confirm Password">
+                   placeholder="{{ __('common.fields.password_confirmation') }}">
         </div>
     </div>
 </template>

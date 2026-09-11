@@ -1,6 +1,7 @@
 import {updatePasswordModal, updateProfileModal} from "@/modals/profile.js";
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import flatpickr from "flatpickr";
+import { t } from "@/utils/i18n.js";
 
 $(function () {
     const roleFieldConfig = {
@@ -43,7 +44,7 @@ $(function () {
         if (status === 'dismissed') return;
         const user = value.data;
 
-        SuccessModal('Profile Updated', 'Profile updated successfully')
+        SuccessModal(t('profile.flash.updated_title'), t('profile.flash.updated'))
             .then(() => {
                 // console.log(user);
             })
@@ -57,7 +58,7 @@ $(function () {
 
         const { status, value } = await updatePasswordModal(data);
         if (status === 'dismissed') return;
-        SuccessModal('Password Updated', 'Password updated successfully')
+        SuccessModal(t('profile.flash.password_updated_title'), t('profile.flash.password_updated'))
             .then(() => {
                 $('#input-password').val('');
                 $('#input-password-confirmation').val('');

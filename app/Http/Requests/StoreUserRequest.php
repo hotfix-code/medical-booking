@@ -9,19 +9,11 @@ use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         $roleValidation = ['required', 'uuid', 'exists:roles,uuid'];
@@ -46,7 +38,7 @@ class StoreUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'role_id.not_in' => 'You do not have permission to assign the super-admin role.',
+            'role_id.not_in' => __('users.cannot_assign_super_admin'),
         ];
     }
 }

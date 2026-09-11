@@ -9,7 +9,7 @@ type DoctorPayload = {
     document_type_id: string;
     document_number: string;
     license_number: string;
-    phone?: string;
+    phone?: string | null;
     specialties?: string[];
 };
 

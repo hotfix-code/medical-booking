@@ -32,11 +32,7 @@ class PatientPolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'patient.create',
-            'You do not have permission to create patients.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'patient.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'patient.edit',
-            'You do not have permission to edit patients.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'patient.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class PatientPolicy
      */
     public function delete(User $user, Patient $patient): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'patient.delete',
-            'You do not have permission to delete patients.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'patient.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class PatientPolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'patient.view',
-            'You do not have permission to fetch patients.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'patient.view');
     }
 }

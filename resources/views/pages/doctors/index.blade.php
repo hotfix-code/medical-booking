@@ -9,13 +9,13 @@
     <div class="main-content app-content">
         <div class="container-fluid">
             <div class="page-header">
-                <h1 class="page-title my-auto">Doctors</h1>
+                <h1 class="page-title my-auto">{{ __('doctors.title') }}</h1>
                 <div>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0)">User Management</a>
+                            <a href="javascript:void(0)">{{ __('nav.categories.user_management') }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Doctors</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('doctors.title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -24,11 +24,11 @@
                     <div class="card custom-card">
                         <div class="card-header justify-content-between">
                             <div class="card-title">
-                                Doctors Table
+                                {{ __('doctors.table') }}
                             </div>
                             @canOrRole('doctor.create', 'super-admin')
                                 <div>
-                                    <button class="btn btn-primary" id="add-new-row">Add Doctor</button>
+                                    <button class="btn btn-primary" id="add-new-row">{{ __('doctors.add') }}</button>
                                 </div>
                             @endcanOrRole
                         </div>

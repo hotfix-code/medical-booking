@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'success' => 'Success',
+    'error' => 'Error',
+    'oops' => 'Oops! an error occurred',
+    'validation_failed' => 'Validation failed',
+    'ok' => 'OK',
+    'loading' => 'Loading data...',
+    'loading_resource' => 'Loading :resource data...',
+    'loading_short' => 'Loading...',
+    'no_server_response' => 'There was no response from the server',
+    'are_you_sure' => 'Are you sure?',
+    'event_success' => 'The event occurred successfully',
+    'created' => ':resource created successfully',
+    'updated' => ':resource updated successfully',
+    'deleted' => ':resource deleted successfully',
+    'created_title' => ':resource Created',
+    'updated_title' => ':resource Edited',
+    'deleted_title' => ':resource Deleted',
+    'confirm_delete' => 'Are you sure you want to delete this :resource?',
+    'no_data' => 'No data',
+    'permission_denied' => 'You do not have permission to perform this action.',
+    'not_found' => 'Resource not found. Refresh the page and try again.',
+    'unexpected' => 'An unexpected error occurred. Please try again later.',
+];

@@ -1,11 +1,13 @@
 <footer class="footer mt-auto py-3 text-center">
     <div class="container">
-        <span class=""> Copyright © <span id="year">2025</span>
-            <a href="javascript:void(0);" class="text-primary">Medical Booking</a>.
-            Designed with <i class="ri ri-heart-3-fill text-danger"></i> by
+        <span>
+            {{ __('common.footer.copyright', ['year' => date('Y')]) }}
+            <a href="javascript:void(0);" class="text-primary">{{ __('common.app_name') }}</a>.
+            {{ __('common.footer.designed_with') }} <i class="ri ri-heart-3-fill text-danger"></i> {{ __('common.footer.by') }}
             <a href="javascript:void(0);">
-                <span class="text-primary">Hotfix Code</span>
-            </a> All rights reserved
+                <span class="text-primary">{{ __('common.footer.author') }}</span>
+            </a>
+            {{ __('common.footer.all_rights_reserved') }}
         </span>
     </div>
 </footer>

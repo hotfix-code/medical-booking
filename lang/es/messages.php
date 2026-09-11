@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'success' => 'Éxito',
+    'error' => 'Error',
+    'oops' => '¡Oops! ocurrió un error',
+    'validation_failed' => 'La validación falló',
+    'ok' => 'OK',
+    'loading' => 'Cargando datos...',
+    'loading_resource' => 'Cargando datos de :resource...',
+    'loading_short' => 'Cargando...',
+    'no_server_response' => 'No hubo respuesta del servidor',
+    'are_you_sure' => '¿Está seguro?',
+    'event_success' => 'La operación se realizó correctamente',
+    'created' => ':resource creado correctamente',
+    'updated' => ':resource actualizado correctamente',
+    'deleted' => ':resource eliminado correctamente',
+    'created_title' => ':resource creado',
+    'updated_title' => ':resource editado',
+    'deleted_title' => ':resource eliminado',
+    'confirm_delete' => '¿Está seguro de que desea eliminar este :resource?',
+    'no_data' => 'Sin datos',
+    'permission_denied' => 'No tiene permiso para realizar esta acción.',
+    'not_found' => 'Recurso no encontrado. Actualice la página e inténtelo de nuevo.',
+    'unexpected' => 'Ocurrió un error inesperado. Inténtelo de nuevo más tarde.',
+];

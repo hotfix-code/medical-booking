@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeLocaleRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\DocumentType;
 use App\Services\ProfileService;
@@ -14,9 +15,6 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -25,9 +23,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request, ProfileService $service): JsonResponse
     {
         $request->user()->fill($request->validated());
@@ -40,9 +35,6 @@ class ProfileController extends Controller
         return $service->update($request->validated());
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
@@ -61,14 +53,10 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function changeLocale(Request $request)
+    public function changeLocale(ChangeLocaleRequest $request): RedirectResponse
     {
-        $request->validate([
-            'locale' => ['required', 'string', 'exists:locales,code'],
-        ]);
-
         $user = $request->user();
-        $user->locale = $request->input('locale');
+        $user->locale = $request->validated('locale');
         $user->save();
 
         return back();

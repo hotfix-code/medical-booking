@@ -32,11 +32,7 @@ class SpecialtyPolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'specialty.create',
-            'You do not have permission to create specialties.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'specialty.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class SpecialtyPolicy
      */
     public function update(User $user, Specialty $specialty): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'specialty.edit',
-            'You do not have permission to edit specialties.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'specialty.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class SpecialtyPolicy
      */
     public function delete(User $user, Specialty $specialty): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'specialty.delete',
-            'You do not have permission to delete specialties.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'specialty.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class SpecialtyPolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'specialty.view',
-            'You do not have permission to fetch specialties.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'specialty.view');
     }
 }

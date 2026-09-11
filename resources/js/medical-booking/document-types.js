@@ -1,6 +1,7 @@
 import {createDocumentTypeModal, deleteDocumentTypeModal, updateDocumentTypeModal} from "@/modals/documentTypeModal.js";
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import {AddRow, DeleteRow, EditRow} from "@/utils/datatables.js";
+import { t } from "@/utils/i18n.js";
 
 $(function () {
     const dt = $('#document-types-table').DataTable();
@@ -11,7 +12,7 @@ $(function () {
             const { status, value } = await createDocumentTypeModal();
             if (status === 'dismissed') return;
             const documentType = value.data;
-            SuccessModal('Document Type Created', 'Document type created successfully')
+            SuccessModal(t('document_types.flash.created_title'), t('document_types.flash.created'))
                 .then(() => AddRow(dt, documentType));
         } catch (err) {
             // Incerceptor shows the error modal
@@ -24,7 +25,7 @@ $(function () {
             const { status, value } = await updateDocumentTypeModal(documentTypeId);
             if (status === 'dismissed') return;
             const documentType = value.data;
-            SuccessModal('Document Type Edited', 'Document type edited successfully')
+            SuccessModal(t('document_types.flash.updated_title'), t('document_types.flash.updated'))
                 .then(() => EditRow(dt, documentType, this));
         } catch (err) {
             // Interceptor shows the error modal
@@ -36,7 +37,7 @@ $(function () {
             const documentTypeId = $(this).closest('div.datatables-action-buttons').data('id');
             const { status } = await deleteDocumentTypeModal(documentTypeId);
             if (status === 'dismissed') return;
-            SuccessModal('Document Type Deleted', 'Document type deleted successfully')
+            SuccessModal(t('document_types.flash.deleted_title'), t('document_types.flash.deleted'))
                 .then(() => DeleteRow(dt, this));
         } catch (err) {
             // Interceptor shows the error modal

@@ -2,13 +2,14 @@ import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
 import {PatientService} from "@/services/patient.service.ts";
 import {Header} from "@/components/modal";
 import flatpickr from "flatpickr";
+import { t } from '@/utils/i18n';
 
 export const createPatientModal = async () => {
     const tpl = document.getElementById('patient-modal-template') as HTMLTemplateElement;
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new patient?'),
+        title: Header(t('patients.modals.create')),
         html: formHtml,
         width: 800,
         didOpen: async () => {
@@ -19,7 +20,7 @@ export const createPatientModal = async () => {
 
             $('#patient-document-type-input')
                 .select2({
-                    placeholder: 'Select document type',
+                    placeholder: t('patients.placeholders.select_document_type'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -27,7 +28,7 @@ export const createPatientModal = async () => {
 
             $('#patient-gender-input')
                 .select2({
-                    placeholder: 'Select gender',
+                    placeholder: t('patients.placeholders.select_gender'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -44,9 +45,9 @@ export const createPatientModal = async () => {
                 email: (document.getElementById('patient-email-input') as HTMLInputElement).value.trim(),
                 document_type_id: (document.getElementById('patient-document-type-input') as HTMLSelectElement).value,
                 document_number: (document.getElementById('patient-document-number-input') as HTMLInputElement).value.trim(),
-                gender: (document.getElementById('patient-gender-input') as HTMLSelectElement).value as 'male' | 'female' | 'other' || undefined,
-                birthdate: (document.getElementById('patient-birthdate-input') as HTMLInputElement).value || undefined,
-                phone: (document.getElementById('patient-phone-input') as HTMLInputElement).value.trim() || undefined,
+                gender: (document.getElementById('patient-gender-input') as HTMLSelectElement).value as 'male' | 'female' | 'other' || null,
+                birthdate: (document.getElementById('patient-birthdate-input') as HTMLInputElement).value || null,
+                phone: (document.getElementById('patient-phone-input') as HTMLInputElement).value.trim() || null,
                 password: (document.getElementById('patient-password-input') as HTMLInputElement).value,
                 password_confirmation: (document.getElementById('patient-password-confirmation-input') as HTMLInputElement).value,
             });
@@ -56,7 +57,7 @@ export const createPatientModal = async () => {
 }
 
 export const updatePatientModal = async (id: string) => {
-    await LoadingModal('Loading Patient data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('patients.resource') }));
     const { data } = await PatientService.fetch(id);
     const patient = data.data;
 
@@ -64,7 +65,7 @@ export const updatePatientModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit patient?'),
+        title: Header(t('patients.modals.edit')),
         html: formHtml,
         width: 800,
         didOpen: async () => {
@@ -73,7 +74,7 @@ export const updatePatientModal = async (id: string) => {
 
             $('#patient-document-type-input')
                 .select2({
-                    placeholder: 'Select document type',
+                    placeholder: t('patients.placeholders.select_document_type'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -83,7 +84,7 @@ export const updatePatientModal = async (id: string) => {
 
             $('#patient-gender-input')
                 .select2({
-                    placeholder: 'Select gender',
+                    placeholder: t('patients.placeholders.select_gender'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -116,8 +117,8 @@ export const updatePatientModal = async (id: string) => {
             if (phoneInput) phoneInput.value = patient.phone || '';
 
             // Make password fields optional for updates
-            if (passwordInput) passwordInput.placeholder = 'Leave blank to keep current password';
-            if (passwordConfirmationInput) passwordConfirmationInput.placeholder = 'Leave blank to keep current password';
+            if (passwordInput) passwordInput.placeholder = t('common.placeholders.password_unchanged');
+            if (passwordConfirmationInput) passwordConfirmationInput.placeholder = t('common.placeholders.password_unchanged');
 
             firstnameInput.focus();
         },
@@ -131,9 +132,9 @@ export const updatePatientModal = async (id: string) => {
                 email: (document.getElementById('patient-email-input') as HTMLInputElement).value.trim(),
                 document_type_id: (document.getElementById('patient-document-type-input') as HTMLSelectElement).value,
                 document_number: (document.getElementById('patient-document-number-input') as HTMLInputElement).value.trim(),
-                gender: (document.getElementById('patient-gender-input') as HTMLSelectElement).value as 'male' | 'female' | 'other' || undefined,
-                birthdate: (document.getElementById('patient-birthdate-input') as HTMLInputElement).value || undefined,
-                phone: (document.getElementById('patient-phone-input') as HTMLInputElement).value.trim() || undefined,
+                gender: (document.getElementById('patient-gender-input') as HTMLSelectElement).value as 'male' | 'female' | 'other' || null,
+                birthdate: (document.getElementById('patient-birthdate-input') as HTMLInputElement).value || null,
+                phone: (document.getElementById('patient-phone-input') as HTMLInputElement).value.trim() || null,
             };
 
             // Only include password if provided
@@ -145,15 +146,15 @@ export const updatePatientModal = async (id: string) => {
             const { data } = await PatientService.update(id, payload);
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deletePatientModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete patient?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the patient?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('patients.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('patients.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await PatientService.delete(id);
             return data;

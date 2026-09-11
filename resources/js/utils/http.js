@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ErrorModal } from "@/utils/SwalWrapper.js";
+import { t } from "@/utils/i18n.js";
 
 const http = axios.create({
     baseURL: '/',
@@ -17,8 +18,8 @@ if (token) {
 // Error normalizer (adjust it according to your backend)
 export function normalizeAxiosError(error) {
     const fallback = {
-        title: 'Error',
-        message: 'Oops! an error occurred',
+        title: t('messages.error'),
+        message: t('messages.oops'),
         errors: null,
         statusCode: 0,
     };
@@ -26,7 +27,7 @@ export function normalizeAxiosError(error) {
     if (!error.response) {
         return {
             ...fallback,
-            message: 'There was no response from the server',
+            message: t('messages.no_server_response'),
         };
     }
 
@@ -38,7 +39,7 @@ export function normalizeAxiosError(error) {
     if (data) {
         if (data.status === false) {
             return {
-                title: 'Oops! an error occurred',
+                title: t('messages.oops'),
                 message: data.meta?.message || data.message || fallback.message,
                 errors: data.errors || null,
                 statusCode: status,
@@ -48,8 +49,7 @@ export function normalizeAxiosError(error) {
         if (data.errors) {
             const meta = data.meta;
             return {
-                // title: 'Validation error',
-                title: `${meta?.message || 'Oops! an error occurred'}`,
+                title: `${meta?.message || t('messages.oops')}`,
                 message: data.message || fallback.message,
                 errors: data.errors,
                 statusCode: status,
@@ -57,7 +57,7 @@ export function normalizeAxiosError(error) {
         }
 
         return {
-            title: 'Error',
+            title: t('messages.error'),
             message: data.message || fallback.message,
             errors: null,
             statusCode: status,

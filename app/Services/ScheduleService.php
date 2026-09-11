@@ -14,14 +14,14 @@ class ScheduleService
         if ($this->hasConflict($data))
         {
             return AppResponse::error([
-                'conflict' => 'The selected time slot conflicts with another schedule. Please select a different time slot.',
+                'conflict' => __('schedules.errors.conflict'),
             ], status: 422);
         }
 
         $schedule = Schedule::create($data);
         $schedule->load(['doctor.user', 'consultingRoom', 'specialty']);
         $schedule->schedulesByConsultingRoom = $this->fetchAllByConsultingRoom($schedule->consultingRoom)->getData()->data;
-        return AppResponse::success($schedule, 'Schedule created successfully.');
+        return AppResponse::success($schedule, __('schedules.flash.created'));
     }
 
     public function update(Schedule $schedule, array $data): JsonResponse
@@ -29,14 +29,14 @@ class ScheduleService
         if ($this->hasConflict($data, $schedule))
         {
             return AppResponse::error([
-                'conflict' => 'The selected time slot conflicts with another schedule. Please select a different time slot.',
+                'conflict' => __('schedules.errors.conflict'),
             ], status: 422);
         }
 
         $schedule->update($data);
         $schedule->load(['doctor.user', 'consultingRoom', 'specialty']);
         $schedule->schedulesByConsultingRoom = $this->fetchAllByConsultingRoom($schedule->consultingRoom)->getData()->data;
-        return AppResponse::success($schedule, 'Schedule updated successfully.');
+        return AppResponse::success($schedule, __('schedules.flash.updated'));
     }
 
     public function delete(Schedule $schedule): JsonResponse
@@ -44,13 +44,13 @@ class ScheduleService
          if ($schedule->appointments()->exists())
          {
              return AppResponse::error([
-                 'appointments' => 'Cannot delete schedule because it has appointments associated with it.'
+                 'appointments' => __('schedules.errors.cannot_delete_appointments'),
              ], status: 422);
          }
 
         $schedule->delete();
         $schedule->schedulesByConsultingRoom = $this->fetchAllByConsultingRoom($schedule->consultingRoom)->getData()->data;
-        return AppResponse::success($schedule, 'Schedule deleted successfully.');
+        return AppResponse::success($schedule, __('schedules.flash.deleted'));
     }
 
     public function fetch(Schedule $schedule): JsonResponse
@@ -81,7 +81,7 @@ class ScheduleService
                 'groupIdBySpecialty' => 'spec_'.$schedule->specialty_id,
             ]);
 
-        return AppResponse::success($data, 'Schedules fetched successfully.');
+        return AppResponse::success($data, __('schedules.flash.fetched'));
     }
 
     protected function hasConflict(array $data, ?Schedule $except = null): bool

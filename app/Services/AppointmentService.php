@@ -14,20 +14,20 @@ class AppointmentService
         if ($this->validateOneAppointmentPerDay($data['patient_id'], $data['appointment_date']))
         {
             return AppResponse::error([
-                'conflict' => 'The selected patient already has an appointment on this date.',
+                'conflict' => __('appointments.errors.patient_conflict'),
             ]);
         }
 
         if (!$this->validateScheduleBelongsToDoctor($data['schedule_id'], $data['doctor_id']))
         {
             return AppResponse::error([
-                'schedule' => 'The selected schedule does not belong to the specified doctor.',
+                'schedule' => __('appointments.errors.schedule_mismatch'),
             ]);
         }
 
         if (!$this->validateSlotAvailability($data)) {
             return AppResponse::error([
-                'slot' => 'The selected time slot is not available.',
+                'slot' => __('appointments.errors.slot_unavailable'),
             ]);
         }
 
@@ -38,7 +38,7 @@ class AppointmentService
         $appointment = Appointment::create($data);
         $appointment->refresh();
         $appointment->load(['patient.user', 'doctor.user', 'consultingRoom', 'schedule.specialty']);
-        return AppResponse::success($appointment, 'Appointment created successfully.');
+        return AppResponse::success($appointment, __('appointments.flash.created'));
     }
 
     public function update(Appointment $appointment, array $data): JsonResponse
@@ -50,13 +50,13 @@ class AppointmentService
         $appointment->update($data);
         $appointment->refresh();
         $appointment->load(['patient.user', 'doctor.user', 'consultingRoom', 'schedule.specialty']);
-        return AppResponse::success($appointment, 'Appointment updated successfully.');
+        return AppResponse::success($appointment, __('appointments.flash.updated'));
     }
 
     public function delete(Appointment $appointment): JsonResponse
     {
         $appointment->delete();
-        return AppResponse::success($appointment, 'Appointment deleted successfully.');
+        return AppResponse::success($appointment, __('appointments.flash.deleted'));
     }
 
     public function fetch(Appointment $appointment): JsonResponse

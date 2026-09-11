@@ -11,13 +11,13 @@ class SpecialtyService
     public function create(array $data): JsonResponse
     {
         $specialty = Specialty::create($data);
-        return AppResponse::success($specialty, 'Specialty created successfully.');
+        return AppResponse::success($specialty, __('specialties.flash.created'));
     }
 
     public function update(Specialty $specialty, array $data): JsonResponse
     {
         $specialty->update($data);
-        return AppResponse::success($specialty, 'Specialty updated successfully.');
+        return AppResponse::success($specialty, __('specialties.flash.updated'));
     }
 
     public function delete(Specialty $specialty): JsonResponse
@@ -25,12 +25,12 @@ class SpecialtyService
          if ($specialty->doctors()->exists())
          {
              return AppResponse::error([
-                 'doctors' => 'Cannot delete specialty because it has doctors associated with it.'
+                 'doctors' => __('specialties.errors.cannot_delete_doctors'),
              ], status: 422);
          }
 
         $specialty->delete();
-        return AppResponse::success($specialty, 'Specialty deleted successfully.');
+        return AppResponse::success($specialty, __('specialties.flash.deleted'));
     }
 
     public function fetch(Specialty $specialty): JsonResponse

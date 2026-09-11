@@ -2,25 +2,42 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Role;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+
 class StoreRoleRequest extends AppFormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('role')) {
+            $this->merge(['role' => Str::lower($this->role)]);
+        }
+    }
+
     public function rules(): array
     {
         return [
-            'role' => 'required|string|unique:roles,name|min:3|max:50',
+            'role' => [
+                'required',
+                'string',
+                'min:3',
+                'max:50',
+                'unique:roles,name',
+                Rule::notIn(Role::values()),
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'role.not_in' => __('roles.errors.cannot_use_locked_name'),
         ];
     }
 }

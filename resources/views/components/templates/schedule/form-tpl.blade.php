@@ -6,11 +6,11 @@
             <div class="card-body p-0">
                 <div class="border-bottom p-3">
                     <div class="text-start mb-4">
-                        <label for="schedule-consulting-room-input-edit" class="form-label">Consulting Room</label>
+                        <label for="schedule-consulting-room-input-edit" class="form-label">{{ __('schedules.fields.consulting_room') }}</label>
                         <select class="form-control"
                                 id="schedule-consulting-room-input-edit"
                         >
-                            <option value>Select Consulting Room</option>
+                            <option value>{{ __('schedules.placeholders.select_consulting_room') }}</option>
                             @foreach($consultingRooms as $consultingRoom)
                                 <option value="{{ $consultingRoom->id }}">
                                     {{ $consultingRoom->name }}
@@ -19,11 +19,11 @@
                         </select>
                     </div>
                     <div class="text-start mb-4">
-                        <label for="schedule-specialty-select-edit" class="form-label">Specialty</label>
+                        <label for="schedule-specialty-select-edit" class="form-label">{{ __('schedules.fields.specialty') }}</label>
                         <select class="form-control"
                                 id="schedule-specialty-select-edit"
                         >
-                            <option value>Select Specialty</option>
+                            <option value>{{ __('schedules.placeholders.select_specialty') }}</option>
                             @foreach($specialties as $specialty)
                                 <option value="{{ $specialty->id }}">
                                     {{ $specialty->name }}
@@ -32,11 +32,11 @@
                         </select>
                     </div>
                     <div class="text-start mb-4">
-                        <label for="schedule-doctor-input-edit" class="form-label">Doctor</label>
+                        <label for="schedule-doctor-input-edit" class="form-label">{{ __('schedules.fields.doctor') }}</label>
                         <select class="form-control"
                                 id="schedule-doctor-input-edit"
                         >
-                            <option value>Select Doctor</option>
+                            <option value>{{ __('schedules.placeholders.select_doctor') }}</option>
                             @foreach($doctors as $doctor)
                                 <option value="{{ $doctor->id }}">
                                     {{ $doctor->user->full_name }}
@@ -45,36 +45,36 @@
                         </select>
                     </div>
                     <div class="text-start mb-4">
-                        <label for="schedule-weekday-input-edit" class="form-label">Weekday</label>
+                        <label for="schedule-weekday-input-edit" class="form-label">{{ __('schedules.fields.weekday') }}</label>
                         <select class="form-control"
                                 id="schedule-weekday-input-edit">
-                            <option value>Select Weekday</option>
+                            <option value>{{ __('schedules.placeholders.select_weekday') }}</option>
                             @foreach($weekdays as $weekday)
                                 <option value="{{ $weekday->value }}">
-                                    {{ __($weekday->name) }}
+                                    {{ __('enums.weekday.'.strtolower($weekday->name)) }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="text-start mb-4">
-                        <label class="form-label" for="schedule-start-time-input-edit">Start Time</label>
+                        <label class="form-label" for="schedule-start-time-input-edit">{{ __('schedules.fields.start_time') }}</label>
                         <div class="input-group">
                             <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
                             <input type="text"
                                    class="form-control"
                                    id="schedule-start-time-input-edit"
-                                   placeholder="Choose time"
+                                   placeholder="{{ __('schedules.placeholders.choose_time') }}"
                             >
                         </div>
                     </div>
                     <div class="text-start mb-4">
-                        <label class="form-label" for="schedule-end-time-input-edit">End Time</label>
+                        <label class="form-label" for="schedule-end-time-input-edit">{{ __('schedules.fields.end_time') }}</label>
                         <div class="input-group">
                             <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
                             <input type="text"
                                    class="form-control"
                                    id="schedule-end-time-input-edit"
-                                   placeholder="Choose time"
+                                   placeholder="{{ __('schedules.placeholders.choose_time') }}"
                             >
                         </div>
                     </div>

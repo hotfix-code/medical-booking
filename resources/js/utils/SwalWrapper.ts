@@ -1,5 +1,6 @@
 import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
 import { Header } from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 type DismissReason = typeof Swal.DismissReason[keyof typeof Swal.DismissReason];
 
@@ -42,9 +43,9 @@ export async function ShowModal<T = any>(options: ModalOptions<T>): Promise<Moda
         showCancelButton: options.showCancelButton ?? true,
         showConfirmButton: options.showConfirmButton ?? true,
         showDenyButton: options.showDenyButton ?? false,
-        confirmButtonText: options.confirmButtonText ?? 'Confirm',
-        cancelButtonText: options.cancelButtonText ?? 'Cancel',
-        denyButtonText: options.denyButtonText ?? 'Deny',
+        confirmButtonText: options.confirmButtonText ?? t('common.actions.confirm'),
+        cancelButtonText: options.cancelButtonText ?? t('common.actions.cancel'),
+        denyButtonText: options.denyButtonText ?? t('common.actions.deny'),
         allowOutsideClick: options.allowOutsideClick ?? false,
         width: options.width ?? undefined,
         showLoaderOnConfirm: !!options.preConfirm,
@@ -60,7 +61,7 @@ export async function ShowModal<T = any>(options: ModalOptions<T>): Promise<Moda
 
 export const LoadingModal = async (title?: string, timer: number = 200) => {
     Swal.fire({
-        title: title ?? 'Loading data...',
+        title: title ?? t('messages.loading'),
         allowOutsideClick: false,
         didOpen: () => {
             Swal.showLoading();
@@ -71,18 +72,18 @@ export const LoadingModal = async (title?: string, timer: number = 200) => {
 
 export const SuccessModal = async (title?: string, text?: string) => {
     Swal.fire({
-        title: Header(title ?? 'Success'),
-        text: text ?? 'The event occurred successfully',
-        confirmButtonText: 'Ok',
+        title: Header(title ?? t('messages.success')),
+        text: text ?? t('messages.event_success'),
+        confirmButtonText: t('messages.ok'),
     })
 };
 
 
 export const ErrorModal = async (title?: string, message?: string, errors: object = {}) => {
     Swal.fire({
-        title: Header(title ?? 'Error', 'danger'),
+        title: Header(title ?? t('messages.error'), 'danger'),
         html: renderErrors(errors) ?? `<span style="font-size: 0.85rem;">${message}</span>`,
-        confirmButtonText: 'Ok',
+        confirmButtonText: t('messages.ok'),
     });
 };
 

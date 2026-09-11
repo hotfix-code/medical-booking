@@ -30,7 +30,7 @@ trait HasPermissionChecks
             return Response::allow();
         }
 
-        $message = $denyMessage ?? 'You do not have permission to perform this action.';
+        $message = $denyMessage ?? __('messages.permission_denied');
 
         return (request()->expectsJson())
             ? Response::deny($message)

@@ -12,8 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if (app()->environment('local')) {
+        if (app()->environment('local') || app()->environment('development')) {
             $this->call(DevelopmentSeeder::class);
+
+            if (config('changelog.enabled')) {
+                $this->call(ChangelogSeeder::class);
+            }
         }
 
         if (app()->environment('production')) {

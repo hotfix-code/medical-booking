@@ -32,11 +32,7 @@ class DoctorPolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'doctor.create',
-            'You do not have permission to create doctors.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'doctor.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class DoctorPolicy
      */
     public function update(User $user, Doctor $doctor): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'doctor.edit',
-            'You do not have permission to edit doctors.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'doctor.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class DoctorPolicy
      */
     public function delete(User $user, Doctor $doctor): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'doctor.delete',
-            'You do not have permission to delete doctors.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'doctor.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class DoctorPolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'doctor.view',
-            'You do not have permission to fetch doctors.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'doctor.view');
     }
 }

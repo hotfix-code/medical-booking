@@ -1,13 +1,14 @@
 import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
 import {UserService} from "@/services/user.service.ts";
 import {Header} from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 export const createUserModal = async () => {
     const tpl = document.getElementById('user-modal-template') as HTMLTemplateElement;
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new user?'),
+        title: Header(t('users.modals.create')),
         html: formHtml,
         didOpen: async () => {
             const dp = $('.swal2-container');
@@ -15,7 +16,7 @@ export const createUserModal = async () => {
 
             $('#user-role-input')
                 .select2({
-                    placeholder: 'Select Role',
+                    placeholder: t('users.placeholders.select_role'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -36,7 +37,7 @@ export const createUserModal = async () => {
 }
 
 export const updateUserModal = async (id: string) => {
-    await LoadingModal('Loading User data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('users.resource') }));
     const { data } = await UserService.fetch(id);
     const user = data.data;
     const isSuperAdmin = user.roles.some((role: { name: string; }) => role.name === 'super-admin');
@@ -45,7 +46,7 @@ export const updateUserModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit user?'),
+        title: Header(t('users.modals.edit')),
         html: formHtml,
         showConfirmButton: !isSuperAdmin,
         didOpen: async () => {
@@ -64,7 +65,7 @@ export const updateUserModal = async (id: string) => {
                 const roleId = user.roles[0].uuid;
                 $('#user-role-input')
                     .select2({
-                        placeholder: 'Select Role',
+                        placeholder: t('users.placeholders.select_role'),
                         allowClear: true,
                         dir: 'ltr',
                         dropdownParent: dp,
@@ -81,8 +82,8 @@ export const updateUserModal = async (id: string) => {
             }
 
             // Make password fields optional for updates
-            if (passwordInput) passwordInput.placeholder = 'Leave blank to keep current password';
-            if (passwordConfirmationInput) passwordConfirmationInput.placeholder = 'Leave blank to keep current password';
+            if (passwordInput) passwordInput.placeholder = t('common.placeholders.password_unchanged');
+            if (passwordConfirmationInput) passwordConfirmationInput.placeholder = t('common.placeholders.password_unchanged');
 
             firstnameInput.focus();
         },
@@ -106,15 +107,15 @@ export const updateUserModal = async (id: string) => {
             const { data } = await UserService.update(id, payload);
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deleteUserModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete user?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the user?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('users.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('users.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await UserService.delete(id);
             return data;

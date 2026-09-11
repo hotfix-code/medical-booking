@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'categories' => [
+        'patient' => 'Patients',
+        'doctor' => 'Doctors',
+        'schedule' => 'Doctor Schedules',
+        'consulting_room' => 'Consulting Rooms',
+        'appointment' => 'Appointments',
+        'specialty' => 'Specialties',
+        'role' => 'Roles',
+        'permission' => 'Permissions',
+        'user' => 'Admin Users',
+        'document_type' => 'Document Types',
+        'locale' => 'Locales',
+        'setting' => 'Settings',
+    ],
+
     // Patients
     'patient.create' => 'Create patient',
     'patient.view' => 'View patient',

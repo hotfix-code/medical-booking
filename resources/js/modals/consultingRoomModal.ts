@@ -1,13 +1,14 @@
 import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
 import {ConsultingRoomService} from "@/services/consulting-room.service.ts";
 import {Header} from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 export const createConsultingRoomModal = async () => {
     const tpl = document.getElementById('consulting-room-modal-template') as HTMLTemplateElement;
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new consulting room?'),
+        title: Header(t('consulting_rooms.modals.create')),
         html: formHtml,
         didOpen: async () => {
             (document.getElementById('consulting-room-name-input') as HTMLInputElement).focus();
@@ -15,7 +16,7 @@ export const createConsultingRoomModal = async () => {
         preConfirm: async () => {
             const { data } = await ConsultingRoomService.create({
                 name: (document.getElementById('consulting-room-name-input') as HTMLInputElement).value.trim(),
-                location: (document.getElementById('consulting-room-location-input') as HTMLInputElement).value.trim() || undefined,
+                location: (document.getElementById('consulting-room-location-input') as HTMLInputElement).value.trim() || null,
             });
             return data;
         },
@@ -23,7 +24,7 @@ export const createConsultingRoomModal = async () => {
 }
 
 export const updateConsultingRoomModal = async (id: string) => {
-    await LoadingModal('Loading Consulting Room data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('consulting_rooms.resource') }));
     const { data } = await ConsultingRoomService.fetch(id);
     const consultingRoom = data.data;
 
@@ -31,7 +32,7 @@ export const updateConsultingRoomModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit consulting room?'),
+        title: Header(t('consulting_rooms.modals.edit')),
         html: formHtml,
         didOpen: async () => {
             const nameInput = document.getElementById('consulting-room-name-input') as HTMLInputElement;
@@ -43,19 +44,19 @@ export const updateConsultingRoomModal = async (id: string) => {
         preConfirm: async () => {
             const { data } = await ConsultingRoomService.update(id, {
                 name: (document.getElementById('consulting-room-name-input') as HTMLInputElement).value.trim(),
-                location: (document.getElementById('consulting-room-location-input') as HTMLInputElement).value.trim() || undefined,
+                location: (document.getElementById('consulting-room-location-input') as HTMLInputElement).value.trim() || null,
             });
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deleteConsultingRoomModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete consulting room?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the consulting room?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('consulting_rooms.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('consulting_rooms.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await ConsultingRoomService.delete(id);
             return data;

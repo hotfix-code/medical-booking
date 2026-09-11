@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Finder\Finder;
@@ -10,6 +11,12 @@ Route::get('/', fn() => redirect('/login'));
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+if (app()->environment('local') && config('changelog.enabled')) {
+    Route::get('/changelogs', [ChangelogController::class, 'index'])
+        ->middleware('auth')
+        ->name('changelogs.index');
+}
 
 Route::middleware('auth')->group(function ()
 {
@@ -40,3 +47,5 @@ Route::middleware('auth')->group(function ()
         require $file->getRealPath();
     }
 });
+
+Route::fallback(fn () => abort(404));

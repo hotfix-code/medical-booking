@@ -32,11 +32,7 @@ class DocumentTypePolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'document_type.create',
-            'You do not have permission to create document types.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'document_type.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class DocumentTypePolicy
      */
     public function update(User $user, DocumentType $documentType): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'document_type.edit',
-            'You do not have permission to edit document types.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'document_type.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class DocumentTypePolicy
      */
     public function delete(User $user, DocumentType $documentType): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'document_type.delete',
-            'You do not have permission to delete document types.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'document_type.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class DocumentTypePolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'document_type.view',
-            'You do not have permission to fetch document types.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'document_type.view');
     }
 }

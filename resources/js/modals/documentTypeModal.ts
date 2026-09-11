@@ -1,13 +1,14 @@
 import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
 import {DocumentTypeService} from "@/services/document-type.service.ts";
 import {Header} from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 export const createDocumentTypeModal = async () => {
     const tpl = document.getElementById('document-type-modal-template') as HTMLTemplateElement;
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new document type?'),
+        title: Header(t('document_types.modals.create')),
         html: formHtml,
         didOpen: async () => {
             (document.getElementById('document-type-name-input') as HTMLInputElement).focus();
@@ -23,7 +24,7 @@ export const createDocumentTypeModal = async () => {
 }
 
 export const updateDocumentTypeModal = async (id: string) => {
-    await LoadingModal('Loading Document Type data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('document_types.resource') }));
     const { data } = await DocumentTypeService.fetch(id);
     const documentType = data.data;
 
@@ -31,7 +32,7 @@ export const updateDocumentTypeModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit document type?'),
+        title: Header(t('document_types.modals.edit')),
         html: formHtml,
         didOpen: async () => {
             const nameInput = document.getElementById('document-type-name-input') as HTMLInputElement;
@@ -47,15 +48,15 @@ export const updateDocumentTypeModal = async (id: string) => {
             });
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deleteDocumentTypeModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete document type?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the document type?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('document_types.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('document_types.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await DocumentTypeService.delete(id);
             return data;

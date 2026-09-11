@@ -1,6 +1,7 @@
 import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
 import {DoctorService} from "@/services/doctor.service.ts";
 import {Header} from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 declare const Choices: any;
 
@@ -9,7 +10,7 @@ export const createDoctorModal = async () => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new doctor?'),
+        title: Header(t('doctors.modals.create')),
         html: formHtml,
         width: 800,
         didOpen: async () => {
@@ -22,7 +23,7 @@ export const createDoctorModal = async () => {
 
             $('#doctor-document-type-input')
                 .select2({
-                    placeholder: 'Select document type',
+                    placeholder: t('doctors.placeholders.select_document_type'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -43,7 +44,7 @@ export const createDoctorModal = async () => {
                 document_type_id: (document.getElementById('doctor-document-type-input') as HTMLSelectElement).value,
                 document_number: (document.getElementById('doctor-document-number-input') as HTMLInputElement).value.trim(),
                 license_number: (document.getElementById('doctor-license-number-input') as HTMLInputElement).value.trim(),
-                phone: (document.getElementById('doctor-phone-input') as HTMLInputElement).value.trim() || undefined,
+                phone: (document.getElementById('doctor-phone-input') as HTMLInputElement).value.trim() || null,
                 specialties: selectedSpecialties,
             });
             return data;
@@ -52,7 +53,7 @@ export const createDoctorModal = async () => {
 }
 
 export const updateDoctorModal = async (id: string) => {
-    await LoadingModal('Loading Doctor data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('doctors.resource') }));
     const { data } = await DoctorService.fetch(id);
     const doctor = data.data;
 
@@ -60,7 +61,7 @@ export const updateDoctorModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit doctor?'),
+        title: Header(t('doctors.modals.edit')),
         html: formHtml,
         width: 800,
         didOpen: async () => {
@@ -68,7 +69,7 @@ export const updateDoctorModal = async (id: string) => {
 
             const documentTypeSelect = $('#doctor-document-type-input')
                 .select2({
-                    placeholder: 'Select document type',
+                    placeholder: t('doctors.placeholders.select_document_type'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: dp,
@@ -109,8 +110,8 @@ export const updateDoctorModal = async (id: string) => {
             }
 
             // Make password fields optional for updates
-            if (passwordInput) passwordInput.placeholder = 'Leave blank to keep current password';
-            if (passwordConfirmationInput) passwordConfirmationInput.placeholder = 'Leave blank to keep current password';
+            if (passwordInput) passwordInput.placeholder = t('common.placeholders.password_unchanged');
+            if (passwordConfirmationInput) passwordConfirmationInput.placeholder = t('common.placeholders.password_unchanged');
 
             firstnameInput.focus();
         },
@@ -129,7 +130,7 @@ export const updateDoctorModal = async (id: string) => {
                 document_type_id: (document.getElementById('doctor-document-type-input') as HTMLSelectElement).value,
                 document_number: (document.getElementById('doctor-document-number-input') as HTMLInputElement).value.trim(),
                 license_number: (document.getElementById('doctor-license-number-input') as HTMLInputElement).value.trim(),
-                phone: (document.getElementById('doctor-phone-input') as HTMLInputElement).value.trim() || undefined,
+                phone: (document.getElementById('doctor-phone-input') as HTMLInputElement).value.trim() || null,
                 specialties: selectedSpecialties,
             };
 
@@ -142,15 +143,15 @@ export const updateDoctorModal = async (id: string) => {
             const { data } = await DoctorService.update(id, payload);
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deleteDoctorModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete doctor?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the doctor?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('doctors.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('doctors.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await DoctorService.delete(id);
             return data;

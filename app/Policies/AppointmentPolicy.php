@@ -32,11 +32,7 @@ class AppointmentPolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'appointment.create',
-            'You do not have permission to create appointments.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'appointment.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'appointment.edit',
-            'You do not have permission to edit appointments.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'appointment.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class AppointmentPolicy
      */
     public function delete(User $user, Appointment $appointment): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'appointment.delete',
-            'You do not have permission to delete appointments.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'appointment.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class AppointmentPolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'appointment.view',
-            'You do not have permission to fetch appointments.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'appointment.view');
     }
 }

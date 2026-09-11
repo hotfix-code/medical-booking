@@ -3,11 +3,12 @@ import {ScheduleService} from "@/services/schedule.service.ts";
 import {Header} from "@/components/modal";
 import flatpickr from "flatpickr";
 import {lockTimeDropdownInputs} from "@/utils/flatpickr.ts";
+import { t } from '@/utils/i18n';
 
 export const createScheduleModal = async () => {
     return ShowModal({
-        title: Header('Create new schedule?'),
-        text: 'This action confirm the schedule creation.',
+        title: Header(t('schedules.modals.create')),
+        text: t('schedules.modals.create_confirm'),
         didOpen: async () => {
             (document.getElementById('schedule-consulting-room-input') as HTMLSelectElement).focus();
         },
@@ -26,7 +27,7 @@ export const createScheduleModal = async () => {
 }
 
 export const updateScheduleModal = async (id: string) => {
-    await LoadingModal('Loading Schedule data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('schedules.resource') }));
     const { data } = await ScheduleService.fetch(id);
     const schedule = data.data;
 
@@ -34,19 +35,19 @@ export const updateScheduleModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit schedule?'),
+        title: Header(t('schedules.modals.edit')),
         html: formHtml,
         width: 600,
         showDenyButton: true,
-        confirmButtonText: 'Save Changes',
-        denyButtonText: 'Delete Schedule',
+        confirmButtonText: t('common.actions.save_changes'),
+        denyButtonText: t('schedules.modals.delete'),
         didOpen: async () => {
             const $dp = $('.swal2-container');
 
             const consultingRoomSelect = document.getElementById('schedule-consulting-room-input-edit') as HTMLSelectElement;
             $(consultingRoomSelect)
                 .select2({
-                    placeholder: 'Select a consulting room',
+                    placeholder: t('schedules.placeholders.select_consulting_room'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: $dp,
@@ -57,7 +58,7 @@ export const updateScheduleModal = async (id: string) => {
             const specialtySelect = document.getElementById('schedule-specialty-select-edit') as HTMLSelectElement;
             $(specialtySelect)
                 .select2({
-                    placeholder: 'Select a specialty',
+                    placeholder: t('schedules.placeholders.select_specialty'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: $dp,
@@ -68,7 +69,7 @@ export const updateScheduleModal = async (id: string) => {
             const doctorSelect = document.getElementById('schedule-doctor-input-edit') as HTMLSelectElement;
             $(doctorSelect)
                 .select2({
-                    placeholder: 'Select a doctor',
+                    placeholder: t('schedules.placeholders.select_doctor'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: $dp,
@@ -79,7 +80,7 @@ export const updateScheduleModal = async (id: string) => {
             const weekdaySelect = document.getElementById('schedule-weekday-input-edit') as HTMLSelectElement;
             $(weekdaySelect)
                 .select2({
-                    placeholder: 'Select a weekday',
+                    placeholder: t('schedules.placeholders.select_weekday'),
                     allowClear: true,
                     dir: 'ltr',
                     dropdownParent: $dp,
@@ -145,9 +146,9 @@ export const updateScheduleModal = async (id: string) => {
 
 export const deleteScheduleModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete schedule?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the schedule?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('schedules.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('schedules.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await ScheduleService.delete(id);
             return data;

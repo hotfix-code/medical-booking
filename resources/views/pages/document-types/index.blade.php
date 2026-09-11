@@ -7,13 +7,13 @@
     <div class="main-content app-content">
         <div class="container-fluid">
             <div class="page-header">
-                <h1 class="page-title my-auto">Document Types</h1>
+                <h1 class="page-title my-auto">{{ __('document_types.title') }}</h1>
                 <div>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0)">Configuration</a>
+                            <a href="javascript:void(0)">{{ __('nav.categories.configuration') }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Document Types</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('document_types.title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -22,11 +22,11 @@
                     <div class="card custom-card">
                         <div class="card-header justify-content-between">
                             <div class="card-title">
-                                Document Types Table
+                                {{ __('document_types.table') }}
                             </div>
                             @canOrRole('document_type.create', 'super-admin')
                                 <div>
-                                    <button class="btn btn-primary" id="add-new-row">Add Document Type</button>
+                                    <button class="btn btn-primary" id="add-new-row">{{ __('document_types.add') }}</button>
                                 </div>
                             @endcanOrRole
                         </div>

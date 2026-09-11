@@ -5,13 +5,13 @@
 
             <!-- PAGE-HEADER -->
             <div class="page-header">
-                <h1 class="page-title my-auto">Dashboard</h1>
+                <h1 class="page-title my-auto">{{ __('dashboard.title') }}</h1>
                 <div>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0)">Home</a>
+                            <a href="javascript:void(0)">{{ __('common.home') }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('dashboard.title') }}</li>
                     </ol>
                 </div>
             </div>

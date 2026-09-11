@@ -13,7 +13,7 @@ class UserService
         $user = User::create($data);
         $user->assignRole($data['role_id']);
         $user->load('roles');
-        return AppResponse::success($user, 'User created successfully.');
+        return AppResponse::success($user, __('users.flash.created'));
     }
 
     public function update(User $user, array $data): JsonResponse
@@ -21,7 +21,7 @@ class UserService
         $user->update($data);
         $user->syncRoles($data['role_id']);
         $user->load('roles');
-        return AppResponse::success($user, 'User updated successfully.');
+        return AppResponse::success($user, __('users.flash.updated'));
     }
 
     public function delete(User $user): JsonResponse
@@ -29,19 +29,19 @@ class UserService
         if ($user->doctor()->exists())
         {
             return AppResponse::error([
-                'doctor' => 'Cannot delete user because it has a doctor profile associated with it.'
+                'doctor' => __('users.errors.cannot_delete_doctor'),
             ], status: 422);
         }
 
         if ($user->patient()->exists())
         {
             return AppResponse::error([
-                'patient' => 'Cannot delete user because it has a patient profile associated with it.'
+                'patient' => __('users.errors.cannot_delete_patient'),
             ], status: 422);
         }
 
         $user->delete();
-        return AppResponse::success($user, 'User deleted successfully.');
+        return AppResponse::success($user, __('users.flash.deleted'));
     }
 
     public function fetch(User $user): JsonResponse

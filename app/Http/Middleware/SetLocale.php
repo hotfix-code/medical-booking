@@ -2,43 +2,40 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Locale;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        $availableLocales = DB::table('locales')
+        $this->apply($request);
+        return $next($request);
+    }
+
+    public function apply(Request $request): void
+    {
+        $availableLocales = Locale::query()
             ->where('is_active', true)
-            ->pluck('code');
+            ->get();
 
         $defaultLocale = DB::table('settings')
             ->where('key', 'default_locale')
             ->value('value') ?? config('app.locale');
 
-        $userLocale = Auth::check()
-            ? Auth::user()->locale
-            : null;
+        $locale = $request->user()?->locale ?? $defaultLocale;
 
-        $locale = $userLocale ?? $defaultLocale;
-
-        if (!$availableLocales->contains($locale))
-        {
+        if (! $availableLocales->contains('code', $locale)) {
             $locale = config('app.fallback_locale');
         }
 
         App::setLocale($locale);
 
-        return $next($request);
+        View::share('availableLocales', $availableLocales);
     }
 }

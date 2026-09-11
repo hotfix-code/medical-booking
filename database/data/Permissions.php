@@ -64,15 +64,6 @@ class Permissions
             ['name' => 'document_type.view'],
             ['name' => 'document_type.edit'],
             ['name' => 'document_type.delete'],
-
-            // Configuration - Localization
-//            ['name' => 'locale.create'],
-//            ['name' => 'locale.view'],
-//            ['name' => 'locale.edit'],
-//            ['name' => 'locale.delete'],
-
-            // Change system config
-//            ['name' => 'setting.edit'],
         ];
     }
 

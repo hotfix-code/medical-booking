@@ -21,12 +21,12 @@ class DoctorService
                 ['firstname', 'lastname', 'email', 'password'],
                 ['user', 'documentType', 'specialties']
             );
-            return AppResponse::success($doctor, 'Doctor created successfully.');
+            return AppResponse::success($doctor, __('doctors.flash.created'));
         } catch (\Throwable $th) {
             report($th);
             return AppResponse::error(
-                ['doctor' => 'Unable to create doctor at this time. Please try again later.'],
-                'An unexpected error occurred while creating the doctor.',
+                ['doctor' => __('doctors.errors.unable_create')],
+                __('doctors.errors.unexpected_create'),
                 500
             );
         }
@@ -42,12 +42,12 @@ class DoctorService
                 $userFields,
                 ['user', 'documentType', 'specialties']
             );
-            return AppResponse::success($doctor, 'Doctor updated successfully.');
+            return AppResponse::success($doctor, __('doctors.flash.updated'));
         } catch (\Throwable $th) {
             report($th);
             return AppResponse::error(
-                ['doctor' => 'Unable to update doctor at this time.'],
-                'An unexpected error occurred while updating the doctor.',
+                ['doctor' => __('doctors.errors.unable_update')],
+                __('doctors.errors.unexpected_update'),
                 500
             );
         }
@@ -58,25 +58,25 @@ class DoctorService
         if ($doctor->appointments()->exists())
         {
             return AppResponse::error([
-                'appointments' => 'Cannot delete doctor because it has appointments associated with it.'
+                'appointments' => __('doctors.errors.cannot_delete_appointments'),
             ], status: 422);
         }
 
         if ($doctor->schedules()->exists())
         {
             return AppResponse::error([
-                'schedules' => 'Cannot delete doctor because it has schedules associated with it.'
+                'schedules' => __('doctors.errors.cannot_delete_schedules'),
             ], status: 422);
         }
 
         try {
             $this->deleteWithUser($doctor);
-            return AppResponse::success($doctor, 'Doctor deleted successfully.');
+            return AppResponse::success($doctor, __('doctors.flash.deleted'));
         } catch (\Throwable $th) {
             report($th);
             return AppResponse::error(
-                ['doctor' => 'Unable to delete doctor at this time.'],
-                'An unexpected error occurred while deleting the doctor.',
+                ['doctor' => __('doctors.errors.unable_delete')],
+                __('doctors.errors.unexpected_delete'),
                 500
             );
         }

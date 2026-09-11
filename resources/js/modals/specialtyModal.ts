@@ -1,13 +1,14 @@
 import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
 import {SpecialtyService} from "@/services/specialty.service.ts";
 import {Header} from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 export const createSpecialtyModal = async () => {
     const tpl = document.getElementById('specialty-modal-template') as HTMLTemplateElement;
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Create new specialty?'),
+        title: Header(t('specialties.modals.create')),
         html: formHtml,
         didOpen: async () => {
             (document.getElementById('specialty-name-input') as HTMLInputElement).focus();
@@ -15,7 +16,7 @@ export const createSpecialtyModal = async () => {
         preConfirm: async () => {
             const { data } = await SpecialtyService.create({
                 name: (document.getElementById('specialty-name-input') as HTMLInputElement).value.trim(),
-                description: (document.getElementById('specialty-description-input') as HTMLTextAreaElement).value.trim() || undefined,
+                description: (document.getElementById('specialty-description-input') as HTMLTextAreaElement).value.trim() || null,
             });
             return data;
         },
@@ -23,7 +24,7 @@ export const createSpecialtyModal = async () => {
 }
 
 export const viewSpecialtyModal = async (id: string) => {
-    await LoadingModal('Loading Specialty data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('specialties.resource') }));
     const { data } = await SpecialtyService.fetch(id);
     const specialty = data.data;
 
@@ -31,9 +32,9 @@ export const viewSpecialtyModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('View specialty'),
+        title: Header(t('specialties.modals.view')),
         html: formHtml,
-        confirmButtonText: 'Ok',
+        confirmButtonText: t('messages.ok'),
         didOpen: async () => {
             const nameInput = document.getElementById('specialty-name-input') as HTMLInputElement;
             const descriptionInput = document.getElementById('specialty-description-input') as HTMLTextAreaElement;
@@ -50,7 +51,7 @@ export const viewSpecialtyModal = async (id: string) => {
 };
 
 export const updateSpecialtyModal = async (id: string) => {
-    await LoadingModal('Loading Specialty data...');
+    await LoadingModal(t('messages.loading_resource', { resource: t('specialties.resource') }));
     const { data } = await SpecialtyService.fetch(id);
     const specialty = data.data;
 
@@ -58,7 +59,7 @@ export const updateSpecialtyModal = async (id: string) => {
     const formHtml = tpl.innerHTML;
 
     return ShowModal({
-        title: Header('Edit specialty?'),
+        title: Header(t('specialties.modals.edit')),
         html: formHtml,
         didOpen: async () => {
             const nameInput = document.getElementById('specialty-name-input') as HTMLInputElement;
@@ -70,19 +71,19 @@ export const updateSpecialtyModal = async (id: string) => {
         preConfirm: async () => {
             const { data } = await SpecialtyService.update(id, {
                 name: (document.getElementById('specialty-name-input') as HTMLInputElement).value.trim(),
-                description: (document.getElementById('specialty-description-input') as HTMLTextAreaElement).value.trim() || undefined,
+                description: (document.getElementById('specialty-description-input') as HTMLTextAreaElement).value.trim() || null,
             });
             return data;
         },
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
     });
 };
 
 export const deleteSpecialtyModal = async (id: string) => {
     return ShowModal({
-        title: Header('Delete specialty?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the specialty?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('specialties.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('messages.confirm_delete', { resource: t('specialties.resource') })}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await SpecialtyService.delete(id);
             return data;

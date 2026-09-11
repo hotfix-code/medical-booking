@@ -2,24 +2,25 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class UpdateRoleRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('role')) {
+            $this->merge(['role' => Str::lower($this->role)]);
+        }
+    }
+
     public function rules(): array
     {
         $id = $this->route('role');
@@ -31,7 +32,15 @@ class UpdateRoleRequest extends FormRequest
                 'min:3',
                 'max:50',
                 Rule::unique('roles', 'name')->ignore($id, 'uuid'),
+                Rule::notIn(Role::values()),
             ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'role.not_in' => __('roles.errors.cannot_use_locked_name'),
         ];
     }
 }

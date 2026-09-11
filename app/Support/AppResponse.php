@@ -23,7 +23,7 @@ class AppResponse
     }
 
     public static function error(
-        array|MessageBag $errors = [], string $message = 'Oops! an error occurred', int $status = 400
+        array|MessageBag $errors = [], ?string $message = null, int $status = 400
     ): JsonResponse
     {
         return response()->json([
@@ -31,16 +31,16 @@ class AppResponse
             'errors' => $errors,
             'meta' => [
                 'timestamp' => now()->toIso8601String(),
-                'message' => $message,
+                'message' => $message ?? __('messages.oops'),
                 'code' => $status,
             ],
         ], $status);
     }
 
     public static function validation(
-        array|MessageBag $errors = [], string $message = 'Validation failed'
+        array|MessageBag $errors = [], ?string $message = null
     ): JsonResponse
     {
-        return self::error($errors, $message, 422);
+        return self::error($errors, $message ?? __('messages.validation_failed'), 422);
     }
 }

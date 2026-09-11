@@ -1,22 +1,23 @@
 import { ShowModal, LoadingModal } from '@/utils/SwalWrapper';
 import { RoleService } from '@/services/role.service';
 import { Header, Input } from "@/components/modal";
+import { t } from '@/utils/i18n';
 
 export async function createRoleModal() {
 
     const options = {
-        label: 'Role name',
-        placeholder: 'Role name',
+        label: t('roles.fields.name'),
+        placeholder: t('roles.placeholders.name'),
         grid: 'input-create-role',
         id: 'role-name-input',
     };
 
     return ShowModal({
-        title: Header('Create a new role?'),
+        title: Header(t('roles.modals.create')),
         html: `${Input(options)}`,
         preConfirm: async () => {
             const roleName = document.getElementById('role-name-input') as HTMLInputElement;
-            if (!roleName) throw new Error('Required');
+            if (!roleName) throw new Error(t('common.errors.required'));
             const { data } = await RoleService.create({ role: roleName.value.trim() });
             return data;
         }
@@ -24,24 +25,24 @@ export async function createRoleModal() {
 }
 
 export async function editRoleModal(id: string) {
-    await LoadingModal('Loading Role data...');
+    await LoadingModal(t('roles.loading'));
     const { data } = await RoleService.fetch(id);
     const role = data.data;
 
     const options = {
-        label: 'Role name',
-        placeholder: 'Role name',
+        label: t('roles.fields.name'),
+        placeholder: t('roles.placeholders.name'),
         grid: 'input-edit-role',
         id: role.uuid,
         value: role.name,
     };
 
     return ShowModal({
-        title: Header('Edit the role?'),
+        title: Header(t('roles.modals.edit')),
         html: `${Input(options)}`,
         preConfirm: async () => {
             const roleName = document.getElementById(id) as HTMLInputElement;
-            if (!roleName) throw new Error('Required');
+            if (!roleName) throw new Error(t('common.errors.required'));
             const { data } = await RoleService.update(id, { role: roleName.value.trim() });
             return data;
         },
@@ -49,16 +50,16 @@ export async function editRoleModal(id: string) {
 }
 
 export const editRolePermissionsModal = async (id: string) => {
-    await LoadingModal('Loading Role data...');
+    await LoadingModal(t('roles.loading'));
     const { data } = await RoleService.fetchWithPermissions(id);
     const role = data.data;
 
     const modalContent = await generatePermissionsModalContent(role);
 
     return ShowModal({
-        title: Header('Edit Role Permissions'),
+        title: Header(t('roles.modals.edit_permissions')),
         html: modalContent,
-        confirmButtonText: 'Save Changes',
+        confirmButtonText: t('common.actions.save_changes'),
         preConfirm: async () => {
             const permissions = document.querySelectorAll('.form-check-input');
             const permissionsData: string[] = [];
@@ -105,7 +106,7 @@ export async function generatePermissionsModalContent(role: any) {
 
         categoryPermissions.forEach((permission: any) => {
             const action = permission.name.split('.')[1];
-            const actionLabel = action.charAt(0).toUpperCase() + action.slice(1);
+            const actionLabel = t(`common.actions.${action}`);
             const isChecked = permission.selected || isAdminRole ? 'checked' : '';
             const isDisabled = isAdminRole ? 'disabled' : '';
 
@@ -134,9 +135,9 @@ export async function generatePermissionsModalContent(role: any) {
 
 export async function deleteRoleModal(id: string) {
     return ShowModal({
-        title: Header('Delete role?', 'danger'),
-        html: `<span style="font-size: 0.85rem;">Are you sure you want to delete the role?</span>`,
-        confirmButtonText: 'Delete',
+        title: Header(t('roles.modals.delete'), 'danger'),
+        html: `<span style="font-size: 0.85rem;">${t('roles.modals.delete_confirm')}</span>`,
+        confirmButtonText: t('common.actions.delete'),
         preConfirm: async () => {
             const { data } = await RoleService.delete(id);
             return data;

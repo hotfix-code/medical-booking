@@ -1,5 +1,4 @@
 <x-auth-layout>
-
     <div class="autentication-bg">
         <div class="container-lg">
             <div class="row justify-content-center authentication authentication-basic align-items-center h-100">
@@ -16,23 +15,23 @@
                     >
                         @csrf
                         <div class="card-body p-5">
-                            <p class="h5 fw-semibold mb-2 text-center">Sign In</p>
-                            <p class="mb-4 text-muted op-7 fw-normal text-center">Welcome back, dear user !</p>
+                            <p class="h5 fw-semibold mb-2 text-center">{{ __('auth.login.title') }}</p>
+                            <p class="mb-4 text-muted op-7 fw-normal text-center">{{ __('auth.login.welcome') }}</p>
 
                             @if($errors->isNotEmpty())
                                 <div class="alert alert-danger" role="alert">
-                                    <strong>Oops, an error!</strong>
-                                    Invalid credentials.
+                                    <strong>{{ __('auth.login.oops') }}</strong>
+                                    {{ __('auth.login.invalid_credentials') }}
                                 </div>
                             @endif
 
                             <div class="row gy-3">
                                 <div class="col-xl-12">
-                                    <label for="signin-username" class="form-label text-default">User Name</label>
+                                    <label for="signin-username" class="form-label text-default">{{ __('auth.login.user_name') }}</label>
                                     <input type="email"
                                            class="form-control form-control-lg"
                                            id="signin-username"
-                                           placeholder="user name"
+                                           placeholder="{{ __('auth.login.user_name') }}"
                                            name="email"
                                            value="{{ old('email') }}"
                                            required
@@ -41,16 +40,13 @@
                                 </div>
                                 <div class="col-xl-12 mb-2">
                                     <label for="signin-password" class="form-label text-default d-block">
-                                        Password
-{{--                                        <a href="javascript:void(0);" class="float-end text-danger">--}}
-{{--                                            Forget password ?--}}
-{{--                                        </a>--}}
+                                        {{ __('auth.login.password') }}
                                     </label>
                                     <div class="input-group">
                                         <input type="password"
                                                class="form-control form-control-lg"
                                                id="signin-password"
-                                               placeholder="password"
+                                               placeholder="{{ __('auth.login.password') }}"
                                                name="password"
                                                required
                                         >
@@ -60,37 +56,19 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                                             <label class="form-check-label text-muted fw-normal" for="defaultCheck1">
-                                                Remember password ?
+                                                {{ __('auth.login.remember') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-12 d-grid mt-2">
-                                    <button class="btn btn-lg btn-primary" type="submit">Sign In</button>
+                                    <button class="btn btn-lg btn-primary" type="submit">{{ __('auth.login.submit') }}</button>
                                 </div>
                             </div>
-{{--                            <div class="text-center">--}}
-{{--                                <p class="text-muted mt-3">Dont have an account? <a href="javascript:void(0);" class="text-primary">Sign Up</a></p>--}}
-{{--                            </div>--}}
-{{--                            <div class="text-center my-3 authentication-barrier">--}}
-{{--                                <span>OR</span>--}}
-{{--                            </div>--}}
-{{--                            <div class="btn-list text-center">--}}
-{{--                                <button type="button" aria-label="button" class="btn btn-icon btn-primary-transparent">--}}
-{{--                                    <i class="ri-facebook-fill"></i>--}}
-{{--                                </button>--}}
-{{--                                <button type="button" aria-label="button" class="btn btn-icon btn-primary-transparent">--}}
-{{--                                    <i class="ri-google-fill"></i>--}}
-{{--                                </button>--}}
-{{--                                <button type="button" aria-label="button" class="btn btn-icon btn-primary-transparent">--}}
-{{--                                    <i class="ri-twitter-fill"></i>--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 </x-auth-layout>

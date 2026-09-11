@@ -7,26 +7,18 @@ use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
-use Illuminate\Support\Collection;
 
 class DashboardMetricsService
 {
-    /**
-     * Get metrics based on user role
-     */
     public function getMetricsForRole(string $roleName): array
     {
         return match ($roleName) {
-            Role::SuperAdmin->value, Role::Admin->value => $this->getAdminMetrics(),
             Role::Doctor->value => $this->getDoctorMetrics(),
             Role::Patient->value => $this->getPatientMetrics(),
-            default => [],
+            default => $this->getAdminMetrics(),
         };
     }
 
-    /**
-     * Get admin dashboard metrics
-     */
     private function getAdminMetrics(): array
     {
         return [
@@ -37,9 +29,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Get doctor dashboard metrics
-     */
     private function getDoctorMetrics(): array
     {
         $doctorId = auth()->user()->doctor?->id;
@@ -51,9 +40,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Get patient dashboard metrics
-     */
     private function getPatientMetrics(): array
     {
         $patientId = auth()->user()->patient?->id;
@@ -64,9 +50,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Users metric
-     */
     private function getUsersMetric(): array
     {
         $currentCount = User::count();
@@ -74,9 +57,9 @@ class DashboardMetricsService
         $change = $this->calculatePercentageChange($previousCount, $currentCount);
 
         return [
-            'title' => 'Total Users',
+            'title' => __('dashboard.metrics.total_users'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Last week',
+            'subtitle' => __('dashboard.subtitles.last_week'),
             'change' => $change['formatted'],
             'changeIcon' => $change['icon'],
             'changeClass' => $change['class'],
@@ -84,9 +67,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Admins metric
-     */
     private function getAdminsMetric(): array
     {
         $currentCount = User::whereDoesntHave('patient')
@@ -102,9 +82,9 @@ class DashboardMetricsService
         $change = $this->calculatePercentageChange($previousCount, $currentCount);
 
         return [
-            'title' => 'Total Admins',
+            'title' => __('dashboard.metrics.total_admins'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Last week',
+            'subtitle' => __('dashboard.subtitles.last_week'),
             'change' => $change['formatted'],
             'changeIcon' => $change['icon'],
             'changeClass' => $change['class'],
@@ -112,9 +92,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Patients metric
-     */
     private function getPatientsMetric(): array
     {
         $currentCount = Patient::count();
@@ -122,9 +99,9 @@ class DashboardMetricsService
         $change = $this->calculatePercentageChange($previousCount, $currentCount);
 
         return [
-            'title' => 'Total Patients',
+            'title' => __('dashboard.metrics.total_patients'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Last week',
+            'subtitle' => __('dashboard.subtitles.last_week'),
             'change' => $change['formatted'],
             'changeIcon' => $change['icon'],
             'changeClass' => $change['class'],
@@ -132,9 +109,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Doctors metric
-     */
     private function getDoctorsMetric(): array
     {
         $currentCount = Doctor::count();
@@ -142,9 +116,9 @@ class DashboardMetricsService
         $change = $this->calculatePercentageChange($previousCount, $currentCount);
 
         return [
-            'title' => 'Total Doctors',
+            'title' => __('dashboard.metrics.total_doctors'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Last week',
+            'subtitle' => __('dashboard.subtitles.last_week'),
             'change' => $change['formatted'],
             'changeIcon' => $change['icon'],
             'changeClass' => $change['class'],
@@ -152,9 +126,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Appointments metric
-     */
     private function getAppointmentsMetric(): array
     {
         $currentCount = Appointment::count();
@@ -162,9 +133,9 @@ class DashboardMetricsService
         $change = $this->calculatePercentageChange($previousCount, $currentCount);
 
         return [
-            'title' => 'Total Appointments',
+            'title' => __('dashboard.metrics.total_appointments'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Last week',
+            'subtitle' => __('dashboard.subtitles.last_week'),
             'change' => $change['formatted'],
             'changeIcon' => $change['icon'],
             'changeClass' => $change['class'],
@@ -172,25 +143,23 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * My appointment metric for doctors
-     */
     private function getMyAppointmentsMetric(?string $doctorId): array
     {
         if (!$doctorId) {
-            return $this->getEmptyMetric('Mis Citas', 'appointmentsChart');
+            return $this->getEmptyMetric('dashboard.metrics.my_appointments', 'appointmentsChart');
         }
 
         $currentCount = Appointment::where('doctor_id', $doctorId)->count();
         $previousCount = Appointment::where('doctor_id', $doctorId)
             ->where('created_at', '<', now()->subWeek())
             ->count();
+
         $change = $this->calculatePercentageChange($previousCount, $currentCount);
 
         return [
-            'title' => 'My Appointments',
+            'title' => __('dashboard.metrics.my_appointments'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Total',
+            'subtitle' => __('dashboard.subtitles.total'),
             'change' => $change['formatted'],
             'changeIcon' => $change['icon'],
             'changeClass' => $change['class'],
@@ -198,13 +167,10 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * My patients metric for doctors
-     */
     private function getMyPatientsMetric(?string $doctorId): array
     {
         if (!$doctorId) {
-            return $this->getEmptyMetric('My Patients', 'patientsChart');
+            return $this->getEmptyMetric('dashboard.metrics.my_patients', 'patientsChart');
         }
 
         $currentCount = Appointment::where('doctor_id', $doctorId)
@@ -212,9 +178,9 @@ class DashboardMetricsService
             ->count('patient_id');
 
         return [
-            'title' => 'My Patients',
+            'title' => __('dashboard.metrics.my_patients'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Unique patients',
+            'subtitle' => __('dashboard.subtitles.unique_patients'),
             'change' => null,
             'changeIcon' => 'fe fe-users',
             'changeClass' => 'text-info',
@@ -222,13 +188,10 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Today appointments metric for doctors
-     */
     private function getTodayAppointmentsMetric(?string $doctorId): array
     {
         if (!$doctorId) {
-            return $this->getEmptyMetric('Appointments Today', 'todayChart');
+            return $this->getEmptyMetric('dashboard.metrics.appointments_today', 'todayChart');
         }
 
         $todayCount = Appointment::where('doctor_id', $doctorId)
@@ -236,7 +199,7 @@ class DashboardMetricsService
             ->count();
 
         return [
-            'title' => 'Appointments Today',
+            'title' => __('dashboard.metrics.appointments_today'),
             'value' => number_format($todayCount),
             'subtitle' => today()->format('d/m/Y'),
             'change' => null,
@@ -246,21 +209,18 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Patient appointments metric
-     */
     private function getPatientAppointmentsMetric(?string $patientId): array
     {
         if (!$patientId) {
-            return $this->getEmptyMetric('My Appointments', 'appointmentsChart');
+            return $this->getEmptyMetric('dashboard.metrics.my_appointments', 'appointmentsChart');
         }
 
         $currentCount = Appointment::where('patient_id', $patientId)->count();
 
         return [
-            'title' => 'My Appointments',
+            'title' => __('dashboard.metrics.my_appointments'),
             'value' => number_format($currentCount),
-            'subtitle' => 'Total',
+            'subtitle' => __('dashboard.subtitles.total'),
             'change' => null,
             'changeIcon' => 'fe fe-calendar',
             'changeClass' => 'text-info',
@@ -268,13 +228,10 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Upcoming appointments metric for patients
-     */
     private function getUpcomingAppointmentsMetric(?string $patientId): array
     {
         if (!$patientId) {
-            return $this->getEmptyMetric('Upcoming Appointments', 'upcomingChart');
+            return $this->getEmptyMetric('dashboard.metrics.upcoming_appointments', 'upcomingChart');
         }
 
         $upcomingCount = Appointment::where('patient_id', $patientId)
@@ -282,9 +239,9 @@ class DashboardMetricsService
             ->count();
 
         return [
-            'title' => 'Upcoming Appointments',
+            'title' => __('dashboard.metrics.upcoming_appointments'),
             'value' => number_format($upcomingCount),
-            'subtitle' => 'Scheduled',
+            'subtitle' => __('dashboard.subtitles.scheduled'),
             'change' => null,
             'changeIcon' => 'fe fe-clock',
             'changeClass' => 'text-success',
@@ -292,9 +249,6 @@ class DashboardMetricsService
         ];
     }
 
-    /**
-     * Calculate percentage change between two values
-     */
     private function calculatePercentageChange(int $previous, int $current): array
     {
         if ($previous === 0) {
@@ -309,21 +263,18 @@ class DashboardMetricsService
         $isPositive = $percentage >= 0;
 
         return [
-            'formatted' => ($isPositive ? '+' : '') . number_format($percentage, 1) . '%',
+            'formatted' => ($isPositive ? '+' : '').number_format($percentage, 1).'%',
             'icon' => $isPositive ? 'fe fe-arrow-up-circle' : 'fe fe-arrow-down-circle',
             'class' => $isPositive ? 'text-success' : 'text-danger',
         ];
     }
 
-    /**
-     * Get empty metric structure
-     */
-    private function getEmptyMetric(string $title, string $chartId): array
+    private function getEmptyMetric(string $titleKey, string $chartId): array
     {
         return [
-            'title' => $title,
+            'title' => __($titleKey),
             'value' => '0',
-            'subtitle' => 'Sin datos',
+            'subtitle' => __('dashboard.subtitles.no_data'),
             'change' => null,
             'changeIcon' => 'fe fe-info',
             'changeClass' => 'text-muted',

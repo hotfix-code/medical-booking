@@ -5,12 +5,13 @@ import {
     editRoleModal,
     editRolePermissionsModal
 } from "@/modals/roleModals.js";
+import { t, roleLabel } from "@/utils/i18n.js";
 
 (function () {
     const grid = document.getElementById('roles-grid');
     const headerCol = grid.querySelector('.col-xl-12');
     const template = document.getElementById('role-card-template');
-    const searchInput = grid.querySelector('input[placeholder="Search Role"]');
+    const searchInput = document.getElementById('search-role-input');
     const searchBtn   = document.getElementById('search-team-member');
 
     function filterRoles(query = '') {
@@ -33,7 +34,7 @@ import {
 
     grid.addEventListener('click', async (e) => {
         const btn = e.target.closest('[class*="action-"]');
-        if (!btn) return;
+        if (!btn || btn.classList.contains('is-locked') || btn.getAttribute('aria-disabled') === 'true') return;
 
         const card   = btn.closest('.role-card');
         const roleId = card?.dataset.roleId;
@@ -50,7 +51,7 @@ import {
             if (status === 'dismissed') return;
             const role = value.data;
 
-            SuccessModal('Role Created', 'Role created successfully')
+            SuccessModal(t('roles.flash.created_title'), t('roles.flash.created'))
                 .then(() => {
                     addRoleCard({
                         id: role.uuid,
@@ -66,13 +67,14 @@ import {
     });
 
     function addRoleCard(role) {
-        // Clone y update template
+        // Clone and update template
         const clone = template.content.firstElementChild.cloneNode(true);
 
         clone.dataset.roleId = role.id;
         clone.querySelector('.role-avatar').src = role.avatar;
-        clone.querySelector('.role-name').textContent = role.name.toUpperCase();
-        clone.querySelector('.role-name-upper').textContent = role.name.toUpperCase();
+        const label = roleLabel(role.name);
+        clone.querySelector('.role-name').textContent = label;
+        clone.querySelector('.role-name-upper').textContent = label;
         clone.querySelector('.role-members').textContent = role.members;
         clone.querySelector('.role-created-at').textContent = role.createdAt;
 
@@ -94,8 +96,9 @@ import {
 
     function editRoleCard(role) {
         const card = document.querySelector(`[data-role-id="${role.uuid}"]`);
-        card.querySelector('.role-name').textContent = role.name.toUpperCase();
-        card.querySelector('.role-name-upper').textContent = role.name.toUpperCase();
+        const label = roleLabel(role.name);
+        card.querySelector('.role-name').textContent = label;
+        card.querySelector('.role-name-upper').textContent = label;
     }
 
     async function editRole(id) {
@@ -103,7 +106,7 @@ import {
             const { status, value } = await editRoleModal(id);
             if (status === 'dismissed') return;
             const role = value.data;
-            SuccessModal('Role Edited', 'Role edited successfully')
+            SuccessModal(t('roles.flash.updated_title'), t('roles.flash.updated'))
                 .then(() => editRoleCard(role));
         } catch (err) {
             // Interceptor shows the error modal
@@ -114,7 +117,7 @@ import {
         try {
             const { status } = await editRolePermissionsModal(id);
             if (status === 'dismissed') return
-            await SuccessModal('Role Edited', 'Role permissions edited successfully');
+            await SuccessModal(t('roles.flash.updated_title'), t('roles.flash.permissions_updated'));
         } catch (err) {
             // Interceptor shows the error modal
         }
@@ -124,7 +127,7 @@ import {
         try {
             const { status } = await deleteRoleModal(id);
             if (status === 'dismissed') return;
-            SuccessModal('Role Deleted', 'Role deleted successfully')
+            SuccessModal(t('roles.flash.deleted_title'), t('roles.flash.deleted'))
                 .then(() => card.remove());
         } catch (err) {
             // Interceptor shows the error modal

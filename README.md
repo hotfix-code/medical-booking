@@ -1,224 +1,51 @@
-# Medical Management System - Technical Documentation
+# Medical Booking
 
-## 📋 General Overview
+Medical appointment management application built with Laravel 12. It provides administration for patients, doctors, specialties, schedules, consulting rooms, appointments and document types.
 
-Comprehensive medical management system developed with **Laravel 12** and **PostgreSQL** that enables complete administration of medical appointments, doctors, patients, and hospital resources. The system implements a robust role and permission system that ensures security and granular access control for professional medical environments.
+## Stack
 
-## 🏗️ Technical Architecture
+- **PHP:** `^8.2` (the Sail container uses PHP 8.4).
+- **Framework:** Laravel 12.
+- **Database:** PostgreSQL (PostgreSQL 17 in `docker-compose.yml`).
+- **Authentication:** Laravel Breeze with session-based web authentication.
+- **Authorization:** Spatie Laravel Permission and Laravel Policies.
+- **Frontend:** Blade, Bootstrap-based UI, Tailwind utilities, Alpine.js and TypeScript.
+- **Data tables:** Yajra Laravel DataTables.
+- **Assets:** Vite, Axios, Flatpickr, Luxon, Day.js, Select2 and SweetAlert2.
+- **Testing and formatting:** Pest and Laravel Pint.
+- **Runtime:** Docker and Laravel Sail for local development.
 
-### Technology Stack
-- **Framework**: Laravel 12
-- **PHP**: 8.4+
-- **Database**: PostgreSQL 17+
-- **Authentication**: Laravel Sanctum
-- **Permissions**: Spatie Laravel Permission
-- **Frontend**: Blade Templates + DataTables + TypeScript
-- **CSS Framework**: TailwindCSS with Alpine.js
-- **Containerization**: Docker + Laravel Sail
-- **UUID**: Universal unique identifiers for all entities
-- **Testing**: Pest + Laravel Testing Suite
-- **Code Style**: Laravel Pint
-- **Build Tool**: Vite
+## Requirements
 
-### Frontend Technologies
-- **TypeScript**: Strong typing for JavaScript
-- **Vite**: Fast build tool and dev server
-- **Additional Libraries**:
-    - SweetAlert2: Beautiful alerts and modals
-    - Flatpickr: Date/time picker
-    - Luxon: Date manipulation
-    - Day.js: Date parsing and formatting
-    - Select2: Enhanced select boxes
-    - Axios: HTTP client
+For Docker development:
 
-### Architectural Principles
-- **MVC Pattern**: Model-View-Controller
-- **Service Layer Pattern**: Business logic encapsulated in services
-- **Repository Pattern**: Data access through Eloquent models
-- **Policy-based Authorization**: Granular policy-based authorization
-- **Single Responsibility Principle**: Each class has a specific responsibility
-- **Type Safety**: TypeScript for frontend development
+- Docker and Docker Compose.
+- Git.
 
-## 👥 Role and Permission System
+For a host installation:
 
-### Available Roles
+- PHP 8.2 or newer with `pdo_pgsql`, `redis`, `gd`, `zip`, `xml` and `mbstring`.
+- PostgreSQL.
+- Composer.
+- Node.js and npm.
 
-#### 🔴 Super Admin
-- **Description**: Administrator with complete system access
-- **Permissions**: Total access to all functionalities without restrictions
-- **Special Feature**: Automatic bypass of all permission validations
+## Installation with Sail
 
-#### 🟡 Admin
-- **Description**: Administrator with limited permissions for general management
-- **Access to**:
-    - Complete system user management
-    - Document type configuration
-    - Role and permission management (except super-admin)
-    - System reports and metrics
+Clone the repository and enter the project directory:
 
-#### 🟢 Doctor
-- **Description**: Medical professional with access to clinical functionalities
-- **Specific Permissions**:
-    - `patient.view` - View patient information
-    - `consulting_room.view` - View available consulting rooms
-    - `schedule.view` - View medical schedules
-    - `appointment.view` - View medical appointments
-    - `appointment.edit` - Modify medical appointments
-
-- **Functionalities**:
-    - Personal schedule management
-    - Assigned patient visualization
-    - Appointment status modification
-    - Consulting room information access
-
-#### 🔵 Patient
-- **Description**: End user of the medical system
-- **Specific Permissions**:
-    - `doctor.view` - View doctor information
-    - `specialty.view` - View medical specialties
-    - `appointment.view` - View their own medical appointments
-
-- **Functionalities**:
-    - Doctor and specialty consultation
-    - Scheduled appointment visualization
-    - Limited access to own information only
-
-### Detailed Permission Matrix
-
-| Module | Action | Super Admin | Admin | Doctor | Patient |
-|--------|--------|-------------|-------|---------|---------|
-| **System Users** | | | | | |
-| Users | Create/Edit/Delete | ✅ | ✅ | ❌ | ❌ |
-| Users | View | ✅ | ✅ | ❌ | ❌ |
-| **Patient Management** | | | | | |
-| Patients | Create/Edit/Delete | ✅ | ✅ | ❌ | ❌ |
-| Patients | View | ✅ | ✅ | ✅ | ❌* |
-| **Doctor Management** | | | | | |
-| Doctors | Create/Edit/Delete | ✅ | ✅ | ❌ | ❌ |
-| Doctors | View | ✅ | ✅ | ❌ | ✅ |
-| **Specialties** | | | | | |
-| Specialties | Create/Edit/Delete | ✅ | ✅ | ❌ | ❌ |
-| Specialties | View | ✅ | ✅ | ❌ | ✅ |
-| **Medical Schedules** | | | | | |
-| Schedules | Create/Edit/Delete | ✅ | ✅ | ❌ | ❌ |
-| Schedules | View | ✅ | ✅ | ✅ | ❌ |
-| **Consulting Rooms** | | | | | |
-| Rooms | Create/Edit/Delete | ✅ | ✅ | ❌ | ❌ |
-| Rooms | View | ✅ | ✅ | ✅ | ❌ |
-| **Medical Appointments** | | | | | |
-| Appointments | Create/Delete | ✅ | ✅ | ❌ | ❌ |
-| Appointments | View | ✅ | ✅ | ✅ | ✅* |
-| Appointments | Edit | ✅ | ✅ | ✅ | ❌ |
-| **Configuration** | | | | | |
-| Roles | Complete Management | ✅ | ✅ | ❌ | ❌ |
-| Permissions | View/Edit | ✅ | ✅ | ❌ | ❌ |
-| Document Types | Complete Management | ✅ | ✅ | ❌ | ❌ |
-
-*\* Own information only*
-
-## 🚀 Role-based Functionalities
-
-### Super Admin
-- Complete dashboard with general metrics
-- Total user and role management
-- System configuration
-- Log and audit access
-- Data backup and restoration
-
-### Admin
-- Dashboard with limited metrics
-- Doctor and patient management
-- Basic system configuration
-- Operational reports
-- Medical appointment management
-
-### Doctor
-- Personalized medical dashboard
-- Assigned patient list
-- Personal appointment calendar
-- Own schedule management
-- Appointment status modification
-
-### Patient
-- Simplified personal dashboard
-- Scheduled appointment visualization
-- Doctor and specialty directory
-- Personal profile (read-only)
-- Basic appointment history
-
-## 🔧 Configuration and Deployment
-
-### System Requirements
-- **PHP**: 8.4+ with required extensions
-- **PostgreSQL**: 17+
-- **Docker & Docker Compose**: For local development
-- **Composer**: For PHP dependency management
-- **Node.js**: 20+ (for asset compilation)
-- **NPM/Yarn**: For frontend dependencies
-
-### Installation with Docker (Recommended)
-
-#### 1. Repository Cloning
 ```bash
-git clone <repository-url>
-cd medical-management-system
+git clone <repository-url> medical-booking
+cd medical-booking
 ```
 
-#### 2. Create Docker Network
-Before running Sail, create the Docker network. **By default, the network is named `sail`** (as defined in `docker-compose.yml`). If you want to use the default configuration, create it with:
-```bash
-docker network create sail
-```
+Copy the environment file and configure the database values if necessary:
 
-**Optional - Custom Network Name:**
-If you prefer to use a different network name (e.g., `medical_system`), you need to:
-1. Create the network with your desired name:
-```bash
-docker network create medical_system
-```
-2. Update the `docker-compose.yml` file to use your custom network name by changing all occurrences of `sail` to your network name in the `networks` sections.
-
-#### 3. Environment Configuration
-Copy and configure the environment file:
 ```bash
 cp .env.example .env
 ```
 
-Configure main variables:
-```env
-# Application
-APP_NAME="Medical Management System"
-APP_ENV=local
-APP_DEBUG=true
-APP_URL=http://localhost
+Install PHP dependencies, start the containers and generate the application key:
 
-# Database
-DB_CONNECTION=pgsql
-DB_HOST=medical_db
-DB_PORT=5432
-DB_DATABASE=medical_system
-DB_USERNAME=medical_user
-DB_PASSWORD=secure_password
-
-# Redis (Sessions & Cache)
-REDIS_HOST=medical_redis
-REDIS_PASSWORD=null
-REDIS_PORT=6379
-
-# Mail Configuration
-MAIL_MAILER=mailpit
-MAIL_HOST=medical_mailpit
-MAIL_PORT=1025
-
-# Optional: Customize ports
-APP_PORT=8080
-FORWARD_DB_PORT=54320
-FORWARD_REDIS_PORT=63790
-VITE_PORT=5173
-```
-
-#### 4. Install Dependencies
-Generate the vendor directory:
 ```bash
 docker run --rm \
     -u "$(id -u):$(id -g)" \
@@ -226,281 +53,154 @@ docker run --rm \
     -w /var/www/html \
     laravelsail/php84-composer:latest \
     composer install --ignore-platform-reqs
-```
 
-#### 5. Start Application
-```bash
-# Start all services
 ./vendor/bin/sail up -d
-
-# Recommended alias for convenience
-alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+sail php artisan key:generate
 ```
 
-#### 6. Initial Application Configuration
+Install frontend dependencies and build the assets:
+
 ```bash
-# Generate application key
-sail php artisan key:generate
-
-# Run migrations
-sail php artisan migrate:fresh
-
-# Run seeders (initial data)
-sail php artisan db:seed --class=ProductionSeeder
-
-# Install Node.js dependencies
 sail npm install
-
-# Compile assets
 sail npm run build
 ```
 
-### Traditional Installation (Without Docker)
+Initialize a local database with development data:
 
-#### Prerequisites
-- PHP 8.2+ with extensions: pdo_pgsql, redis, gd, zip, xml, mbstring
-- PostgreSQL 15+ running
-- Composer installed globally
-- Node.js 18+ with npm
-
-#### Installation Steps
 ```bash
-# 1. Install PHP dependencies
-composer install
+sail php artisan migrate:fresh --seed
+```
 
-# 2. Configure environment
+The default development environment creates test users, roles, permissions and document types. The database seeder chooses the appropriate dataset from `APP_ENV`.
+
+## Installation without Docker
+
+```bash
+composer install
 cp .env.example .env
 php artisan key:generate
+```
 
-# 3. Configure database in .env
-# DB_CONNECTION=pgsql
-# DB_HOST=127.0.0.1
-# DB_PORT=5432
-# ...
+Configure PostgreSQL in `.env`, then initialize the database and assets:
 
-# 4. Run migrations and seeders
+```bash
 php artisan migrate:fresh --seed
-
-# 5. Install and compile assets
 npm install
 npm run build
-
-# 6. Start development server
 php artisan serve
 ```
 
-## 🛠️ Development Environment
+## Optional local changelog
 
-### Recommended Development Flow
+The changelog is disabled by default and is only available in the local environment. To enable it, set the following values in `.env`:
 
-#### 1. New Feature Development
-```bash
-# 1. Create feature branch
-git checkout -b feature/new-medical-functionality
-
-# 2. Write tests first (TDD)
-sail php artisan make:test NewMedicalFunctionalityTest
-
-# 3. Run tests (should fail initially)
-sail php artisan test --filter=NewMedicalFunctionalityTest
-
-# 4. Implement functionality
-# ... develop code ...
-
-# 5. Verify tests pass
-sail php artisan test
-
-# 6. Apply code standards
-sail php artisan pint
-
-# 7. Run static analysis
-sail composer analyse
+```env
+APP_ENV=local
+APP_CHANGELOG_ENABLED=true
 ```
 
-#### 2. Debugging and Monitoring
+Its migrations live in a separate directory and must be run explicitly:
+
 ```bash
-# View application logs
-sail logs -f medical-app
+sail php artisan migrate --path=database/migrations/changelog
+sail php artisan db:seed --class=ChangelogSeeder
+```
 
-# Access database
-sail psql medical_system
+The Changelog page reads entries from `changelog_entries` and their localized descriptions from `changelog_entry_translations`. English (`en`) and Spanish (`es`) entries are provided by `ChangelogSeeder`.
 
-# Run tinker for debugging
+If the database is reset with `migrate:fresh`, run the optional migration and seeder again because Laravel does not scan the changelog migration subdirectory automatically.
+
+## Roles and permissions
+
+There are **three default Spatie roles**. Their names are locked (they cannot be renamed or deleted):
+
+| Role | Main access |
+|---|---|
+| `super-admin` | Full access and permission bypass. |
+| `doctor` | Patients, schedules, consulting rooms and appointments assigned to the doctor. |
+| `patient` | Doctors, specialties and the patient's own appointments. |
+
+**Admin** is not a Spatie role. It is the class of desk users: anyone in `users` whose role is **not** `doctor` or `patient`. That includes `super-admin` (an admin with every permission) and extra roles created in the UI (for example `tester` in local). The Users module, staff profile form and admin dashboard metrics apply to this class.
+
+The permission catalog and default doctor/patient assignments are defined in [database/data/Permissions.php](database/data/Permissions.php). Policies enforce authorization at the application layer.
+
+## Project structure
+
+```text
+app/Http/Controllers   HTTP controllers
+app/Http/Requests      Form request validation
+app/Models             Eloquent models
+app/Policies           Authorization policies
+app/Services           Domain services
+database/data          Permission and locale definitions
+database/migrations    Application migrations
+database/seeders       Development and production seeders
+resources/views        Blade views and components
+resources/js            Frontend scripts
+routes                 Web and module routes
+```
+
+The application uses Eloquent as its data layer. Related business operations belong in services; controllers should remain thin and delegate validation, authorization and domain work to the appropriate classes.
+
+## Development commands
+
+Start the local application services:
+
+```bash
+sail up -d
+sail npm run dev
+```
+
+Run tests and formatting:
+
+```bash
+sail php artisan test
+sail pint
+```
+
+Useful Laravel commands:
+
+```bash
+sail php artisan migrate
+sail php artisan migrate:status
+sail php artisan db:seed
 sail php artisan tinker
-
-# Clear caches during development
 sail php artisan optimize:clear
 ```
 
-#### 3. Development Database
+For a clean development database:
+
 ```bash
-# Reset DB with test data
-sail php artisan migrate:fresh --seed --class=DevelopmentSeeder
-
-# Create new migrations
-sail php artisan make:migration create_medical_records_table
-
-# Create specific seeders
-sail php artisan make:seeder MedicalRecordsSeeder
-
-# Check migration status
-sail php artisan migrate:status
+sail php artisan migrate:fresh --seed
 ```
 
-### Productivity Tools
+If the optional Changelog is enabled, run its migration and seeder after the reset as described above.
 
-#### Useful Aliases
+## Production notes
+
+Use a production `.env` with `APP_ENV=production`, `APP_DEBUG=false`, a secure `APP_KEY` and production database credentials. Keep `APP_CHANGELOG_ENABLED=false` in production.
+
+Before deployment:
+
 ```bash
-# Add to ~/.bashrc or ~/.zshrc
-alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
-alias sa='sail php artisan'
-alias st='sail php artisan test'
-alias sp='sail php artisan pint'
-alias medical-logs='sail logs -f medical-app'
-alias medical-db='sail psql medical_system'
-```
-
-#### Development Scripts
-```bash
-# scripts/dev-reset.sh
-#!/bin/bash
-echo "🔄 Resetting development environment..."
-sail down
-sail up -d
-sail php artisan migrate:fresh --seed --class=DevelopmentSeeder
-sail npm run build
-echo "✅ Development environment ready!"
-```
-
-### Production Configuration
-
-#### Critical Environment Variables
-```env
-# Security
-APP_ENV=production
-APP_DEBUG=false
-APP_KEY=base64:YOUR_32_CHARACTER_KEY
-
-# Database
-DB_CONNECTION=pgsql
-DB_HOST=production_host
-DB_DATABASE=medical_production
-DB_USERNAME=production_user
-DB_PASSWORD=secure_production_password
-
-# Cache & Sessions
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-QUEUE_CONNECTION=redis
-
-# Mail
-MAIL_MAILER=smtp
-MAIL_HOST=your_smtp_host
-MAIL_PORT=587
-MAIL_USERNAME=your_email
-MAIL_PASSWORD=your_email_password
-MAIL_ENCRYPTION=tls
-```
-
-#### Production Optimizations
-```bash
-# Cache configuration
-php artisan config:cache
-
-# Cache routes
-php artisan route:cache
-
-# Cache views
-php artisan view:cache
-
-# Optimize autoloader
 composer install --optimize-autoloader --no-dev
-
-# Compile assets for production
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 npm run build
 ```
 
-## 📚 Additional Resources
+Do not run the development seeder in production. Use the production deployment process and its approved seed data instead.
 
-### Technical Documentation
-- [Laravel 12 Documentation](https://laravel.com/docs/12.x)
+## References
+
+- [Laravel 12 documentation](https://laravel.com/docs/12.x)
+- [Laravel Sail documentation](https://laravel.com/docs/12.x/sail)
 - [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission/v6)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/15/)
-- [Laravel Sail Documentation](https://laravel.com/docs/12.x/sail)
-- [Pest Testing Framework](https://pestphp.com/)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Yajra Laravel DataTables](https://yajrabox.com/docs/laravel-datatables)
+- [Pest documentation](https://pestphp.com/)
+- [TypeScript documentation](https://www.typescriptlang.org/docs/)
 
-### Recommended Tools
-- **IDE**: PhpStorm or VS Code with PHP extensions
-- **Database**: TablePlus, pgAdmin, or DBeaver
-- **API Testing**: Postman or Insomnia
-- **Version Control**: Git with GitKraken or SourceTree
-- **Deployment**: Laravel Forge, Vapor, or Docker Swarm
+## Documentation maintenance
 
-### Quick Reference Commands
-```bash
-# Application
-sail up -d / sail down
-sail php artisan serve
-sail php artisan queue:work
-
-# Database
-sail php artisan migrate
-sail php artisan migrate:rollback
-sail php artisan db:seed
-
-# Testing
-sail php artisan test
-sail php artisan test --coverage
-sail php artisan pint
-
-# Cache
-sail php artisan config:cache
-sail php artisan route:cache
-sail php artisan optimize:clear
-
-# Development
-sail composer install
-sail npm install && npm run build
-sail php artisan make:controller MedicalController
-
-# Useful development commands
-sail composer dev  # Start all development services
-sail composer test # Run configuration and tests
-```
-
-## 🔮 Roadmap and Future Improvements
-
-### Planned Functionalities
-
-### **Version 1.1 – Q1 2026**
-**Planned Features**
-- Reports module (PDF and Excel export)
-- User interface and design improvements
-- Full Spanish translation using Laravel `lang`
-
-**Technical Enhancements**
-- Production-ready Dockerization using FrankenPHP and Traefik
-- Integration with AWS CodeBuild and CodePipeline for CI/CD deployment
-- Optimization of asset loading with Vite and TypeScript
-
----
-
-### **Version 1.2 – Q2 2026**
-**Planned Features**
-- Transactional email notifications (appointment confirmation, reminders, cancellations)
-- Push and SMS notification system
-
-**Technical Enhancements**
-- Redis caching implementation
-- Queue system for heavy processes (email delivery, report generation)
-- Integration of performance monitoring with Laravel Telescope
-
----
-
-**Document Version**: 1.0  
-**Last Updated**: November 2025  
-**Responsible**: Development Team  
-**Stack Version**: Laravel 12 + PHP 8.4 + PostgreSQL 17 + TypeScript
-
-> This documentation should be kept updated with each significant system change. To contribute, follow the development guidelines and ensure all tests pass before submitting changes.
+Update this README when installation steps, supported versions, environment variables or operational commands change. Feature-specific notes should live under `docs/notes/`.

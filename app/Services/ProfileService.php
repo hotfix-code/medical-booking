@@ -37,12 +37,12 @@ class ProfileService
                 $user->refresh();
             }
 
-            return AppResponse::success($user, 'Profile updated successfully.');
+            return AppResponse::success($user, __('profile.flash.updated'));
 
         } catch (\Throwable $th) {
             return AppResponse::error(
-                ['profile' => 'Unable to update profile at this time. Please try again later.'],
-                'An unexpected error occurred while updating the profile.',
+                ['profile' => __('profile.errors.unable_update')],
+                __('profile.errors.unexpected_update'),
                 500
             );
         }

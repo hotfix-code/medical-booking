@@ -9,13 +9,13 @@
     <div class="main-content app-content">
         <div class="container-fluid">
             <div class="page-header">
-                <h1 class="page-title my-auto">Doctor Schedules</h1>
+                <h1 class="page-title my-auto">{{ __('schedules.title') }}</h1>
                 <div>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0)">Schedules</a>
+                            <a href="javascript:void(0)">{{ __('schedules.breadcrumb') }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Doctor Schedules</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('schedules.title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -25,18 +25,18 @@
                         @canOrRole('schedule.create')
                             <div class="card-header d-grid">
                                 <button class="btn btn-primary-light btn-wave" id="add-new-schedule">
-                                    <i class="ri-add-line align-middle me-1 fw-semibold d-inline-block"></i>Create New Schedule
+                                    <i class="ri-add-line align-middle me-1 fw-semibold d-inline-block"></i>{{ __('schedules.add') }}
                                 </button>
                             </div>
                         @endcanOrRole
                         <div class="card-body p-0">
                             <div class="border-bottom p-3">
                                 <div class="text-start mb-4">
-                                    <label for="schedule-consulting-room-input" class="form-label">Consulting Room</label>
+                                    <label for="schedule-consulting-room-input" class="form-label">{{ __('schedules.fields.consulting_room') }}</label>
                                     <select class="form-control"
                                             id="schedule-consulting-room-input"
                                     >
-                                        <option value>Select Consulting Room</option>
+                                        <option value>{{ __('schedules.placeholders.select_consulting_room') }}</option>
                                             @foreach($consultingRooms as $consultingRoom)
                                                 <option value="{{ $consultingRoom->id }}">
                                                     {{ $consultingRoom->name }}
@@ -46,11 +46,11 @@
                                 </div>
                                 @canOrRole('schedule.create')
                                     <div class="text-start mb-4">
-                                        <label for="schedule-specialty-select" class="form-label">Specialty</label>
+                                        <label for="schedule-specialty-select" class="form-label">{{ __('schedules.fields.specialty') }}</label>
                                         <select class="form-control"
                                                 id="schedule-specialty-select"
                                         >
-                                            <option value>Select Specialty</option>
+                                            <option value>{{ __('schedules.placeholders.select_specialty') }}</option>
                                             @foreach($specialties as $specialty)
                                                 <option value="{{ $specialty->id }}">
                                                     {{ $specialty->name }}
@@ -59,11 +59,11 @@
                                         </select>
                                     </div>
                                     <div class="text-start mb-4">
-                                        <label for="schedule-doctor-select" class="form-label">Doctor</label>
+                                        <label for="schedule-doctor-select" class="form-label">{{ __('schedules.fields.doctor') }}</label>
                                         <select class="form-control"
                                                 id="schedule-doctor-select"
                                         >
-                                            <option value>Select Doctor</option>
+                                            <option value>{{ __('schedules.placeholders.select_doctor') }}</option>
                                             @foreach($doctors as $doctor)
                                                 <option value="{{ $doctor->id }}">
                                                     {{ $doctor->user->full_name }}
@@ -72,36 +72,36 @@
                                         </select>
                                     </div>
                                     <div class="text-start mb-4">
-                                        <label for="schedule-weekday-select" class="form-label">Weekday</label>
+                                        <label for="schedule-weekday-select" class="form-label">{{ __('schedules.fields.weekday') }}</label>
                                         <select class="form-control"
                                                 id="schedule-weekday-select">
-                                            <option value>Select Weekday</option>
+                                            <option value>{{ __('schedules.placeholders.select_weekday') }}</option>
                                             @foreach($weekdays as $weekday)
                                                 <option value="{{ $weekday->value }}">
-                                                    {{ __($weekday->name) }}
+                                                    {{ __('enums.weekday.'.strtolower($weekday->name)) }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="text-start mb-4">
-                                        <label class="form-label" for="schedule-start-time-input">Start Time</label>
+                                        <label class="form-label" for="schedule-start-time-input">{{ __('schedules.fields.start_time') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
                                             <input type="text"
                                                    class="form-control"
                                                    id="schedule-start-time-input"
-                                                   placeholder="Choose time"
+                                                   placeholder="{{ __('schedules.placeholders.choose_time') }}"
                                             >
                                         </div>
                                     </div>
                                     <div class="text-start mb-4">
-                                        <label class="form-label" for="schedule-end-time-input">End Time</label>
+                                        <label class="form-label" for="schedule-end-time-input">{{ __('schedules.fields.end_time') }}</label>
                                         <div class="input-group">
                                             <div class="input-group-text text-muted"> <i class="ri-time-line"></i> </div>
                                             <input type="text"
                                                    class="form-control"
                                                    id="schedule-end-time-input"
-                                                   placeholder="Choose time"
+                                                   placeholder="{{ __('schedules.placeholders.choose_time') }}"
                                             >
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                 <div class="col-xl-9">
                     <div class="card custom-card">
                         <div class="card-header">
-                            <div class="card-title">Calendar</div>
+                            <div class="card-title">{{ __('schedules.calendar') }}</div>
                         </div>
                         <div class="card-body">
                             <div id='calendar2'></div>

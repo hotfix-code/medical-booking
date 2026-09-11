@@ -8,13 +8,13 @@
     <div class="main-content app-content">
         <div class="container-fluid">
             <div class="page-header">
-                <h1 class="page-title my-auto">Users</h1>
+                <h1 class="page-title my-auto">{{ __('users.title') }}</h1>
                 <div>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0)">System</a>
+                            <a href="javascript:void(0)">{{ __('nav.categories.system') }}</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Users</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('users.title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -23,11 +23,11 @@
                     <div class="card custom-card">
                         <div class="card-header justify-content-between">
                             <div class="card-title">
-                                Users Table
+                                {{ __('users.table') }}
                             </div>
                             @canOrRole('user.create', 'super-admin')
                                 <div>
-                                    <button class="btn btn-primary" id="add-new-row">Add User</button>
+                                    <button class="btn btn-primary" id="add-new-row">{{ __('users.add') }}</button>
                                 </div>
                             @endcanOrRole
                         </div>

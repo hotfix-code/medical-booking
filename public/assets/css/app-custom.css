@@ -1,6 +1,32 @@
-.btn:hover .lucide.role-card-icon
+.btn:hover:not(.is-locked) .lucide.role-card-icon
 {
     color: white !important;
+}
+
+.role-card .btn.is-locked
+{
+    opacity: 0.3;
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.role-card .btn.is-locked:hover,
+.role-card .btn.is-locked:focus,
+.role-card .btn.is-locked:active
+{
+    opacity: 0.3;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    background-color: var(--bs-btn-bg, transparent) !important;
+    color: var(--bs-btn-color, inherit) !important;
+}
+
+.role-name,
+.role-name-upper
+{
+    text-transform: uppercase;
 }
 
 .datatables-action-buttons i

@@ -32,11 +32,7 @@ class SchedulePolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'schedule.create',
-            'You do not have permission to create schedules.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'schedule.create');
     }
 
     /**
@@ -44,11 +40,7 @@ class SchedulePolicy
      */
     public function update(User $user, Schedule $schedule): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'schedule.edit',
-            'You do not have permission to edit schedules.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'schedule.edit');
     }
 
     /**
@@ -56,11 +48,7 @@ class SchedulePolicy
      */
     public function delete(User $user, Schedule $schedule): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'schedule.delete',
-            'You do not have permission to delete schedules.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'schedule.delete');
     }
 
     /**
@@ -81,10 +69,6 @@ class SchedulePolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'schedule.view',
-            'You do not have permission to fetch schedules.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'schedule.view');
     }
 }

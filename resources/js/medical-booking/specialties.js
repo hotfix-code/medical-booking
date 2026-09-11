@@ -6,6 +6,7 @@ import {
 } from "@/modals/specialtyModal.js";
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import {AddRow, DeleteRow, EditRow} from "@/utils/datatables.js";
+import { t } from "@/utils/i18n.js";
 
 $(function () {
     const dt = $('#specialties-table').DataTable();
@@ -16,9 +17,9 @@ $(function () {
             const { status, value } = await createSpecialtyModal();
             if (status === 'dismissed') return;
             const specialty = value.data;
-            SuccessModal('Specialty Created', 'Specialty created successfully')
+            SuccessModal(t('specialties.flash.created_title'), t('specialties.flash.created'))
                 .then(() => {
-                    specialty.description = specialty.description ?? 'N/A';
+                    specialty.description = specialty.description || t('common.states.na');
                     AddRow(dt, specialty)
                 });
         } catch (err) {
@@ -43,8 +44,11 @@ $(function () {
             const { status, value } = await updateSpecialtyModal(specialtyId);
             if (status === 'dismissed') return;
             const specialty = value.data;
-            SuccessModal('Specialty Edited', 'Specialty edited successfully')
-                .then(() => EditRow(dt, specialty, this));
+            SuccessModal(t('specialties.flash.updated_title'), t('specialties.flash.updated'))
+                .then(() => {
+                    specialty.description = specialty.description || t('common.states.na');
+                    EditRow(dt, specialty, this);
+                });
         } catch (err) {
             // Interceptor shows the error modal
         }
@@ -55,7 +59,7 @@ $(function () {
             const specialtyId = $(this).closest('div.datatables-action-buttons').data('id');
             const { status } = await deleteSpecialtyModal(specialtyId);
             if (status === 'dismissed') return;
-            SuccessModal('Specialty Deleted', 'Specialty deleted successfully')
+            SuccessModal(t('specialties.flash.deleted_title'), t('specialties.flash.deleted'))
                 .then(() => DeleteRow(dt, this));
         } catch (err) {
             // Interceptor shows the error modal

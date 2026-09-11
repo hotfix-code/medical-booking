@@ -31,11 +31,7 @@ class UserPolicy
      */
     public function create(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'user.create',
-            'You do not have permission to create users.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'user.create');
     }
 
     /**
@@ -43,11 +39,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): Response
     {
-        $hasPermission = $this->allowIfHasRoleOrCan(
-            $user,
-            'user.edit',
-            'You do not have permission to edit users.'
-        );
+        $hasPermission = $this->allowIfHasRoleOrCan($user, 'user.edit');
 
         if (!$hasPermission->allowed())
         {
@@ -56,7 +48,7 @@ class UserPolicy
 
         if ($model->roles[0]->name === 'super-admin')
         {
-            return Response::deny('You can not edit the super administrator.');
+            return Response::deny(__('users.errors.cannot_edit_super_admin'));
         }
 
         return Response::allow();
@@ -67,11 +59,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): Response
     {
-        $hasPermission = $this->allowIfHasRoleOrCan(
-            $user,
-            'user.delete',
-            'You do not have permission to delete users.'
-        );
+        $hasPermission = $this->allowIfHasRoleOrCan($user, 'user.delete');
 
         if (!$hasPermission->allowed()) {
             return $hasPermission;
@@ -79,12 +67,12 @@ class UserPolicy
 
         if ($user->id === $model->id)
         {
-            return Response::deny('You can not delete yourself.');
+            return Response::deny(__('users.errors.cannot_delete_self'));
         }
 
         if ($model->hasRole('super-admin'))
         {
-            return Response::deny('You can not delete the super administrator.');
+            return Response::deny(__('users.errors.cannot_delete_super_admin'));
         }
 
         return Response::allow();
@@ -108,10 +96,6 @@ class UserPolicy
 
     public function fetch(User $user): Response
     {
-        return $this->allowIfHasRoleOrCan(
-            $user,
-            'user.view',
-            'You do not have permission to fetch users.'
-        );
+        return $this->allowIfHasRoleOrCan($user, 'user.view');
     }
 }
