@@ -24,7 +24,7 @@ return [
         'invalid_credentials' => 'Invalid credentials.',
         'user_name' => 'Username',
         'password' => 'Password',
-        'remember' => 'Remember password ?',
+        'remember' => 'Remember me',
         'submit' => 'Sign In',
     ],
 

@@ -19,7 +19,7 @@ return [
         'invalid_credentials' => 'Credenciales inválidas.',
         'user_name' => 'Usuario',
         'password' => 'Contraseña',
-        'remember' => 'Recordar contraseña',
+        'remember' => 'Mantener sesión',
         'submit' => 'Iniciar sesión',
     ],
 

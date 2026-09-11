@@ -8,11 +8,9 @@ use App\Models\Role;
 use App\Models\Permission;
 use Database\Data\Locales as LocalesData;
 use Database\Data\Permissions as PermissionsData;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
 
 class ProductionSeeder extends Seeder
@@ -43,7 +41,6 @@ class ProductionSeeder extends Seeder
             'locale' => 'en',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
         ]);
         $johnDoe->assignRole($superRole);
 

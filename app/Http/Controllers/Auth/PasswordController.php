@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
-    /**
-     * Update the user's password.
-     */
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate(['password' => ['required', 'confirmed', 'min:6', 'max:255', 'string']]);
