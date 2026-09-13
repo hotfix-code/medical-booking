@@ -13,6 +13,8 @@
         'document_types' => __('document_types'),
         'profile' => __('profile'),
         'enums' => __('enums'),
+        'select2' => __('select2'),
+        'choices' => __('choices'),
     ];
 @endphp
 <script>

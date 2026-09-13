@@ -2,6 +2,7 @@ import {createUserModal, deleteUserModal, updateUserModal} from "@/modals/userMo
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import {AddRow, DeleteRow, EditRow} from "@/utils/datatables.js";
 import { t, roleLabel } from "@/utils/i18n.js";
+import "@/utils/select2-defaults.js";
 
 $(function () {
     const dt = $('#users-table').DataTable();

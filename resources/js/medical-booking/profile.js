@@ -2,6 +2,8 @@ import {updatePasswordModal, updateProfileModal} from "@/modals/profile.js";
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import flatpickr from "flatpickr";
 import { t } from "@/utils/i18n.js";
+import "@/utils/select2-defaults.js";
+import "@/utils/flatpickr-defaults.js";
 
 $(function () {
     const roleFieldConfig = {

@@ -1,3 +1,5 @@
+import '@/utils/flatpickr-defaults.ts';
+
 export function resetFlatpickr(calendar: any, disable: boolean = true) {
     calendar.clear();
     calendar.set('onDayCreate', null as any);

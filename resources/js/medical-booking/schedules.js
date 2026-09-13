@@ -1,9 +1,9 @@
-import {createScheduleModal, updateScheduleModal} from "@/modals/scheduleModal.js";
-import {SuccessModal} from "@/utils/SwalWrapper.js";
+import { createScheduleModal, updateScheduleModal } from "@/modals/scheduleModal.js";
+import { SuccessModal } from "@/utils/SwalWrapper.js";
 import http from "@/utils/http.js";
 import flatpickr from "flatpickr";
-import {lockTimeDropdownInputs} from "@/utils/flatpickr.js";
-import {resetSelect2} from "@/utils/select2.js";
+import { lockTimeDropdownInputs } from "@/utils/flatpickr.js";
+import { resetSelect2 } from "@/utils/select2.js";
 import { t } from "@/utils/i18n.js";
 
 $(function () {
@@ -11,6 +11,7 @@ $(function () {
 
     const calendarEl = document.getElementById('calendar2');
     const calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: document.documentElement.lang.split('-')[0],
         initialView: 'timeGridWeek',
         views: {
             type: 'timeGridWeek',
@@ -19,6 +20,10 @@ $(function () {
         headerToolbar: false,
         footerToolbar: false,
         dayHeaderFormat: { weekday: 'long'},
+        dayHeaderContent: (arg) => {
+            const text = arg.text || '';
+            return text.charAt(0).toUpperCase() + text.slice(1);
+        },
         allDaySlot: false,
         navLinks: false,
         businessHours: true,
@@ -30,6 +35,8 @@ $(function () {
         eventClick: async function (arg) {
             try {
                 const { status, value } = await updateScheduleModal(arg.event.id);
+                if (status === 'dismissed') return;
+
                 const schedule = value.data;
 
                 if (status === 'confirmed') {

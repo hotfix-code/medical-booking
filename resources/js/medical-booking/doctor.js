@@ -2,6 +2,7 @@ import {createDoctorModal, deleteDoctorModal, updateDoctorModal} from "@/modals/
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import {AddRow, DeleteRow, EditRow} from "@/utils/datatables.js";
 import { t } from "@/utils/i18n.js";
+import "@/utils/select2-defaults.js";
 
 $(function () {
     const dt = $('#doctors-table').DataTable();

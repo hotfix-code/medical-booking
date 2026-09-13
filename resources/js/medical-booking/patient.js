@@ -2,6 +2,8 @@ import {createPatientModal, deletePatientModal, updatePatientModal} from "@/moda
 import {SuccessModal} from "@/utils/SwalWrapper.js";
 import {AddRow, DeleteRow, EditRow} from "@/utils/datatables.js";
 import { t } from "@/utils/i18n.js";
+import "@/utils/select2-defaults.js";
+import "@/utils/flatpickr-defaults.js";
 
 $(function () {
     const dt = $('#patients-table').DataTable();

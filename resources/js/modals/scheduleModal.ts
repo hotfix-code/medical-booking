@@ -1,8 +1,8 @@
-import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
-import {ScheduleService} from "@/services/schedule.service.ts";
-import {Header} from "@/components/modal";
+import { LoadingModal, ShowModal } from "@/utils/SwalWrapper.ts";
+import { ScheduleService } from "@/services/schedule.service.ts";
+import { Header } from "@/components/modal";
 import flatpickr from "flatpickr";
-import {lockTimeDropdownInputs} from "@/utils/flatpickr.ts";
+import { lockTimeDropdownInputs } from "@/utils/flatpickr.ts";
 import { t } from '@/utils/i18n';
 
 export const createScheduleModal = async () => {
@@ -34,7 +34,7 @@ export const updateScheduleModal = async (id: string) => {
     const tpl = document.getElementById('schedule-modal-template') as HTMLTemplateElement;
     const formHtml = tpl.innerHTML;
 
-    return ShowModal({
+    const result = await ShowModal({
         title: Header(t('schedules.modals.edit')),
         html: formHtml,
         width: 600,
@@ -137,11 +137,18 @@ export const updateScheduleModal = async (id: string) => {
             });
             return data;
         },
-        preDeny: async () => {
-            const { value } = await deleteScheduleModal(id);
-            return value;
-        },
     });
+
+    if (result.status !== 'denied') {
+        return result;
+    }
+
+    const deleted = await deleteScheduleModal(id);
+    if (deleted.status !== 'confirmed') {
+        return { status: 'dismissed' };
+    }
+
+    return { status: 'denied', value: deleted.value };
 };
 
 export const deleteScheduleModal = async (id: string) => {

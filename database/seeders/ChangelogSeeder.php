@@ -18,10 +18,7 @@ class ChangelogSeeder extends Seeder
             return;
         }
 
-        ChangelogEntry::query()->where('version', '1.1.0')->each(function (ChangelogEntry $entry) {
-            $entry->translations()->delete();
-            $entry->delete();
-        });
+        ChangelogEntry::query()->delete();
 
         $entries = [
             [
@@ -94,26 +91,39 @@ class ChangelogSeeder extends Seeder
                     'es' => 'Los textos viven en lang/{en,es}. El idioma se aplica en el stack web y al renderizar errores.',
                 ],
             ],
+            [
+                'version' => '1.1.1',
+                'released_at' => '2026-09-11',
+                'category' => 'fixed',
+                'sort_order' => 1,
+                'translations' => [
+                    'en' => 'Remember me on the login screen now persists the session after the browser is closed.',
+                    'es' => '“Mantener sesión” en el login ahora conserva la sesión al cerrar el navegador.',
+                ],
+            ],
+            [
+                'version' => '1.1.2',
+                'released_at' => '2026-09-12',
+                'category' => 'fixed',
+                'sort_order' => 1,
+                'translations' => [
+                    'en' => 'Select2, Flatpickr, FullCalendar and Choices now follow the signed-in language (empty results, calendar days, doctor specialties).',
+                    'es' => 'Select2, Flatpickr, FullCalendar y Choices ahora siguen el idioma de la sesión (sin resultados, días del calendario, especialidades del doctor).',
+                ],
+            ],
         ];
 
         foreach ($entries as $entryData) {
             $translations = $entryData['translations'];
             unset($entryData['translations']);
 
-            $entry = ChangelogEntry::query()->updateOrCreate(
-                [
-                    'version' => $entryData['version'],
-                    'category' => $entryData['category'],
-                    'sort_order' => $entryData['sort_order'],
-                ],
-                $entryData
-            );
+            $entry = ChangelogEntry::query()->create($entryData);
 
             foreach ($translations as $locale => $description) {
-                $entry->translations()->updateOrCreate(
-                    ['locale' => $locale],
-                    ['description' => $description]
-                );
+                $entry->translations()->create([
+                    'locale' => $locale,
+                    'description' => $description,
+                ]);
             }
         }
     }

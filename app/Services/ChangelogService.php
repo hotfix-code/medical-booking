@@ -14,6 +14,7 @@ class ChangelogService
             ->orderByDesc('released_at')
             ->orderBy('sort_order')
             ->get()
-            ->groupBy('version');
+            ->groupBy('version')
+            ->sortKeysUsing(fn (string $a, string $b) => version_compare($b, $a));
     }
 }

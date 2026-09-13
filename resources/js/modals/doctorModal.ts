@@ -1,9 +1,35 @@
-import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
-import {DoctorService} from "@/services/doctor.service.ts";
-import {Header} from "@/components/modal";
+import { LoadingModal, ShowModal } from "@/utils/SwalWrapper.ts";
+import { DoctorService } from "@/services/doctor.service.ts";
+import { Header } from "@/components/modal";
 import { t } from '@/utils/i18n';
 
 declare const Choices: any;
+
+function specialtiesChoicesOptions() {
+    const removeLabel = t('choices.remove_item');
+
+    return {
+        allowHTML: true,
+        removeItemButton: true,
+        loadingText: t('choices.loading'),
+        noResultsText: t('choices.no_results'),
+        noChoicesText: t('choices.no_choices'),
+        itemSelectText: t('choices.item_select'),
+        callbackOnCreateTemplates() {
+            return {
+                item(classNames: unknown, data: { value?: string }, removeItemButton: boolean) {
+                    const el = Choices.defaults.templates.item.call(this, classNames, data, removeItemButton) as HTMLElement;
+                    const button = el.querySelector('button');
+                    if (button) {
+                        button.textContent = removeLabel;
+                        button.setAttribute('aria-label', `${removeLabel}: '${data.value ?? ''}'`);
+                    }
+                    return el;
+                },
+            };
+        },
+    };
+}
 
 export const createDoctorModal = async () => {
     const tpl = document.getElementById('doctor-modal-template') as HTMLTemplateElement;
@@ -18,7 +44,7 @@ export const createDoctorModal = async () => {
 
             const specialtiesSelect = document.getElementById('choices-multiple-remove-button');
             if (specialtiesSelect) {
-                new Choices(specialtiesSelect, { allowHTML: true, removeItemButton: true, });
+                new Choices(specialtiesSelect, specialtiesChoicesOptions());
             }
 
             $('#doctor-document-type-input')
@@ -78,7 +104,7 @@ export const updateDoctorModal = async (id: string) => {
             const specialtiesSelect = document.getElementById('choices-multiple-remove-button');
             let choicesInstance;
             if (specialtiesSelect) {
-                choicesInstance = new Choices(specialtiesSelect, { allowHTML: true, removeItemButton: true });
+                choicesInstance = new Choices(specialtiesSelect, specialtiesChoicesOptions());
             }
 
             const firstnameInput = document.getElementById('doctor-firstname-input') as HTMLInputElement;

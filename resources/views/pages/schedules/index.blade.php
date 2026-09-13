@@ -136,6 +136,7 @@
 {{--        <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>--}}
         <script src="{{ asset('assets/libs/moment/moment.min.js') }}"></script>
         <script src="{{ asset('assets/libs/fullcalendar/main.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/fullcalendar/locales/es.min.js') }}"></script>
     @endpush
 
     @push('custom-scripts')

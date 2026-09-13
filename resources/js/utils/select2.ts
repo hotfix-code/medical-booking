@@ -1,3 +1,5 @@
+import '@/utils/select2-defaults.ts';
+
 /**
  * Clears a Select2 dropdown by removing the selected value and all options except the first one.
  * This is useful for dynamic selects where options are loaded based on other selections.
