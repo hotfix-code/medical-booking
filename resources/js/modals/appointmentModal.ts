@@ -1,11 +1,11 @@
-import {LoadingModal, ShowModal} from "@/utils/SwalWrapper.ts";
-import {AppointmentService} from "@/services/appointment.service.ts";
-import {Header} from "@/components/modal";
-import {SpecialtyService} from "@/services/specialty.service.ts";
-import {DoctorService} from "@/services/doctor.service.ts";
+import { LoadingModal, ShowModal } from "@/utils/SwalWrapper.ts";
+import { AppointmentService } from "@/services/appointment.service.ts";
+import { Header } from "@/components/modal";
+import { SpecialtyService } from "@/services/specialty.service.ts";
+import { DoctorService } from "@/services/doctor.service.ts";
 import flatpickr from "flatpickr";
-import {clearSelect2} from "@/utils/select2.ts";
-import {resetFlatpickr} from "@/utils/flatpickr.ts";
+import { clearSelect2 } from "@/utils/select2.ts";
+import { resetFlatpickr } from "@/utils/flatpickr.ts";
 import { DateTime } from "luxon";
 import { t } from '@/utils/i18n';
 
@@ -98,7 +98,6 @@ export const createAppointmentModal = async () => {
                         const doctorSchedules = doctor.schedules;
                         doctorSchedules.forEach((schedule: any) => {
                             schedule.time_slots.forEach(({ is_available: is_available, start: start, end: end } : { is_available: boolean, start: string, end: string}) => {
-                                console.log(is_available)
                                 if (is_available) {
                                     const startFormatted = DateTime.fromFormat(start, "HH:mm:ss").toFormat("hh:mma");
                                     const endFormatted = DateTime.fromFormat(end, "HH:mm:ss").toFormat("hh:mma");
@@ -281,7 +280,7 @@ export const updateAppointmentModal = async (id: string) => {
                     .on('select2:unselecting', function () {
                         isActiveInput.value = t('common.states.na');
                     });
-                statusSelect.value = appointment.status;
+                $(statusSelect).val(appointment.status).trigger('change');
             }
 
             if (isActiveInput) isActiveInput.value = appointment.is_active ? t('common.states.yes') : t('common.states.no');
