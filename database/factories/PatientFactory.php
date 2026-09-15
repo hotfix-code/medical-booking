@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\DocumentType;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Patient>
+ */
+class PatientFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::factory(),
+            'document_type_id' => DocumentType::factory(),
+            'document_number' => fake()->unique()->numerify('##########'),
+            'gender' => fake()->randomElement(['male', 'female', 'other']),
+            'birthdate' => fake()->date(),
+            'phone' => fake()->numerify('##########'),
+        ];
+    }
+}
