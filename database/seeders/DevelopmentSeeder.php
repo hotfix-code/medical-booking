@@ -67,10 +67,24 @@ class DevelopmentSeeder extends Seeder
         }
 
         DB::table('settings')->insert([
-            'key' => 'default_locale',
-            'value' => 'en',
-            'created_at' => now(),
-            'updated_at' => now(),
+            [
+                'key' => 'default_locale',
+                'value' => 'en',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'key' => 'appointments.allow_multiple_per_day',
+                'value' => '0',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'key' => 'appointments.min_days_between',
+                'value' => '1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // Create a default document type
