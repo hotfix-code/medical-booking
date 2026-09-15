@@ -60,7 +60,7 @@ return [
     ],
 
     'errors' => [
-        'patient_conflict' => 'El paciente seleccionado ya tiene una cita en esta fecha.',
+        'patient_conflict' => 'El paciente seleccionado ya tiene una cita activa demasiado cerca de esta fecha.',
         'schedule_mismatch' => 'El horario seleccionado no pertenece al médico indicado.',
         'slot_unavailable' => 'El horario seleccionado no está disponible.',
         'no_schedules' => 'No hay horarios para este día.',

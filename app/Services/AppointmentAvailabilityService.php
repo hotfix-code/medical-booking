@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\AppointmentStatus;
 use App\Models\Doctor;
 use App\Models\Schedule;
 use App\Models\Appointment;
@@ -29,7 +30,8 @@ class AppointmentAvailabilityService
                 return AppResponse::success([], __('appointments.errors.no_schedules'));
             }
 
-            $bookedSlots = $this->getBookedSlots($doctorId, $date);
+            $doctorBookedTimes = $this->getDoctorBookedSlots($doctorId, $date);
+            $roomBookedSlots = $this->getRoomBookedSlots($schedules->pluck('consulting_room_id')->unique()->values(), $date);
             $schedulesByRoom = $schedules->groupBy('consulting_room_id');
             $availableSlotsByRoom = [];
 
@@ -60,11 +62,12 @@ class AppointmentAvailabilityService
                             continue;
                         }
 
-                        $isBooked = $bookedSlots->contains(function ($booked) use ($slotTime, $roomId)
-                        {
-                            return $booked->appointment_time === $slotTime &&
-                                $booked->consulting_room_id === $roomId;
-                        });
+                        $isBooked = $doctorBookedTimes->contains($slotTime)
+                            || $roomBookedSlots->contains(function ($booked) use ($slotTime, $roomId)
+                            {
+                                return $booked->appointment_time === $slotTime &&
+                                    $booked->consulting_room_id === $roomId;
+                            });
 
                         if (!$isBooked)
                         {
@@ -134,7 +137,8 @@ class AppointmentAvailabilityService
                 return AppResponse::success([], __('appointments.errors.no_schedules_doctor'));
             }
 
-            $bookedSlots = $this->getBookedSlots($doctorId, $date);
+            $doctorBookedTimes = $this->getDoctorBookedSlots($doctorId, $date);
+            $roomBookedSlots = $this->getRoomBookedSlots($schedules->pluck('consulting_room_id')->unique()->values(), $date);
             $schedulesByRoom = $schedules->groupBy('consulting_room_id');
             $availableSlotsByRoom = [];
 
@@ -170,11 +174,12 @@ class AppointmentAvailabilityService
                             continue;
                         }
 
-                        $isBooked = $bookedSlots->contains(function ($booked) use ($slotTime, $roomId)
-                        {
-                            return $booked->appointment_time === $slotTime &&
-                                $booked->consulting_room_id === $roomId;
-                        });
+                        $isBooked = $doctorBookedTimes->contains($slotTime)
+                            || $roomBookedSlots->contains(function ($booked) use ($slotTime, $roomId)
+                            {
+                                return $booked->appointment_time === $slotTime &&
+                                    $booked->consulting_room_id === $roomId;
+                            });
 
                         if (!$isBooked)
                         {
@@ -239,26 +244,28 @@ class AppointmentAvailabilityService
             $doctor = Doctor::with(['user', 'documentType', 'specialties', 'schedules', 'schedules.consultingRoom', 'schedules.specialty'])
                 ->findOrFail($doctorId);
 
-            $bookedSlots = $this->getBookedSlots($doctorId, $date);
+            $doctorBookedTimes = $this->getDoctorBookedSlots($doctorId, $date);
+            $roomBookedSlots = $this->getRoomBookedSlots($doctor->schedules->pluck('consulting_room_id')->unique()->values(), $date);
             $doctorData = $doctor->toArray();
 
             $doctorData['schedules'] = collect($doctorData['schedules'])
                 ->filter(function ($schedule) use ($weekday) {
                     return $schedule['weekday'] === $weekday;
                 })
-                ->map(function ($schedule) use ($bookedSlots, $date)
+                ->map(function ($schedule) use ($doctorBookedTimes, $roomBookedSlots, $date)
                 {
                     $schedule['time_slots'] = collect($schedule['time_slots'])
-                        ->map(function ($slot) use ($bookedSlots, $schedule, $date)
+                        ->map(function ($slot) use ($doctorBookedTimes, $roomBookedSlots, $schedule, $date)
                         {
                             $slotTime = $slot['start'];
                             $datetime = Carbon::parse($date . ' ' . $slotTime);
 
-                            $isBooked = $bookedSlots->contains(function ($booked) use ($slotTime, $schedule)
-                            {
-                                return $booked->appointment_time === $slotTime &&
-                                    $booked->consulting_room_id === $schedule['consulting_room_id'];
-                            });
+                            $isBooked = $doctorBookedTimes->contains($slotTime)
+                                || $roomBookedSlots->contains(function ($booked) use ($slotTime, $schedule)
+                                {
+                                    return $booked->appointment_time === $slotTime &&
+                                        $booked->consulting_room_id === $schedule['consulting_room_id'];
+                                });
 
                             $slot['is_available'] = !$isBooked && !$datetime->isPast();
                             $slot['datetime'] = $datetime->toISOString();
@@ -304,21 +311,32 @@ class AppointmentAvailabilityService
         }
     }
 
-    private function getBookedSlots(string $doctorId, string $date): Collection
+    private function getDoctorBookedSlots(string $doctorId, string $date): Collection
     {
         return Appointment::where('doctor_id', $doctorId)
             ->where('appointment_date', $date)
-            ->isActive()
+            ->where('status', '!=', AppointmentStatus::Cancelled->value)
+            ->pluck('appointment_time');
+    }
+
+    private function getRoomBookedSlots(Collection $roomIds, string $date): Collection
+    {
+        return Appointment::whereIn('consulting_room_id', $roomIds)
+            ->where('appointment_date', $date)
+            ->where('status', '!=', AppointmentStatus::Cancelled->value)
             ->get(['appointment_time', 'consulting_room_id']);
     }
 
     public function isSlotAvailable(array $appointmentData): bool
     {
-        return !Appointment::where('doctor_id', $appointmentData['doctor_id'])
-            ->where('appointment_date', $appointmentData['appointment_date'])
+        return !Appointment::where('appointment_date', $appointmentData['appointment_date'])
             ->where('appointment_time', $appointmentData['appointment_time'])
-            ->where('consulting_room_id', $appointmentData['consulting_room_id'])
-            ->isActive()
+            ->where('status', '!=', AppointmentStatus::Cancelled->value)
+            ->where(function ($query) use ($appointmentData)
+            {
+                $query->where('doctor_id', $appointmentData['doctor_id'])
+                    ->orWhere('consulting_room_id', $appointmentData['consulting_room_id']);
+            })
             ->exists();
     }
 }
