@@ -60,7 +60,7 @@ return [
     ],
 
     'errors' => [
-        'patient_conflict' => 'The selected patient already has an appointment on this date.',
+        'patient_conflict' => 'The selected patient already has an active appointment too close to this date.',
         'schedule_mismatch' => 'The selected schedule does not belong to the specified doctor.',
         'slot_unavailable' => 'The selected time slot is not available.',
         'no_schedules' => 'No schedules found for this day.',

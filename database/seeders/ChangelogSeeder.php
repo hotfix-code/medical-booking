@@ -111,6 +111,16 @@ class ChangelogSeeder extends Seeder
                     'es' => 'Select2, Flatpickr, FullCalendar y Choices ahora siguen el idioma de la sesión (sin resultados, días del calendario, especialidades del doctor).',
                 ],
             ],
+            [
+                'version' => '1.1.3',
+                'released_at' => '2026-09-15',
+                'category' => 'fixed',
+                'sort_order' => 1,
+                'translations' => [
+                    'en' => 'Confirming an appointment no longer fails, a doctor cannot be double-booked, and only cancelled appointments release their slot. The create form no longer offers occupied slots.',
+                    'es' => 'Confirmar una cita ya no falla, un médico no puede tener doble reserva y solo las citas canceladas liberan su cupo. El formulario de creación ya no ofrece cupos ocupados.',
+                ],
+            ],
         ];
 
         foreach ($entries as $entryData) {

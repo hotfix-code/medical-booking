@@ -58,8 +58,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('appointments', function (Blueprint $table) {
-            $table->dropUnique('uniq_doctor_slot_active');
-            $table->dropUnique('uniq_room_slot_active');
+            $table->dropUnique('uniq_doctor_slot_key');
+            $table->dropUnique('uniq_room_slot_key');
 
             $table->dropForeign(['patient_id']);
             $table->dropForeign(['doctor_id']);

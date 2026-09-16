@@ -22,7 +22,6 @@ class Appointment extends Model
         'appointment_date',
         'appointment_time',
         'status',
-        'is_active',
         'notes',
         'doctor_slot_key',
         'room_slot_key',
@@ -66,49 +65,31 @@ class Appointment extends Model
         ]);
     }
 
-    /**
-     * Scope to get appointments for a specific doctor
-     */
     public function scopeForDoctor(Builder $query, string $doctorId): Builder
     {
         return $query->where('doctor_id', $doctorId);
     }
 
-    /**
-     * Scope to get appointments for a specific patient
-     */
     public function scopeForPatient(Builder $query, string $patientId): Builder
     {
         return $query->where('patient_id', $patientId);
     }
 
-    /**
-     * Get appointments for a specific doctor
-     */
     public static function getForDoctor(string $doctorId)
     {
         return static::forDoctor($doctorId)->get();
     }
 
-    /**
-     * Get appointments for a specific patient
-     */
     public static function getForPatient(string $patientId)
     {
         return static::forPatient($patientId)->get();
     }
 
-    /**
-     * Get count of appointments for a specific doctor
-     */
     public static function countForDoctor(string $doctorId): int
     {
         return static::forDoctor($doctorId)->count();
     }
 
-    /**
-     * Get count of appointments for a specific patient
-     */
     public static function countForPatient(string $patientId): int
     {
         return static::forPatient($patientId)->count();

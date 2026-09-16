@@ -32,7 +32,6 @@ class StoreAppointmentRequest extends FormRequest
             'appointment_date' => 'required|date|after_or_equal:today',
             'appointment_time' => 'required|date_format:H:i:s',
             'status' => ['required', Rule::enum(AppointmentStatus::class)],
-            'is_active' => 'boolean',
             'notes' => 'nullable|string|max:1000',
         ];
     }
