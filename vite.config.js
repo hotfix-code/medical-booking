@@ -17,6 +17,7 @@ export default defineConfig({
                 'resources/js/medical-booking/consulting-rooms.js',
                 'resources/js/medical-booking/schedules.js',
                 'resources/js/medical-booking/appointments.js',
+                'resources/js/medical-booking/dashboard.ts',
 
                 'resources/js/medical-booking/profile.js',
             ],
