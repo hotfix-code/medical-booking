@@ -134,8 +134,9 @@
                         <x-blocks.nav.link :label="__('nav.items.list')" route="users.index" :canAny="['user.view']"/>
                     </x-blocks.nav.item-sub>
 
-                    <x-blocks.nav.item-category :label="__('nav.categories.configuration')" :canAny="['document_type.view']"/>
+                    <x-blocks.nav.item-category :label="__('nav.categories.configuration')" :canAny="['document_type.view', 'setting.edit']"/>
                     <x-blocks.nav.item-link :label="__('nav.items.document_types')" route="document-types.index" icon="id-card" :canAny="['document_type.view']"/>
+                    <x-blocks.nav.item-link :label="__('nav.items.settings')" route="settings.index" icon="settings" :canAny="['setting.edit']"/>
 
                     @if (app()->environment('local') && config('changelog.enabled'))
                         <x-blocks.nav.item-category :label="__('nav.categories.development')"/>

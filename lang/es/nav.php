@@ -23,6 +23,7 @@ return [
         'roles_permissions' => 'Roles y permisos',
         'admin_users' => 'Usuarios admin',
         'document_types' => 'Tipos de documento',
+        'settings' => 'Configuración',
         'changelogs' => 'Cambios',
         'list' => 'Listado',
     ],

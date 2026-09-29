@@ -957,3 +957,40 @@
         text-align: left;
     }
 }
+
+.settings-tabs
+{
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.35rem;
+    margin-bottom: 1rem;
+    background: #fff;
+    border-radius: 0.85rem;
+}
+
+.settings-tab
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 0;
+    background: transparent;
+    color: #6b7280;
+    border-radius: 0.65rem;
+    padding: 0.5rem 0.95rem;
+    font-weight: 500;
+}
+
+.settings-tab i
+{
+    width: 1rem;
+    height: 1rem;
+}
+
+.settings-tab.active
+{
+    background: #fff;
+    color: var(--primary-color);
+    box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.35);
+}
