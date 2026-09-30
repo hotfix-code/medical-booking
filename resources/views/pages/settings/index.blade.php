@@ -27,27 +27,17 @@
             <div class="settings-tabs" role="tablist">
                 <button
                     type="button"
-                    class="settings-tab {{ $tab === 'appearance' ? 'active' : '' }}"
+                    class="settings-tab active"
                     data-settings-tab="appearance"
                     role="tab"
-                    aria-selected="{{ $tab === 'appearance' ? 'true' : 'false' }}"
+                    aria-selected="true"
                 >
                     <i data-lucide="palette"></i>
                     <span>{{ __('settings.tabs.appearance') }}</span>
                 </button>
-                <button
-                    type="button"
-                    class="settings-tab {{ $tab === 'general' ? 'active' : '' }}"
-                    data-settings-tab="general"
-                    role="tab"
-                    aria-selected="{{ $tab === 'general' ? 'true' : 'false' }}"
-                >
-                    <i data-lucide="settings"></i>
-                    <span>{{ __('settings.tabs.general') }}</span>
-                </button>
             </div>
 
-            <div data-settings-panel="appearance"@unless($tab === 'appearance') hidden @endunless>
+            <div data-settings-panel="appearance">
                 <form method="POST" action="{{ route('settings.appearance.update') }}">
                     @csrf
                     @method('PUT')
@@ -184,12 +174,6 @@
                         </button>
                     </div>
                 </form>
-            </div>
-
-            <div class="card custom-card" data-settings-panel="general"@unless($tab === 'general') hidden @endunless>
-                <div class="card-body">
-                    <p class="text-muted mb-0">{{ __('settings.general.empty') }}</p>
-                </div>
             </div>
         </div>
     </div>

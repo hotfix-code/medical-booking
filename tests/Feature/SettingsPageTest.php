@@ -25,7 +25,7 @@ it('redirects guests to login', function () {
     $this->get('/settings')->assertRedirect(route('login'));
 });
 
-it('shows the appearance and general tabs to a super admin', function () {
+it('shows the appearance tab to a super admin', function () {
     $user = User::factory()->create();
     $user->assignRole(Role::SuperAdmin->value);
 
@@ -35,33 +35,28 @@ it('shows the appearance and general tabs to a super admin', function () {
         ->assertSeeText(__('settings.title'))
         ->assertSeeText(__('settings.subtitle'))
         ->assertSeeText(__('settings.tabs.appearance'))
-        ->assertSeeText(__('settings.tabs.general'))
         ->assertSeeText(__('nav.items.settings'))
         ->assertSee('data-settings-panel="appearance"', false)
-        ->assertSee('data-settings-panel="general" hidden', false);
+        ->assertDontSee('data-settings-tab="general"', false)
+        ->assertDontSee('data-settings-panel="general"', false);
 });
 
-it('opens the general tab from the query string', function () {
+it('keeps appearance open for a general or unknown tab query', function () {
     $user = User::factory()->create();
     $user->assignRole(Role::SuperAdmin->value);
 
     $this->actingAs($user)
         ->get('/settings?tab=general')
         ->assertOk()
-        ->assertSee('data-settings-panel="general"', false)
-        ->assertSee('data-settings-panel="appearance" hidden', false)
-        ->assertSeeText(__('settings.general.empty'));
-});
-
-it('falls back to appearance for an unknown tab', function () {
-    $user = User::factory()->create();
-    $user->assignRole(Role::SuperAdmin->value);
+        ->assertSee('data-settings-panel="appearance"', false)
+        ->assertDontSee('data-settings-panel="general"', false)
+        ->assertDontSee('data-settings-panel="appearance" hidden', false);
 
     $this->actingAs($user)
         ->get('/settings?tab=other')
         ->assertOk()
         ->assertSee('data-settings-panel="appearance"', false)
-        ->assertSee('data-settings-panel="general" hidden', false);
+        ->assertDontSee('data-settings-panel="general"', false);
 });
 
 it('denies users without setting.edit', function () {

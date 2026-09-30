@@ -6,11 +6,6 @@ return [
 
     'tabs' => [
         'appearance' => 'Apariencia',
-        'general' => 'General',
-    ],
-
-    'general' => [
-        'empty' => 'Esta sección no tiene contenido.',
     ],
 
     'style' => [

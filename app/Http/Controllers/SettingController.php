@@ -8,18 +8,16 @@ use App\Services\SettingService;
 use App\Support\AppearancePalette;
 use App\Traits\RespondsToAuthorization;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SettingController extends Controller
 {
     use RespondsToAuthorization;
 
-    public function index(Request $request, SettingService $settings): View
+    public function index(SettingService $settings): View
     {
         $this->authorizeView('viewAny', Setting::class);
 
-        $tab = $request->query('tab') === 'general' ? 'general' : 'appearance';
         $sidebarStyle = old('sidebar_style', $settings->get('appearance.sidebar_style', 'light'));
 
         if (! in_array($sidebarStyle, ['light', 'dark'], true)) {
@@ -37,7 +35,6 @@ class SettingController extends Controller
         ]));
 
         return view('pages.settings.index', [
-            'tab' => $tab,
             'sidebarStyle' => $sidebarStyle,
             'sidebarColors' => AppearancePalette::sidebarColors(),
             'sidebarColor' => $sidebarColor,
