@@ -994,3 +994,408 @@
     color: var(--primary-color);
     box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.35);
 }
+
+.settings-style-icon
+{
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.15rem;
+    color: #111827;
+}
+
+.settings-style-title
+{
+    margin: 0 0 0.15rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.settings-style-options
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-inline-size: 0;
+}
+
+.settings-style-option
+{
+    position: relative;
+    width: 11.5rem;
+    cursor: pointer;
+}
+
+.settings-style-option input
+{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.settings-style-option-box
+{
+    display: block;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.85rem;
+    padding: 0.75rem;
+    background: #fff;
+}
+
+.settings-style-option input:focus-visible + .settings-style-option-box,
+.settings-style-option input:checked + .settings-style-option-box
+{
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.settings-style-option-head
+{
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.65rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.settings-style-radio
+{
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid #c5cad3;
+    flex-shrink: 0;
+}
+
+.settings-style-option input:checked + .settings-style-option-box .settings-style-radio
+{
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    box-shadow: inset 0 0 0 3px #fff;
+}
+
+.settings-style-thumb
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    height: 4.75rem;
+    border-radius: 0.55rem;
+    padding: 0.7rem;
+}
+
+.settings-style-thumb span
+{
+    display: block;
+    height: 0.38rem;
+    width: 78%;
+    border-radius: 999px;
+}
+
+.settings-style-thumb span:first-child
+{
+    width: 52%;
+}
+
+.settings-style-thumb.is-light
+{
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+}
+
+.settings-style-thumb.is-light span
+{
+    background: #d1d5db;
+}
+
+.settings-style-thumb.is-dark
+{
+    background: #1e293b;
+}
+
+.settings-style-thumb.is-dark span
+{
+    background: #64748b;
+}
+
+.settings-style-option-caption
+{
+    display: block;
+    margin-top: 0.55rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.8125rem;
+}
+
+.settings-preview
+{
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+    min-height: 16rem;
+    padding: 1rem;
+    border-radius: 0.85rem;
+    background: #f4f6fb;
+}
+
+.settings-preview-sidebar
+{
+    width: 9.5rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.85rem 0.7rem;
+    border-radius: 0.75rem;
+}
+
+.settings-preview[data-sidebar-style="light"] .settings-preview-sidebar
+{
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    color: #111827;
+}
+
+.settings-preview[data-sidebar-style="dark"] .settings-preview-sidebar
+{
+    background: #1e293b;
+    border: 1px solid #1e293b;
+    color: #e2e8f0;
+}
+
+.settings-preview[data-sidebar-color] .settings-preview-sidebar
+{
+    background: var(--settings-preview-sidebar);
+    border-color: transparent;
+    color: var(--settings-preview-ink);
+}
+
+.settings-color-block
+{
+    margin-top: 1.25rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.settings-color-title
+{
+    margin: 0 0 0.15rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.settings-swatches
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-inline-size: 0;
+}
+
+.settings-swatch
+{
+    position: relative;
+    width: 1.75rem;
+    height: 1.75rem;
+    cursor: pointer;
+}
+
+.settings-swatch input
+{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.settings-swatch span
+{
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.settings-swatch input:checked + span,
+.settings-swatch input:focus-visible + span
+{
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--primary-color);
+}
+
+.settings-swatch.is-none
+{
+    width: auto;
+}
+
+.settings-swatch.is-none span
+{
+    width: auto;
+    padding: 0 0.7rem;
+    border: 1px dashed #c5cad3;
+    border-radius: 999px;
+    background: #fff;
+    color: #6b7280;
+    font-size: 0.75rem;
+    line-height: 1.75rem;
+}
+
+.settings-swatch.is-none input:checked + span
+{
+    border-style: solid;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.settings-preview-logo
+{
+    display: block;
+    width: 42%;
+    height: 0.7rem;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.85;
+}
+
+.settings-preview-row
+{
+    display: block;
+    width: 78%;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.28;
+}
+
+.settings-preview-row.is-active
+{
+    width: 100%;
+    opacity: 1;
+    background: var(--settings-preview-accent, var(--primary-color));
+}
+
+.settings-preview[data-accent-color] .settings-skeleton
+{
+    background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--settings-preview-accent) 22%, white) 25%,
+        color-mix(in srgb, var(--settings-preview-accent) 50%, white) 37%,
+        color-mix(in srgb, var(--settings-preview-accent) 22%, white) 63%
+    );
+    background-size: 400% 100%;
+}
+
+.settings-preview-card
+{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+}
+
+.settings-skeleton
+{
+    display: block;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);
+    background-size: 400% 100%;
+    animation: settings-skeleton 1.4s ease infinite;
+}
+
+.settings-skeleton.is-title
+{
+    width: 62%;
+    height: 1.05rem;
+}
+
+.settings-skeleton.is-short
+{
+    width: 40%;
+}
+
+@keyframes settings-skeleton
+{
+    0%
+    {
+        background-position: 100% 0;
+    }
+
+    100%
+    {
+        background-position: 0 0;
+    }
+}
+
+@media (max-width: 575.98px)
+{
+    .settings-preview
+    {
+        flex-direction: column;
+    }
+
+    .settings-preview-sidebar
+    {
+        width: 100%;
+    }
+}
+
+.settings-save
+{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.settings-save .btn
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.settings-save .btn i,
+.settings-save .btn svg
+{
+    width: 1rem;
+    height: 1rem;
+}
+
+[data-menu-styles="dark"][data-nav-layout="vertical"] .app-sidebar .main-sidebar-header .header-logo .desktop-logo
+{
+    display: block;
+}
+
+[data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item svg,
+[data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item .side-menu__angle,
+[data-sidebar-ink="light"] .app-sidebar .side-menu__item svg,
+[data-sidebar-ink="light"] .app-sidebar .side-menu__item .side-menu__angle
+{
+    color: var(--menu-prime-color) !important;
+}
+
+[data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item:hover svg,
+[data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item:hover .side-menu__angle,
+[data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item.active svg,
+[data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item.active .side-menu__angle,
+[data-sidebar-ink="light"] .app-sidebar .side-menu__item:hover svg,
+[data-sidebar-ink="light"] .app-sidebar .side-menu__item:hover .side-menu__angle,
+[data-sidebar-ink="light"] .app-sidebar .side-menu__item.active svg,
+[data-sidebar-ink="light"] .app-sidebar .side-menu__item.active .side-menu__angle
+{
+    color: var(--primary-color) !important;
+}

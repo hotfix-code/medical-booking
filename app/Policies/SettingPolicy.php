@@ -14,4 +14,9 @@ class SettingPolicy
     {
         return $this->allowIfHasRoleOrCan($user, 'setting.edit');
     }
+
+    public function update(User $user): Response
+    {
+        return $this->allowIfHasRoleOrCan($user, 'setting.edit');
+    }
 }

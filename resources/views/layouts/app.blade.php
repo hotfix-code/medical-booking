@@ -1,6 +1,6 @@
 @use('App\Enums\Role')
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="{{ $appearance['sidebarStyle'] }}" data-toggled="close"@if ($appearance['sidebarColor'] !== '') data-sidebar-color="{{ $appearance['sidebarColor'] }}" data-sidebar-ink="{{ $appearance['sidebarInkTone'] }}" @endif @if ($appearance['style'] !== '') style="{{ $appearance['style'] }}" @endif>
 <head>
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
@@ -10,7 +10,10 @@
     <meta name="Description" content="">
     <meta name="Author" content="">
     <meta name="keywords" content="">
+    <script src="{{ asset('assets/js/appearance.js') }}"></script>
+    <script>clearAppearanceSwitcher()</script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script>applyAppearance(@json($appearance))</script>
     <x-blocks.header.i18n />
     <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
     <link id="style" href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
