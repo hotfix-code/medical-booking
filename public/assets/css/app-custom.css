@@ -1447,3 +1447,63 @@
 {
     color: var(--primary-color) !important;
 }
+
+[data-copy-command]::after
+{
+    content: attr(data-feedback);
+    position: absolute;
+    bottom: calc(100% + 0.45rem);
+    left: 50%;
+    z-index: 10;
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.375rem;
+    background-color: #111827;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, 0.25rem);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+
+[data-copy-command]::before
+{
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 0.1rem);
+    left: 50%;
+    z-index: 10;
+    border: 0.35rem solid transparent;
+    border-top-color: #111827;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+[data-copy-command].copy-feedback-visible::after,
+[data-copy-command].copy-feedback-visible::before
+{
+    opacity: 1;
+    visibility: visible;
+}
+
+[data-copy-command].copy-feedback-visible::after
+{
+    transform: translate(-50%, 0);
+}
+
+[data-copy-command].copy-feedback-failed::after
+{
+    background-color: #b42318;
+}
+
+[data-copy-command].copy-feedback-failed::before
+{
+    border-top-color: #b42318;
+}

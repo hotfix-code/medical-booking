@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,10 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         if (app()->environment('local') || app()->environment('development')) {
             $this->call(DevelopmentSeeder::class);
-
-            if (config('changelog.enabled')) {
-                $this->call(ChangelogSeeder::class);
-            }
         }
 
         if (app()->environment('production')) {
