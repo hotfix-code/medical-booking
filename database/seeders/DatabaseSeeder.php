@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
         if (app()->environment('production')) {
             $this->call(ProductionSeeder::class);
         }
+
+        if (app()->environment(['local', 'development', 'production'])) {
+            $this->call(AppearanceSeeder::class);
+        }
     }
 }
