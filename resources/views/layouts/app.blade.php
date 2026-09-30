@@ -19,6 +19,7 @@
     <link id="style" href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" >
+    <link href="{{ asset('assets/css/brand.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet" >
 
     @stack('css')
@@ -34,8 +35,8 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="{{ route('dashboard') }}" class="header-logo">
-                            <img src="{{ asset('assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
+                        <a href="{{ route('dashboard') }}" class="header-logo" aria-label="{{ __('common.brand') }}">
+                            <x-brand.lockup :word="false" />
                         </a>
                     </div>
                 </div>
@@ -90,9 +91,8 @@
     </header>
     <aside class="app-sidebar sticky" id="sidebar">
         <div class="main-sidebar-header">
-            <a href="{{ route('dashboard') }}" class="header-logo">
-                <img src="{{ asset('assets/images/brand-logos/logo.png') }}" alt="logo" class="desktop-logo">
-                <img src="{{ asset('assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
+            <a href="{{ route('dashboard') }}" class="header-logo" aria-label="{{ __('common.brand') }}">
+                <x-brand.lockup />
             </a>
         </div>
         <div class="main-sidebar" id="sidebar-scroll">

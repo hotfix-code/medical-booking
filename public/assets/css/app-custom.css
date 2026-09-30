@@ -1375,9 +1375,57 @@
     height: 1rem;
 }
 
-[data-menu-styles="dark"][data-nav-layout="vertical"] .app-sidebar .main-sidebar-header .header-logo .desktop-logo
+.app-sidebar .main-sidebar-header
 {
-    display: block;
+    /* Same height as .app-header: 1rem link padding, 2rem avatar, 1px border. */
+    height: calc(4rem + 1px);
+    padding-block: 0;
+}
+
+.app-sidebar .header-logo
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-decoration: none;
+}
+
+.app-sidebar .brand-mark
+{
+    width: 2.22rem;
+    height: 2.22rem;
+    color: var(--primary-color);
+}
+
+.app-sidebar .brand-name
+{
+    color: var(--menu-prime-color);
+}
+
+[data-menu-styles="dark"]:not([data-sidebar-ink="dark"]) .app-sidebar .brand-mark,
+[data-menu-styles="dark"]:not([data-sidebar-ink="dark"]) .app-sidebar .brand-name
+{
+    color: #fff;
+}
+
+.app-header .brand-mark
+{
+    color: var(--primary-color);
+}
+
+@media (min-width: 992px)
+{
+    [data-vertical-style="overlay"][data-toggled="icon-overlay-close"]:not([data-icon-overlay="open"]) .app-sidebar .header-logo
+    {
+        justify-content: center;
+        padding-inline: 0;
+    }
+
+    [data-vertical-style="overlay"][data-toggled="icon-overlay-close"]:not([data-icon-overlay="open"]) .app-sidebar .brand-name
+    {
+        display: none;
+    }
 }
 
 [data-menu-styles="dark"]:not([data-sidebar-color]) .app-sidebar .side-menu__item svg,

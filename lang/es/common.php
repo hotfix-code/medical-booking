@@ -2,6 +2,7 @@
 
 return [
     'app_name' => 'Medical Booking',
+    'brand' => 'Medibook',
     'home' => 'Inicio',
     'profile' => 'Perfil',
     'logout' => 'Cerrar sesión',

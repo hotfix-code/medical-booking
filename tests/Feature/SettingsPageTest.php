@@ -113,6 +113,9 @@ it('shows light and dark sidebar styles without changing the menu', function () 
         ->assertSee('data-menu-styles="light"', false)
         ->assertDontSee('--menu-bg:', false)
         ->assertDontSee('--primary-rgb:', false)
+        ->assertSeeText(__('common.brand'))
+        ->assertSee('brand-mark', false)
+        ->assertDontSee('brand-logos/logo.png', false)
         ->assertSee('assets/js/appearance.js', false)
         ->assertSee('clearAppearanceSwitcher()', false)
         ->assertSee('applyAppearance(', false)
@@ -376,7 +379,10 @@ it('keeps the login page on the template default', function () {
         ->assertDontSee('--menu-bg', false)
         ->assertDontSee('--primary-rgb', false)
         ->assertDontSee('#273249', false)
-        ->assertDontSee('#6c4db5', false);
+        ->assertDontSee('#6c4db5', false)
+        ->assertSeeText(__('common.brand'))
+        ->assertSee('brand-mark', false)
+        ->assertDontSee('brand-logos/logo.png', false);
 });
 
 it('rejects an invalid style or color without changing stored keys', function () {

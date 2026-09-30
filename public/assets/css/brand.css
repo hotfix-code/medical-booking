@@ -1,0 +1,23 @@
+.brand-lockup
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.brand-mark
+{
+    width: 1.85rem;
+    height: 1.85rem;
+    flex: none;
+    display: block;
+}
+
+.brand-name
+{
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1;
+    white-space: nowrap;
+}
