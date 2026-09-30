@@ -8,6 +8,8 @@ return [
     'logout' => 'Log Out',
     'language' => 'Language',
     'information' => 'Information',
+    'show_password' => 'Show password',
+    'hide_password' => 'Hide password',
 
     'locales' => [
         'en' => 'English',

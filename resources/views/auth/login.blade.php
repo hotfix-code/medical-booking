@@ -50,7 +50,16 @@
                                                name="password"
                                                required
                                         >
-                                        <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                        <button class="btn btn-light"
+                                                type="button"
+                                                onclick="showPassword('signin-password', this)"
+                                                aria-label="{{ __('common.show_password') }}"
+                                                aria-pressed="false"
+                                                data-show-label="{{ __('common.show_password') }}"
+                                                data-hide-label="{{ __('common.hide_password') }}"
+                                        >
+                                            <i class="ri-eye-off-line align-middle" aria-hidden="true"></i>
+                                        </button>
                                     </div>
                                     <div class="mt-2">
                                         <div class="form-check">

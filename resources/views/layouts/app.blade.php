@@ -169,6 +169,7 @@
 <script src="{{ asset('assets/js/sticky.js') }}"></script>
 <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
 <script src="{{ asset('assets/js/simplebar.js') }}"></script>
+<script src="{{ asset('assets/js/show-password.js') }}"></script>
 
 @stack('scripts')
 
