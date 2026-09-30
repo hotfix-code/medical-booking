@@ -354,7 +354,7 @@ it('stores none as an empty color', function () {
         ->assertDontSee('--primary-rgb:', false);
 });
 
-it('keeps the login page on the template default', function () {
+it('applies only the stored accent on the login page', function () {
     foreach ([
         'appearance.sidebar_style' => 'dark',
         'appearance.sidebar_color' => '#273249',
@@ -372,12 +372,31 @@ it('keeps the login page on the template default', function () {
         ->assertOk()
         ->assertDontSee('data-menu-styles=', false)
         ->assertDontSee('--menu-bg', false)
-        ->assertDontSee('--primary-rgb', false)
         ->assertDontSee('#273249', false)
         ->assertDontSee('#6c4db5', false)
+        ->assertSee('--primary-rgb: '.AppearancePalette::rgb('#6c4db5'), false)
         ->assertSeeText(__('common.brand'))
         ->assertSee('brand-mark', false)
         ->assertDontSee('brand-logos/logo.png', false);
+});
+
+it('keeps the login primary when the accent is empty or invalid', function () {
+    DB::table('settings')->insert([
+        'key' => 'appearance.accent_color',
+        'value' => '#ffffff',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    $this->get('/login')
+        ->assertOk()
+        ->assertDontSee('--primary-rgb', false);
+
+    DB::table('settings')->where('key', 'appearance.accent_color')->update(['value' => '']);
+
+    $this->get('/login')
+        ->assertOk()
+        ->assertDontSee('--primary-rgb', false);
 });
 
 it('rejects an invalid style or color without changing stored keys', function () {

@@ -60,6 +60,13 @@ class SettingService
         ];
     }
 
+    public function accentRgb(): string
+    {
+        $accentColor = AppearancePalette::accentColor($this->get('appearance.accent_color', ''));
+
+        return $accentColor === '' ? '' : AppearancePalette::rgb($accentColor);
+    }
+
     private function put(string $key, string $value): void
     {
         Setting::query()->updateOrCreate(
