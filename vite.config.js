@@ -5,9 +5,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
-
                 'resources/js/medical-booking/roles.js',
                 'resources/js/medical-booking/document-types.js',
                 'resources/js/medical-booking/doctor.js',
