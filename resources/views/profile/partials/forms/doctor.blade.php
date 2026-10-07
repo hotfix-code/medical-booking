@@ -1,4 +1,9 @@
 @use('App\Enums\Role')
+
+@php
+    const DEFAULT_LANG = 'en';
+@endphp
+
 <div class="card custom-card shadow-none mb-0" id="profile-form" data-role="doctor">
     <div class="card-header justify-content-between">
         <div class="card-title">
@@ -93,7 +98,7 @@
                        class="form-control"
                        id="input-language"
                        placeholder="{{ __('common.fields.language') }}"
-                       value="{{ $user->locale }}"
+                       value="{{ __('common.locales.' . ($user->locale ?: DEFAULT_LANG)) }}"
                        disabled
                 >
             </div>

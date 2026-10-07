@@ -64,6 +64,9 @@ class Permissions
             ['name' => 'document_type.view'],
             ['name' => 'document_type.edit'],
             ['name' => 'document_type.delete'],
+
+            // Configuration - Settings
+            ['name' => 'setting.edit'],
         ];
     }
 

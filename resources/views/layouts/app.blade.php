@@ -1,6 +1,6 @@
 @use('App\Enums\Role')
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="light" data-menu-styles="{{ $appearance['sidebarStyle'] }}" data-toggled="close"@if ($appearance['sidebarColor'] !== '') data-sidebar-color="{{ $appearance['sidebarColor'] }}" data-sidebar-ink="{{ $appearance['sidebarInkTone'] }}" @endif @if ($appearance['style'] !== '') style="{{ $appearance['style'] }}" @endif>
 <head>
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
@@ -10,12 +10,16 @@
     <meta name="Description" content="">
     <meta name="Author" content="">
     <meta name="keywords" content="">
+    <script src="{{ asset('assets/js/appearance.js') }}"></script>
+    <script>clearAppearanceSwitcher()</script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script>applyAppearance(@json($appearance))</script>
     <x-blocks.header.i18n />
-    <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}?v={{ filemtime(public_path('assets/images/brand-logos/favicon.ico')) }}" type="image/x-icon">
     <link id="style" href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" >
+    <link href="{{ asset('assets/css/brand.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet" >
 
     @stack('css')
@@ -31,8 +35,8 @@
             <div class="header-content-left">
                 <div class="header-element">
                     <div class="horizontal-logo">
-                        <a href="{{ route('dashboard') }}" class="header-logo">
-                            <img src="{{ asset('assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
+                        <a href="{{ route('dashboard') }}" class="header-logo" aria-label="{{ __('common.brand') }}">
+                            <x-brand.lockup :word="false" />
                         </a>
                     </div>
                 </div>
@@ -87,9 +91,8 @@
     </header>
     <aside class="app-sidebar sticky" id="sidebar">
         <div class="main-sidebar-header">
-            <a href="{{ route('dashboard') }}" class="header-logo">
-                <img src="{{ asset('assets/images/brand-logos/logo.png') }}" alt="logo" class="desktop-logo">
-                <img src="{{ asset('assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
+            <a href="{{ route('dashboard') }}" class="header-logo" aria-label="{{ __('common.brand') }}">
+                <x-brand.lockup />
             </a>
         </div>
         <div class="main-sidebar" id="sidebar-scroll">
@@ -134,8 +137,9 @@
                         <x-blocks.nav.link :label="__('nav.items.list')" route="users.index" :canAny="['user.view']"/>
                     </x-blocks.nav.item-sub>
 
-                    <x-blocks.nav.item-category :label="__('nav.categories.configuration')" :canAny="['document_type.view']"/>
+                    <x-blocks.nav.item-category :label="__('nav.categories.configuration')" :canAny="['document_type.view', 'setting.edit']"/>
                     <x-blocks.nav.item-link :label="__('nav.items.document_types')" route="document-types.index" icon="id-card" :canAny="['document_type.view']"/>
+                    <x-blocks.nav.item-link :label="__('nav.items.settings')" route="settings.index" icon="settings" :canAny="['setting.edit']"/>
 
                     @if (app()->environment('local') && config('changelog.enabled'))
                         <x-blocks.nav.item-category :label="__('nav.categories.development')"/>
@@ -165,6 +169,7 @@
 <script src="{{ asset('assets/js/sticky.js') }}"></script>
 <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
 <script src="{{ asset('assets/js/simplebar.js') }}"></script>
+<script src="{{ asset('assets/js/show-password.js') }}"></script>
 
 @stack('scripts')
 

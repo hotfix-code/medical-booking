@@ -8,7 +8,7 @@
     <meta name="Description" content="">
     <meta name="Author" content="">
     <meta name="keywords" content="">
-    <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}?v={{ filemtime(public_path('assets/images/brand-logos/favicon.ico')) }}" type="image/x-icon">
     <link id="style" href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" >
 </head>

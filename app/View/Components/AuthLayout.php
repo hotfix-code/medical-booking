@@ -2,25 +2,21 @@
 
 namespace App\View\Components;
 
-use Closure;
+use App\Services\SettingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class AuthLayout extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(private readonly SettingService $settings) {}
 
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
-        return view('layouts.auth');
+        return view('layouts.auth', [
+            'accentRgb' => $this->settings->accentRgb(),
+        ]);
     }
 }

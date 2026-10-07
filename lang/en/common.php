@@ -2,11 +2,14 @@
 
 return [
     'app_name' => 'Medical Booking',
+    'brand' => 'Medibook',
     'home' => 'Home',
     'profile' => 'Profile',
     'logout' => 'Log Out',
     'language' => 'Language',
     'information' => 'Information',
+    'show_password' => 'Show password',
+    'hide_password' => 'Hide password',
 
     'locales' => [
         'en' => 'English',

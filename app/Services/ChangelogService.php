@@ -4,9 +4,19 @@ namespace App\Services;
 
 use App\Models\ChangelogEntry;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 
 class ChangelogService
 {
+    public function isInitialized(): bool
+    {
+        if (! Schema::hasTable('changelog_entries') || ! Schema::hasTable('changelog_entry_translations')) {
+            return false;
+        }
+
+        return ChangelogEntry::query()->exists();
+    }
+
     public function getReleases(): Collection
     {
         return ChangelogEntry::query()

@@ -69,17 +69,39 @@
         </div>
         <div class="col-md-6 text-start mb-4">
             <label for="patient-password" class="form-label">{{ __('common.fields.password') }}</label>
-            <input type="password"
-                   class="form-control"
-                   id="patient-password-input"
-                   placeholder="{{ __('common.fields.password') }}">
+            <div class="input-group">
+                <input type="password"
+                       class="form-control"
+                       id="patient-password-input"
+                       placeholder="{{ __('common.fields.password') }}">
+                <button class="btn btn-light"
+                        type="button"
+                        onclick="showPassword('patient-password-input', this)"
+                        aria-label="{{ __('common.show_password') }}"
+                        aria-pressed="false"
+                        data-show-label="{{ __('common.show_password') }}"
+                        data-hide-label="{{ __('common.hide_password') }}">
+                    <i class="ri-eye-off-line align-middle" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
         <div class="col-md-6 text-start mb-4">
             <label for="patient-password-confirmation" class="form-label">{{ __('common.fields.password_confirmation') }}</label>
-            <input type="password"
-                   class="form-control"
-                   id="patient-password-confirmation-input"
-                   placeholder="{{ __('common.fields.password_confirmation') }}">
+            <div class="input-group">
+                <input type="password"
+                       class="form-control"
+                       id="patient-password-confirmation-input"
+                       placeholder="{{ __('common.fields.password_confirmation') }}">
+                <button class="btn btn-light"
+                        type="button"
+                        onclick="showPassword('patient-password-confirmation-input', this)"
+                        aria-label="{{ __('common.show_password') }}"
+                        aria-pressed="false"
+                        data-show-label="{{ __('common.show_password') }}"
+                        data-hide-label="{{ __('common.hide_password') }}">
+                    <i class="ri-eye-off-line align-middle" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
 </template>

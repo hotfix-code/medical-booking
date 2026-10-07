@@ -8,19 +8,43 @@
         <div class="row gy-3">
             <div class="col-xl-6">
                 <label for="input-password" class="form-label">{{ __('profile.new_password') }}</label>
-                <input type="password"
-                       class="form-control"
-                       id="input-password"
-                       placeholder="{{ __('profile.new_password') }}"
-                >
+                <div class="input-group">
+                    <input type="password"
+                           class="form-control"
+                           id="input-password"
+                           placeholder="{{ __('profile.new_password') }}"
+                    >
+                    <button class="btn btn-light"
+                            type="button"
+                            onclick="showPassword('input-password', this)"
+                            aria-label="{{ __('common.show_password') }}"
+                            aria-pressed="false"
+                            data-show-label="{{ __('common.show_password') }}"
+                            data-hide-label="{{ __('common.hide_password') }}"
+                    >
+                        <i class="ri-eye-off-line align-middle" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
             <div class="col-xl-6">
                 <label for="input-password-confirmation" class="form-label">{{ __('profile.confirm_new_password') }}</label>
-                <input type="password"
-                       class="form-control"
-                       id="input-password-confirmation"
-                       placeholder="{{ __('profile.confirm_new_password') }}"
-                >
+                <div class="input-group">
+                    <input type="password"
+                           class="form-control"
+                           id="input-password-confirmation"
+                           placeholder="{{ __('profile.confirm_new_password') }}"
+                    >
+                    <button class="btn btn-light"
+                            type="button"
+                            onclick="showPassword('input-password-confirmation', this)"
+                            aria-label="{{ __('common.show_password') }}"
+                            aria-pressed="false"
+                            data-show-label="{{ __('common.show_password') }}"
+                            data-hide-label="{{ __('common.hide_password') }}"
+                    >
+                        <i class="ri-eye-off-line align-middle" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

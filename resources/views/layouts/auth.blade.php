@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @if ($accentRgb !== '') style="--primary-rgb: {{ $accentRgb }}" @endif>
 <head>
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
@@ -9,10 +9,12 @@
     <meta name="keywords" content="">
     <title>{{ __('common.app_name') }}</title>
 
-    <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/brand-logos/favicon.ico') }}?v={{ filemtime(public_path('assets/images/brand-logos/favicon.ico')) }}" type="image/x-icon">
     <link id="style" href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" >
+    <link href="{{ asset('assets/css/brand.css') }}" rel="stylesheet" >
+    <link href="{{ asset('assets/css/auth-custom.css') }}" rel="stylesheet" >
 </head>
 
 <body>

@@ -9,42 +9,39 @@ Medical appointment management application built with Laravel 12. It provides ad
 - **Database:** PostgreSQL (PostgreSQL 17 in `docker-compose.yml`).
 - **Authentication:** Laravel Breeze with session-based web authentication.
 - **Authorization:** Spatie Laravel Permission and Laravel Policies.
-- **Frontend:** Blade, Bootstrap-based UI, Tailwind utilities, Alpine.js and TypeScript.
+- **Frontend:** Blade, Bootstrap-based UI and TypeScript.
 - **Data tables:** Yajra Laravel DataTables.
 - **Assets:** Vite, Axios, Flatpickr, Luxon, Day.js, Select2 and SweetAlert2.
 - **Testing and formatting:** Pest and Laravel Pint.
 - **Runtime:** Docker and Laravel Sail for local development.
 
-## Requirements
+## Installation with Docker Compose and Laravel Sail
 
-For Docker development:
+### Requirements
 
-- Docker and Docker Compose.
-- Git.
+The project runs locally with Docker Compose and Laravel Sail. Host PHP, Composer, Node.js, npm and PostgreSQL are not required.
 
-For a host installation:
+| Requirement    | Details                                                                        |
+|----------------|--------------------------------------------------------------------------------|
+| Docker         | Docker Desktop or Docker Engine must be installed and running.                 |
+| Docker Compose | Compose v2, available as `docker compose`; it is included with Docker Desktop. |
 
-- PHP 8.2 or newer with `pdo_pgsql`, `redis`, `gd`, `zip`, `xml` and `mbstring`.
-- PostgreSQL.
-- Composer.
-- Node.js and npm.
+Git is needed to clone the repository.
 
-## Installation with Sail
-
-Clone the repository and enter the project directory:
+Clone the repository and enter its directory:
 
 ```bash
 git clone <repository-url> medical-booking
 cd medical-booking
 ```
 
-Copy the environment file and configure the database values if necessary:
+Create the environment file. The defaults in `.env.example` are configured for the Docker Compose services:
 
 ```bash
 cp .env.example .env
 ```
 
-Install PHP dependencies, start the containers and generate the application key:
+Install the PHP dependencies with the PHP 8.4 Composer image. This step creates `vendor/`, including the Sail executable:
 
 ```bash
 docker run --rm \
@@ -53,42 +50,70 @@ docker run --rm \
     -w /var/www/html \
     laravelsail/php84-composer:latest \
     composer install --ignore-platform-reqs
-
-./vendor/bin/sail up -d
-sail php artisan key:generate
 ```
 
-Install frontend dependencies and build the assets:
+### Optional: configure the `sail` command on Linux
+
+To use `sail` instead of typing `./vendor/bin/sail`, add the following alias to `~/.bashrc` when using Bash or `~/.zshrc` when using Zsh. This follows [Laravel Sail's shell alias guidance](https://laravel.com/docs/12.x/sail#configuring-a-shell-alias):
+
+```bash
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+```
+
+Apply the change in the current terminal with `source ~/.bashrc` or `source ~/.zshrc`, depending on your shell. You can also close and reopen the terminal. The commands below use `sail`; without the alias, replace `sail` with `./vendor/bin/sail`.
+
+Sail supports both `sail artisan <command>` and `sail php artisan <command>` for Laravel Artisan commands. Both run Artisan with the PHP interpreter in the application container; this guide uses the shorter `sail artisan` form.
+
+Start the application and PostgreSQL containers, then generate the application key:
+
+```bash
+sail up -d
+sail artisan key:generate
+```
+
+Install the frontend dependencies declared in `package.json`:
 
 ```bash
 sail npm install
+```
+
+Create the optimized frontend bundle for production:
+
+```bash
 sail npm run build
 ```
 
-Initialize a local database with development data:
+This compiles the assets configured in Vite and writes them to `public/build`, minifying JavaScript and any CSS imported by those entries.
+
+For frontend development, start Vite's development server:
 
 ```bash
-sail php artisan migrate:fresh --seed
+sail npm run dev
 ```
 
-The default development environment creates test users, roles, permissions and document types. The database seeder chooses the appropriate dataset from `APP_ENV`.
+Keep this process running while editing frontend files. Vite serves the assets and applies live updates in the browser.
 
-## Installation without Docker
+Create the database tables and seed the development data:
 
 ```bash
-composer install
-cp .env.example .env
-php artisan key:generate
+sail artisan migrate --seed
 ```
 
-Configure PostgreSQL in `.env`, then initialize the database and assets:
+The `--seed` option runs the default `DatabaseSeeder` after the migrations. It is equivalent to running `sail artisan migrate` followed by `sail artisan db:seed`; use `sail artisan migrate` alone when you do not want to seed the database.
 
-```bash
-php artisan migrate:fresh --seed
-npm install
-npm run build
-php artisan serve
-```
+Open the application at [http://localhost](http://localhost). If you change `APP_PORT` in `.env`, use that port instead.
+
+The default local seeders create development data, including users, roles, permissions and document types. The database seeder selects the appropriate dataset from `APP_ENV`.
+
+### Seeded super-admin login
+
+The local and production seeders currently create this super-admin account. After running `sail artisan migrate --seed`, sign in with:
+
+| Email                | Password   |
+|----------------------|------------|
+| `admin@medibook.org` | `password` |
+
+For production, treat these as temporary bootstrap credentials only. Keep the site private, sign in, and change the password from the profile page before making the application publicly accessible. The application does not force this change.
 
 ## Optional local changelog
 
@@ -102,8 +127,8 @@ APP_CHANGELOG_ENABLED=true
 Its migrations live in a separate directory and must be run explicitly:
 
 ```bash
-sail php artisan migrate --path=database/migrations/changelog
-sail php artisan db:seed --class=ChangelogSeeder
+sail artisan migrate --path=database/migrations/changelog
+sail artisan db:seed --class=ChangelogSeeder
 ```
 
 The Changelog page reads entries from `changelog_entries` and their localized descriptions from `changelog_entry_translations`. English (`en`) and Spanish (`es`) entries are provided by `ChangelogSeeder`.
@@ -114,67 +139,15 @@ If the database is reset with `migrate:fresh`, run the optional migration and se
 
 There are **three default Spatie roles**. Their names are locked (they cannot be renamed or deleted):
 
-| Role | Main access |
-|---|---|
-| `super-admin` | Full access and permission bypass. |
-| `doctor` | Patients, schedules, consulting rooms and appointments assigned to the doctor. |
-| `patient` | Doctors, specialties and the patient's own appointments. |
+| Role          | Main access                                                                    |
+|---------------|--------------------------------------------------------------------------------|
+| `super-admin` | Full access and permission bypass.                                             |
+| `doctor`      | Patients, schedules, consulting rooms and appointments assigned to the doctor. |
+| `patient`     | Doctors, specialties and the patient's own appointments.                       |
 
 **Admin** is not a Spatie role. It is the class of desk users: anyone in `users` whose role is **not** `doctor` or `patient`. That includes `super-admin` (an admin with every permission) and extra roles created in the UI (for example `tester` in local). The Users module, staff profile form and admin dashboard metrics apply to this class.
 
 The permission catalog and default doctor/patient assignments are defined in [database/data/Permissions.php](database/data/Permissions.php). Policies enforce authorization at the application layer.
-
-## Project structure
-
-```text
-app/Http/Controllers   HTTP controllers
-app/Http/Requests      Form request validation
-app/Models             Eloquent models
-app/Policies           Authorization policies
-app/Services           Domain services
-database/data          Permission and locale definitions
-database/migrations    Application migrations
-database/seeders       Development and production seeders
-resources/views        Blade views and components
-resources/js            Frontend scripts
-routes                 Web and module routes
-```
-
-The application uses Eloquent as its data layer. Related business operations belong in services; controllers should remain thin and delegate validation, authorization and domain work to the appropriate classes.
-
-## Development commands
-
-Start the local application services:
-
-```bash
-sail up -d
-sail npm run dev
-```
-
-Run tests and formatting:
-
-```bash
-sail php artisan test
-sail pint
-```
-
-Useful Laravel commands:
-
-```bash
-sail php artisan migrate
-sail php artisan migrate:status
-sail php artisan db:seed
-sail php artisan tinker
-sail php artisan optimize:clear
-```
-
-For a clean development database:
-
-```bash
-sail php artisan migrate:fresh --seed
-```
-
-If the optional Changelog is enabled, run its migration and seeder after the reset as described above.
 
 ## Production notes
 
@@ -190,17 +163,17 @@ php artisan view:cache
 npm run build
 ```
 
-Do not run the development seeder in production. Use the production deployment process and its approved seed data instead.
+Do not run the development seeder in production. The `ProductionSeeder` creates the initial super-admin using the credentials above. Keep the application inaccessible to the public until that account's password has been changed from its profile page. The production process should also ensure the account uses a unique, strong password before public access.
+
+For a Dockerized production deployment, consider a dedicated FrankenPHP image rather than using the Sail configuration intended for local development. FrankenPHP documents running Laravel in its Docker image, and Laravel Octane also supports FrankenPHP. Use a separate production Dockerfile and Compose configuration for that deployment; see the [Laravel Octane guide](https://laravel.com/docs/12.x/octane#frankenphp-via-docker) and [FrankenPHP production guide](https://frankenphp.dev/docs/production/).
 
 ## References
 
 - [Laravel 12 documentation](https://laravel.com/docs/12.x)
 - [Laravel Sail documentation](https://laravel.com/docs/12.x/sail)
+- [Laravel Octane with FrankenPHP](https://laravel.com/docs/12.x/octane#frankenphp-via-docker)
+- [FrankenPHP production deployment](https://frankenphp.dev/docs/production/)
 - [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission/v6)
 - [Yajra Laravel DataTables](https://yajrabox.com/docs/laravel-datatables)
 - [Pest documentation](https://pestphp.com/)
 - [TypeScript documentation](https://www.typescriptlang.org/docs/)
-
-## Documentation maintenance
-
-Update this README when installation steps, supported versions, environment variables or operational commands change. Feature-specific notes should live under `docs/notes/`.

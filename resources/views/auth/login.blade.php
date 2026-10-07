@@ -4,8 +4,8 @@
             <div class="row justify-content-center authentication authentication-basic align-items-center h-100">
                 <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
                     <div class="my-4 d-flex justify-content-center">
-                        <a href="javascript:void(0);">
-                            <img src="{{ asset('assets/images/brand-logos/logo.png') }}" alt="logo">
+                        <a href="{{ route('login') }}" class="auth-brand" aria-label="{{ __('common.brand') }}">
+                            <x-brand.lockup />
                         </a>
                     </div>
                     <form
@@ -50,7 +50,16 @@
                                                name="password"
                                                required
                                         >
-                                        <button class="btn btn-light" type="button" onclick="createpassword('signin-password',this)" id="button-addon2"><i class="ri-eye-off-line align-middle"></i></button>
+                                        <button class="btn btn-light"
+                                                type="button"
+                                                onclick="showPassword('signin-password', this)"
+                                                aria-label="{{ __('common.show_password') }}"
+                                                aria-pressed="false"
+                                                data-show-label="{{ __('common.show_password') }}"
+                                                data-hide-label="{{ __('common.hide_password') }}"
+                                        >
+                                            <i class="ri-eye-off-line align-middle" aria-hidden="true"></i>
+                                        </button>
                                     </div>
                                     <div class="mt-2">
                                         <div class="form-check">

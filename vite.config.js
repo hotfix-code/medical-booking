@@ -5,9 +5,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
-
                 'resources/js/medical-booking/roles.js',
                 'resources/js/medical-booking/document-types.js',
                 'resources/js/medical-booking/doctor.js',
@@ -18,6 +15,8 @@ export default defineConfig({
                 'resources/js/medical-booking/schedules.js',
                 'resources/js/medical-booking/appointments.js',
                 'resources/js/medical-booking/dashboard.ts',
+                'resources/js/medical-booking/settings.ts',
+                'resources/js/medical-booking/changelog-setup.ts',
 
                 'resources/js/medical-booking/profile.js',
             ],

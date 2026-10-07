@@ -8,7 +8,6 @@ use App\Models\Role;
 use App\Models\User;
 use Database\Data\Locales as LocalesData;
 use Database\Data\Permissions as PermissionsData;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
