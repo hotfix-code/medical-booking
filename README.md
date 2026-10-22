@@ -165,7 +165,25 @@ npm run build
 
 Do not run the development seeder in production. The `ProductionSeeder` creates the initial super-admin using the credentials above. Keep the application inaccessible to the public until that account's password has been changed from its profile page. The production process should also ensure the account uses a unique, strong password before public access.
 
-For a Dockerized production deployment, consider a dedicated FrankenPHP image rather than using the Sail configuration intended for local development. FrankenPHP documents running Laravel in its Docker image, and Laravel Octane also supports FrankenPHP. Use a separate production Dockerfile and Compose configuration for that deployment; see the [Laravel Octane guide](https://laravel.com/docs/12.x/octane#frankenphp-via-docker) and [FrankenPHP production guide](https://frankenphp.dev/docs/production/).
+The root `Dockerfile` builds the production FrankenPHP image.
+
+> [!WARNING]
+> Existing images and containers keep the previous FrankenPHP version until the image is rebuilt and the container recreated. If your checkout predates this change, run `git pull` first, then rebuild with the Dockerfile or a Compose service configured to use it.
+
+Build directly from the root `Dockerfile`:
+
+```bash
+docker build --pull --no-cache -t medical-booking .
+```
+
+If your production Compose service is configured to build the root `Dockerfile`, rebuild and recreate it with:
+
+```bash
+docker compose build --pull --no-cache <service>
+docker compose up -d --force-recreate <service>
+```
+
+The checked-in `docker-compose.yml` is for local development with Laravel Sail and builds Sail's runtime from `vendor/laravel/sail/runtimes/8.4`; it does not use the root production `Dockerfile`. Configure a separate production Compose service to point to the root `Dockerfile` when deploying this FrankenPHP image. See the [Laravel Octane guide](https://laravel.com/docs/12.x/octane#frankenphp-via-docker) and [FrankenPHP production guide](https://frankenphp.dev/docs/production/).
 
 ## References
 

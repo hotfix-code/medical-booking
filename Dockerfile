@@ -48,7 +48,7 @@ RUN npm run build
 # Stage 3: Production image with FrankenPHP
 # - Uses the FrankenPHP Alpine image to run the app in production.
 # ============================
-FROM dunglas/frankenphp:1-php8.4-alpine
+FROM dunglas/frankenphp:1.13.2-php8.4-alpine
 
 # Default document root is handled by the Caddyfile; keep app in /app
 WORKDIR /app
